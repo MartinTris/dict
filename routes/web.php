@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Users_listController; // Import your Users_listController
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\EmployeeController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -104,4 +104,16 @@ Route::delete('/users_list/{users_list}', [Users_listController::class, 'destroy
     });
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+});
+
+//Employee Management Route
+//Get Methods
+Route::middleware(['auth'])->group(function () {
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::get('/employees/{employee}', [EmployeeController::class, 'show'])->name('employees.show');
+    Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });

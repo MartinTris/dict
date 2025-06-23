@@ -83,6 +83,14 @@
     </a>
   </li>
 
+  <!-- Nav Item - Manage employees -->
+  <li class="nav-item">
+    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+      <i class="fas fa-fw fa-circle-user"></i>
+      <span>Manage Employees</span>
+    </a>
+  </li>
+
   <!-- Divider -->
   <hr class="sidebar-divider">
 
