@@ -118,11 +118,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });
 
-//Login Routes
+//Auth Routes
 Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('employee.login');
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
 Route::get('/employee/register', [AuthController::class, 'employeeRegister'])->name('employee.register');
 Route::post('/employee/register', [AuthController::class, 'emp_registerSave'])->name('employee.register.save');
+Route::get('logout', [AuthController::class, 'employeeLogout'])->middleware('auth:employee')->name('employee.logout');
 
 //Middleware
 Route::middleware('auth:employee')->group(function () {
