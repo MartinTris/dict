@@ -111,7 +111,7 @@
   <!-- Nav Item - Profile -->
   <li class="nav-item">
     <a class="nav-link custom-active" href="/profile">
-      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <i class="fa-solid fa-bell"></i>
       <span>Notifications</span>
     </a>
   </li>
@@ -122,7 +122,7 @@
   <!-- Nav Item - Attendance Record -->
   <li class="nav-item">
     <a class="nav-link custom-active" href="{{ route('employees.index')}}">
-      <i class="fas fa-fw fa-circle-user"></i>
+      <i class="fa-solid fa-clipboard-check"></i>
       <span>Attendance</span>
     </a>
   </li>
@@ -133,7 +133,7 @@
   <!-- Nav Item - Daily Time Record -->
   <li class="nav-item">
     <a class="nav-link custom-active" href="{{ route('employees.index')}}">
-      <i class="fas fa-fw fa-circle-user"></i>
+      <i class="fa-solid fa-business-time"></i>
       <span>DTR</span>
     </a>
   </li>
@@ -144,7 +144,7 @@
   <!-- Nav Item - Leave Record -->
   <li class="nav-item">
     <a class="nav-link custom-active" href="{{ route('employees.index')}}">
-      <i class="fas fa-fw fa-circle-user"></i>
+      <i class="fa-solid fa-chalkboard-user"></i>
       <span>Leaves</span>
     </a>
   </li>
