@@ -158,7 +158,7 @@ class AuthController extends Controller
   
         $request->session()->invalidate();
   
-        return redirect('employee.login');
+        return redirect()->route('employee.login');
     }
 
     public function employeeLoginAction(Request $request)
