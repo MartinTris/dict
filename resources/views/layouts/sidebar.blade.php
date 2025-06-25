@@ -1,4 +1,3 @@
-
 <style>
 /* Sidebar styles */
 .navbar-nav.sidebar {
@@ -52,13 +51,29 @@
 #sidebarMenu .collapsing {
     background-color: #003566 !important;
 }
+
+/* Logo styles */
+.sidebar-logo-mini {
+    display: none;
+}
+.sidebar-logo-full {
+    display: inline;
+}
+.sidebar.toggled .sidebar-logo-full {
+    display: none !important;
+}
+.sidebar.toggled .sidebar-logo-mini {
+    display: inline !important;
+}
 </style>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="sidebarMenu">
 
   <!-- Sidebar - Brand -->
-  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-    <div class="sidebar-brand-icon rotate-n-15"></div>
-    <div class="sidebar-brand-text mx-3">DICT Monitoring System</div>
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
+    <span class="sidebar-brand-icon">
+      <img src="{{ asset('images/DICTMS_Logo.png') }}" alt="DICT Monitoring System Logo" style="height: 80px;" class="sidebar-logo-full">
+      <img src="{{ asset('images/DICT_Logo.png') }}" alt="DICT Logo" style="height: 50px; display: none;" class="sidebar-logo-mini">
+    </span>
   </a>
 
   <!-- Divider -->
