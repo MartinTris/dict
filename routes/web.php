@@ -123,7 +123,7 @@ Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('e
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
 Route::get('/employee/register', [AuthController::class, 'employeeRegister'])->name('employee.register');
 Route::post('/employee/register', [AuthController::class, 'emp_registerSave'])->name('employee.register.save');
-Route::get('logout', [AuthController::class, 'employeeLogout'])->middleware('auth:employee')->name('employee.logout');
+Route::get('/employee/logout', [AuthController::class, 'employeeLogout'])->middleware('auth:employee')->name('employee.logout');
 
 //Middleware
 Route::middleware('auth:employee')->group(function () {
