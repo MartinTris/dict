@@ -20,7 +20,7 @@
                             <div class="text-center">
                                 <h1 class="h3 text-primary mb-4 font-weight-bold">Access Your Account</h1>
                             </div>
-                            <form action="{{ route('login.action') }}" method="POST" class="user">
+                            <form action="{{ route('employee.login.action') }}" method="POST" class="user">
                                 @csrf
                                 @if ($errors->any())
                                     <div class="alert alert-danger">

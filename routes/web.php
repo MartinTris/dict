@@ -120,3 +120,11 @@ Route::middleware(['auth'])->group(function () {
 
 //Login Routes
 Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('employee.login');
+Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
+
+//Middleware
+Route::middleware('auth.employee')->group(function () {
+    Route::get('employee/dashboard', function () {
+        return view('employee.dashboard');
+    })->name('dashboard.employee');
+});

@@ -158,8 +158,8 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ])->validate();
-  
-        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+
+        if(!Auth::guard('employee')->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
             ]);
@@ -167,6 +167,6 @@ class AuthController extends Controller
   
         $request->session()->regenerate();
   
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard.employee');
     }
 }
