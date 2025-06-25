@@ -7,7 +7,7 @@ use App\Http\Controllers\Users_listController; // Import your Users_listControll
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -123,7 +123,7 @@ Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('e
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
 
 //Middleware
-Route::middleware('auth.employee')->group(function () {
+Route::middleware('auth:employee')->group(function () {
     Route::get('employee/dashboard', function () {
         return view('employee.dashboard');
     })->name('dashboard.employee');
