@@ -121,6 +121,8 @@ Route::middleware(['auth'])->group(function () {
 //Login Routes
 Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('employee.login');
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
+Route::get('/employee/register', [AuthController::class, 'employeeRegister'])->name('employee.register');
+Route::post('/employee/register', [AuthController::class, 'emp_registerSave'])->name('employee.register.save');
 
 //Middleware
 Route::middleware('auth:employee')->group(function () {

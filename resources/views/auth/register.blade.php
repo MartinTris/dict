@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>DICT Cavite Monitoring - Register</title>
+  <title>DICT Cavite Monitoring - Admin Register</title>
 
   <!-- Fonts and styles -->
   <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -242,10 +242,13 @@
 <body>
 
   <!-- Header -->
-  <div class="header">
-    <img src="/images/dict.png" alt="DICT Logo">
-    <h2 class="m-0">DICT Cavite Monitoring System</h2>
-  </div>
+  <div class="header d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-2">
+        <img src="/images/dict.png" alt="DICT Logo">
+        <h2 class="m-0">DICT Cavite Monitoring System - Admin Portal</h2>
+    </div>
+    <a class="m-0 text-white" href="{{ route('employee.login') }}">Admin Login</a>
+</div>
 
   <!-- Main Registration Container -->
   <div class="registration-container">

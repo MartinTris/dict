@@ -3,11 +3,11 @@
     <!-- Header -->
     <div class="header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2">
-        <img src="/images/dict.png" alt="DICT Logo">
-        <h2 class="m-0">DICT Cavite Monitoring System - Employee Portal</h2>
+            <img src="/images/dict.png" alt="DICT Logo">
+            <h2 class="m-0">DICT Cavite Monitoring System - Employee Portal</h2>
         </div>
         <a class="m-0 text-white" href="{{ route('login') }}">Admin Login</a>
-      </div>
+    </div>
 
     <!-- Main Login Container -->
     <div class="login-container">
@@ -62,7 +62,7 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="{{ route('register') }}">Create an Account!</a>
+                                <a class="small" href="{{ route('employee.register') }}">Create an Account!</a>
                             </div>
                         </div>
                     </div>

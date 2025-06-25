@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserEmployee as Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -151,6 +152,14 @@ class AuthController extends Controller
     {
         return view('auth.employee-login');
     }
+    public function employeeLogout(Request $request)
+    {
+        Auth::guard('employee')->logout();
+  
+        $request->session()->invalidate();
+  
+        return redirect('employee.login');
+    }
 
     public function employeeLoginAction(Request $request)
     {
@@ -168,5 +177,37 @@ class AuthController extends Controller
         $request->session()->regenerate();
   
         return redirect()->route('dashboard.employee');
+    }
+    //Employee Registration Logic
+    public function employeeRegister()
+    {
+        return view('auth.employee-register');
+    }
+
+    public function emp_registerSave(Request $request)
+    {
+        Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/',
+                Password::min(8)
+            ]
+        ], [
+            'email.unique' => 'This email is already registered.',
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        ])->validate();
+  
+        Employee::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'level' => 'Employee'
+        ]);
+  
+        return redirect()->route('employee.login')->with('success', 'Registration successful! You can now log in.');
     }
 }
