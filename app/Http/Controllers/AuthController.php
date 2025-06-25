@@ -46,7 +46,7 @@ class AuthController extends Controller
   
     public function login()
     {
-        return view('auth/login');
+        return view('auth.admin-login');
     }
   
     public function loginAction(Request $request)
@@ -73,7 +73,7 @@ class AuthController extends Controller
   
         $request->session()->invalidate();
   
-        return redirect('/');
+        return redirect('/login');
     }
  
     public function profile()
@@ -144,5 +144,29 @@ class AuthController extends Controller
         $user->save();
 
         return back()->with('success', 'Profile updated successfully.');
+    }
+
+    //Employee Auth functions
+    public function employeeLogin()
+    {
+        return view('auth.employee-login');
+    }
+
+    public function employeeLoginAction(Request $request)
+    {
+        Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ])->validate();
+  
+        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed')
+            ]);
+        }
+  
+        $request->session()->regenerate();
+  
+        return redirect()->route('dashboard');
     }
 }
