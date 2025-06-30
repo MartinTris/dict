@@ -88,7 +88,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('dashboard') }}">
+    <a class="nav-link custom-active" href="{{ route('dashboard.employee') }}">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Overview</span>
     </a>
