@@ -3,7 +3,7 @@
 
 @section('contents')
   <div class="header">
-    <img src="/images/dict.png" alt="DICT Logo">
+    <img src="/images/DICT_Logo.png" alt="DICT Logo">
     <h2 class="m-1">DICT Cavite Main Page</h2>
   </div>
 
