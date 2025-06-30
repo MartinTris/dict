@@ -14,7 +14,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #003566, #0d6efd);
+            background: linear-gradient(135deg, #003566, #35478c);
             min-height: 100vh;
             display: flex;
             flex-direction: column;

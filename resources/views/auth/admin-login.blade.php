@@ -3,7 +3,7 @@
   <!-- Header -->
   <div class="header d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-2">
-    <img src="/images/dict.png" alt="DICT Logo">
+    <img src="/images/DICT_Logo.png" alt="DICT Logo">
     <h2 class="m-0">DICT Cavite Monitoring System - Admin Portal</h2>
     </div>
     <a class="m-0 text-white" href="{{ route('employee.login') }}">Employee Login</a>
@@ -18,7 +18,7 @@
       <div class="col-lg-7">
         <div class="p-5">
         <div class="text-center">
-          <h1 class="h3 text-primary mb-4 font-weight-bold">Access Your Account</h1>
+          <h1 class="h3 mb-4 font-weight-bold" style="color: #004B8D;">Access Your Account</h1>
         </div>
         <form action="{{ route('login.action') }}" method="POST" class="user">
           @csrf
@@ -55,7 +55,9 @@
             <label class="custom-control-label" for="customCheck">Remember Me</label>
           </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-user btn-block">Click to Login</button>
+          <button type="submit" class="btn btn-user btn-block" style="background-color: #004B8D; color: #fff;">
+            Click to Login
+          </button>
         </form>
         <hr>
         <div class="text-center">
