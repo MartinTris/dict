@@ -16,7 +16,7 @@
                     <a href="{{ route('pnpki.create') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-plus"></i> Add New Record
                     </a>
-                    <a href="{{ route('pnpki.visualization') }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('pnpki.visualization') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-chart-bar"></i> Data Visualization
                     </a>
                 </div>

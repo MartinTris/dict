@@ -16,7 +16,7 @@
                     <a href="{{ route('cybersecurity.create') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-plus"></i> Add New Record
                     </a>
-                    <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-chart-bar"></i> Data Visualization
                     </a>
                 </div>

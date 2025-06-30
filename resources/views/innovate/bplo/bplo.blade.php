@@ -53,7 +53,7 @@
                                     <a class="btn btn-sm" style="background-color: #003566; color: white;" href="{{ route('bplo.show', $bplo->id) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('bplo.edit', $bplo->id) }}">
+                                    <a class="btn btn-sm btn-primary" style="background-color: #4E7AC7; color: white;" href="{{ route('bplo.edit', $bplo->id) }}">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
                                     @csrf

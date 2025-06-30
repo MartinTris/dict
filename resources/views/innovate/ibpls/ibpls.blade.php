@@ -8,7 +8,7 @@
             <a href="{{ route('ibpls.create') }}" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
                 <i class="fas fa-plus-circle"></i> ADD RECORD
             </a>
-            <a href="{{ route('ibpls.visualization') }}" class="btn btn-info" style="background-color: #004d99; border-color: #004d99;">
+            <a href="{{ route('ibpls.visualization') }}" class="btn btn-info" style="background-color: #003566; border-color: #003566; color: white;">
                 <i class="fas fa-chart-bar"></i> Data Visualization
             </a>
         </div>
@@ -44,7 +44,7 @@
                             <td>{{ $record->operation }}</td>
                             <td>{{ $record->status }}</td>
                             <td class="text-center">
-                                <a href="{{ route('ibpls.show', $record->id) }}" class="btn btn-sm btn-dark">Detail</a>
+                                <a href="{{ route('ibpls.show', $record->id) }}" class="btn btn-sm" style="background-color: #4657a2; color: #fff;">Detail</a>
                                 <a href="{{ route('ibpls.edit', $record->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <button type="button" class="btn btn-sm btn-danger" 
                                     onclick="confirmDelete('{{ $record->id }}')">Delete</button>
