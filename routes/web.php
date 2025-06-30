@@ -7,7 +7,7 @@ use App\Http\Controllers\Users_listController; // Import your Users_listControll
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 Route::get('/', function () {
-    return view('login');
+    return view('auth.admin-login');
 });
 
 Route::controller(AuthController::class)->group(function () {
