@@ -779,6 +779,17 @@
       .dict-card {
         margin-bottom: 30px;
       }
+
+      /* Scale down the animated card list carousel for mobile */
+      .carousel-container {
+        padding: 10px 0 30px;
+        max-height: 400px;
+      }
+      .void {
+        transform: scale(0.6);
+        transform-origin: top center;
+        max-width: 100vw;
+      }
     }
   </style>
 @endsection
