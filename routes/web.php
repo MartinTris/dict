@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\IlcdbController;
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -148,3 +149,6 @@ Route::get('/get-localities/{district_id}', [LocationController::class, 'getLoca
 Route::post('/districts', [FormController::class, 'storeDistrict'])->name('districts.store');
 Route::post('/localities', [FormController::class, 'storeLocality'])->name('localities.store');
 Route::get('/test', [FormController::class, 'getRegion']);
+
+//ILCDB Routes
+Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb.index');

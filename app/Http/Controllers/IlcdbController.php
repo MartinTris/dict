@@ -12,7 +12,7 @@ class IlcdbController extends Controller
      */
     public function index()
     {
-        //
+        return view('harness.ilcdb.ilcdb');
     }
 
     /**
