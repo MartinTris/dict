@@ -65,6 +65,16 @@
 .sidebar.toggled .sidebar-logo-mini {
     display: inline !important;
 }
+
+/* Show mini logo and hide full logo on small screens */
+@media (max-width: 768px) {
+    .sidebar-logo-full {
+        display: none !important;
+    }
+    .sidebar-logo-mini {
+        display: inline !important;
+    }
+}
 </style>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="sidebarMenu">
 
