@@ -117,7 +117,7 @@
     <div id="collapseCreate" class="collapse">
       <div class="collapse-inner">
         <a class="collapse-item custom-active" href="{{ route('nbp') }}">NBP</a>
-        <a class="collapse-item custom-active" href="#">FW4A</a>
+        <a class="collapse-item custom-active" href="{{ route('fw4a') }}">FW4A</a>
       </div>
     </div>
   </li>

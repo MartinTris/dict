@@ -135,6 +135,10 @@ Route::middleware('auth:employee')->group(function () {
 });
 
 //FW4A Routes
+Route::get('/fw4a', function () {
+    return view('connect.fw4a.fw4a');
+})->name('fw4a');
+
 /*forms*/
 Route::get('/get-provinces/{region_id}', [LocationController::class, 'getProvinces']);
 Route::get('/get-districts/{province_id}', [LocationController::class, 'getDistricts']);
