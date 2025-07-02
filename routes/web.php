@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Users_listController; // Import your Users_listController
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\LocationController;
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -131,3 +133,12 @@ Route::middleware('auth:employee')->group(function () {
         return view('employee.dashboard');
     })->name('dashboard.employee');
 });
+
+//FW4A Routes
+/*forms*/
+Route::get('/get-provinces/{region_id}', [LocationController::class, 'getProvinces']);
+Route::get('/get-districts/{province_id}', [LocationController::class, 'getDistricts']);
+Route::get('/get-localities/{district_id}', [LocationController::class, 'getLocalities']);
+Route::post('/districts', [FormController::class, 'storeDistrict'])->name('districts.store');
+Route::post('/localities', [FormController::class, 'storeLocality'])->name('localities.store');
+Route::get('/test', [FormController::class, 'getRegion']);
