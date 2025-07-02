@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@include('connect.fw4a.create')
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">FW4A Management</h1>
@@ -13,10 +14,11 @@
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">FW4A Sites</h6>
                 <div>
-                    <a href="{{--route('pnpki.create')--}}" class="btn btn-sm"
+                    <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#addSiteModal"
                         style="background-color: #003566; color: white;">
-                        <i class="fas fa-plus"></i> Add New Record
-                    </a>
+                        <i class="fas fa-plus"></i> Add New Site
+                    </button>
+
                     <a href="{{--route('pnpki.visualization')--}}" class="btn btn-sm"
                         style="background-color: #003566; color: white;">
                         <i class="fas fa-chart-bar"></i> Data Visualization
@@ -43,69 +45,7 @@
                                 <th class="text-center" style="min-width: 120px;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {{--@forelse ($pnpkis ?? [] as $pnpki)
-                            <tr>
-                                <td class="text-center">{{$pnpki->date_conducted }}</td>
-                                <td class="text-center">{{ $pnpki->time_conducted }}</td>
-                                <td>{{ $pnpki->organizer }}</td>
-                                <td>{{ $pnpki->province }}</td>
-                                <td>{{ $pnpki->activity_title }}</td>
-                                <td>{{ $pnpki->type_of_activity }}</td>
-                                <td>{{ $pnpki->mode_of_implementation }}</td>
-                                {{--<td class="text-center">
-                                    @if($pnpki->zoom_link)
-                                    <a href="{{ $pnpki->zoom_link }}" target="_blank"
-                                        class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-link"></i> Link
-                                    </a>
-                                    @else
-                                    <span class="text-muted">N/A</span>
-                                    @endif
-                                </td>
-                                <td class="text-center">{{ $pnpki->male_participants }}</td>
-                                <td class="text-center">{{ $pnpki->female_participants }}</td>
-                                <td class="text-center font-weight-bold">{{ $pnpki->total_participants }}</td>
-                                <td>{{ $pnpki->resource_person }}</td>
-                                {{--<td class="text-center">
-                                    @if($pnpki->fb_posting)
-                                    <a href="{{ $pnpki->fb_posting }}" target="_blank" class="btn btn-sm btn-outline-info">
-                                        <i class="fab fa-facebook"></i> View
-                                    </a>
-                                    @else
-                                    <span class="text-muted">N/A</span>
-                                    @endif
-                                </td>
-                                <td class="text-center">{{ $pnpki->number_of_engagement ?? 'N/A' }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="{{--route('pnpki.show', $pnpki->id)}}" class="btn btn-sm btn-info mx-1"
-                                            title="View">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{--route('pnpki.edit', $pnpki->id)}}" class="btn btn-sm btn-primary mx-1"
-                                            title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{--route('pnpki.destroy', $pnpki->id)}}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger mx-1"
-                                                onclick="return confirm('Are you sure you want to delete this record?')"
-                                                title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="15" class="text-center">No PNPKI records found.</td>
-                            </tr>
-                            @endforelse --}}
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     {{--
                     @if (isset($pnpkis) && $pnpkis->count() > 0)
