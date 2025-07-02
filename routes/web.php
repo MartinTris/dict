@@ -152,7 +152,7 @@ Route::post('/localities', [FormController::class, 'storeLocality'])->name('loca
 Route::get('/test', [FormController::class, 'getRegion']);
 
 //ILCDB Routes
-Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb.index');
+Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
 
 // Spark Routes
-Route::get('/spark', [App\Http\Controllers\SparkController::class, 'index'])->name('spark.index');
+Route::get('/spark', [SparkController::class, 'index'])->name('spark');

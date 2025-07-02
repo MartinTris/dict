@@ -139,8 +139,8 @@
     </a>
     <div id="collapseHarness" class="collapse">
       <div class="collapse-inner">
-        <a class="collapse-item custom-active" href="#">ILCDB</a>
-        <a class="collapse-item custom-active" href="#">SPARK</a>
+        <a class="collapse-item custom-active" href="{{ route('ilcdb') }}">ILCDB</a>
+        <a class="collapse-item custom-active" href="{{ route('spark') }}">SPARK</a>
         <a class="collapse-item custom-active" href="{{ route('tech4ed') }}">TECH4ED</a>
       </div>
     </div>
