@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Fw4aController;
 use App\Http\Controllers\Users_listController; // Import your Users_listController
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
@@ -135,9 +135,11 @@ Route::middleware('auth:employee')->group(function () {
 });
 
 //FW4A Routes
-Route::get('/fw4a', function () {
-    return view('connect.fw4a.fw4a');
-})->name('fw4a');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/fw4a',[Fw4aController::class, 'index'])->name('fw4a');
+    Route::post('/fw4a', [Fw4aController::class, 'store'])->name('fw4a.store');
+});
 
 /*forms*/
 Route::get('/get-provinces/{region_id}', [LocationController::class, 'getProvinces']);
