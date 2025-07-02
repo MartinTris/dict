@@ -12,13 +12,13 @@ class LocationController extends Controller
 {
     //
     public function getProvinces($region_id){
-        return Province::where('region_id', $region_id)->select('id', 'province_name')->get();
+        return Province::where('region_id', $region_id)->select('id', 'province_name')->orderBy('province_name')->get();
     }
     public function getDistricts($province_id) {
-        return District::where('province_id', $province_id)->select('id', 'district_name')->get();
+        return District::where('province_id', $province_id)->select('id', 'district_name')->orderBy('district_name')->get();
     }
     
     public function getLocalities($district_id) {
-        return Locality::where('district_id', $district_id)->select('id', 'locality_name')->get();
+        return Locality::where('district_id', $district_id)->select('id', 'locality_name')->orderBy('locality_name')->get();
     }
 }
