@@ -12,7 +12,7 @@ class SparkController extends Controller
      */
     public function index()
     {
-        //
+        return view('harness.spark.spark');
     }
 
     /**

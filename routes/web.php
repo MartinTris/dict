@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\IlcdbController;
+use App\Http\Controllers\SparkController;
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -152,3 +153,6 @@ Route::get('/test', [FormController::class, 'getRegion']);
 
 //ILCDB Routes
 Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb.index');
+
+// Spark Routes
+Route::get('/spark', [App\Http\Controllers\SparkController::class, 'index'])->name('spark.index');

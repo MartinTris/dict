@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>ILCDB</h1>
-        <p>Welcome to the ILCDB page!</p>
+        <h1>SPARK</h1>
+        <p>Welcome to the SPARK page!</p>
     </div>
 @endsection
