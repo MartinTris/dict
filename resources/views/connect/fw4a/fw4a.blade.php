@@ -29,18 +29,18 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center" style="min-width: 120px;">Site Code</th>
-                                <th class="text-center" style="min-width: 150px;">Site Name</th>
-                                <th class="text-center" style="min-width: 150px;">Region</th>
+                                <th class="text-center" style="min-width: 120px;">Site Name</th>
+                                <th class="text-center" style="min-width: 120px;">Region</th>
                                 <th class="text-center" style="min-width: 120px;">Province</th>
-                                <th class="text-center" style="min-width: 200px;">Congressional District</th>
-                                <th class="text-center" style="min-width: 170px;">Locality</th>
+                                <th class="text-center" style="min-width: 220px;">Congressional District</th>
+                                <th class="text-center" style="min-width: 120px;">Locality</th>
                                 <th class="text-center" style="min-width: 180px;">Contract Status</th>
-                                <th class="text-center" style="min-width: 100px;">Contract</th>
-                                <th class="text-center" style="min-width: 90px;">Category</th>
-                                <th class="text-center" style="min-width: 90px;">Contractor</th>
-                                <th class="text-center" style="min-width: 150px;">Latitude</th>
-                                <th class="text-center" style="min-width: 100px;">Longitude</th>
-                                <th class="text-center" style="min-width: 130px;">Actions</th>
+                                <th class="text-center" style="min-width: 120px;">Contract</th>
+                                <th class="text-center" style="min-width: 120px;">Category</th>
+                                <th class="text-center" style="min-width: 120px;">Contractor</th>
+                                <th class="text-center" style="min-width: 120px;">Latitude</th>
+                                <th class="text-center" style="min-width: 120px;">Longitude</th>
+                                <th class="text-center" style="min-width: 120px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
