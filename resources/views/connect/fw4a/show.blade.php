@@ -114,14 +114,19 @@
             return txt.value;
         }
 
-        function dmsToDecimal(dms) {
-            const parts = dms.match(/(\d+)[°\s](\d+)[\'\s](\d+(?:\.\d+)?)[\"\s]?([NSEW])/i);
-            if (!parts) return null;
+        function parseCoordinate(input) {
+            input = input.trim();
 
-            let degrees = parseFloat(parts[1]);
-            let minutes = parseFloat(parts[2]);
-            let seconds = parseFloat(parts[3]);
-            let direction = parts[4].toUpperCase();
+            if (!isNaN(input)) return parseFloat(input);
+
+            const dmsRegex = /(\d+)[°\s](\d+)[\'\s](\d+(?:\.\d+)?)[\"\s]?([NSEW])/i;
+            const match = input.match(dmsRegex);
+            if (!match) return null;
+
+            const degrees = parseFloat(match[1]);
+            const minutes = parseFloat(match[2]);
+            const seconds = parseFloat(match[3]);
+            const direction = match[4].toUpperCase();
 
             let decimal = degrees + (minutes / 60) + (seconds / 3600);
             if (direction === 'S' || direction === 'W') decimal *= -1;
@@ -130,13 +135,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const rawLat = decodeEntities("{{ $fw4a->longitude}}");
-            const rawLng = decodeEntities("{{ $fw4a->latitude }}");
+            const rawLat = decodeEntities("{{ $fw4a->latitude }}");
+            const rawLng = decodeEntities("{{ $fw4a->longitude }}");
 
-            const lat = dmsToDecimal(rawLat);
-            const lng = dmsToDecimal(rawLng);
+            const lat = parseCoordinate(rawLat);
+            const lng = parseCoordinate(rawLng);
 
-            console.log("Decimal Coordinates:", lat, lng);
+            console.log("Parsed Coordinates:", lat, lng);
 
             if (!lat || !lng) {
                 console.error("Invalid coordinates:", rawLat, rawLng);
@@ -154,5 +159,6 @@
                 .bindPopup(`<strong>{{ $fw4a->site_name }}</strong><br>{{ $fw4a->province->province_name }}`)
                 .openPopup();
         });
+
     </script>
 @endsection

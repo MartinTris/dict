@@ -13,7 +13,7 @@ class Fw4aController extends Controller
      */
     public function index()
     {
-        $fw4as = Fw4a::all();
+        $fw4as = Fw4a::with(['region', 'province', 'district', 'locality'])->get();
         $regions = Region::all();
         return view('connect.fw4a.fw4a', compact('fw4as','regions'));
     }
@@ -66,7 +66,8 @@ class Fw4aController extends Controller
      */
     public function edit(Fw4a $fw4a)
     {
-        //
+        $fw4a->load(['region', 'province', 'district', 'locality']);
+        return view('connect.fw4a.edit', compact('fw4a'));
     }
 
     /**
@@ -74,7 +75,25 @@ class Fw4aController extends Controller
      */
     public function update(Request $request, Fw4a $fw4a)
     {
-        //
+        $validated = $request->validate([
+            'site_code'       => 'required|string|unique:fw4a_sites,site_code,' . $fw4a->id,
+            'site_name'       => 'required|string',
+            'region_id'       => 'required|exists:regions,id',
+            'province_id'     => 'required|exists:provinces,id',
+            'district_id'     => 'required|exists:districts,id',
+            'locality_id'     => 'required|exists:localities,id',
+            'contract_status' => 'required|string',
+            'contract'        => 'required|string',
+            'category'        => 'required|string',
+            'contractor'      => 'required|string',
+            'latitude'        => 'required|string',
+            'longitude'       => 'required|string',
+            'user_id'         => 'required|exists:users,id',
+        ]);
+
+        $fw4a->update($validated);
+
+        return redirect()->back()->with('success', 'Site has been successfully updated.');
     }
 
     /**
@@ -82,6 +101,7 @@ class Fw4aController extends Controller
      */
     public function destroy(Fw4a $fw4a)
     {
-        //
+        $fw4a->delete();
+        return redirect()->back()->with('success', 'Site has been successfully deleted.');
     }
 }
