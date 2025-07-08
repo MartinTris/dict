@@ -66,13 +66,19 @@
                                             data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{--route('fw4a.destroy', $fw4a->id)--}}" method="POST" class="d-inline">
+                                        <form action="{{ route('fw4a.destroy', $fw4a->id) }}" method="POST" class="d-inline">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger mb-1"
                                                 onclick="return confirm('Are you sure?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+                                        @if(session('success'))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ session('success') }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -182,7 +188,7 @@
                     }
                 });
 
-                // Simple cascading dropdowns for edit modal
+                // dropdowns for edit modal
                 $('#edit_region').on('change', function () {
                     let regionId = $(this).val();
                     $('#edit_province').html('<option value="">Select Province</option>');
@@ -241,7 +247,6 @@
             }
         }
 
-        // Start initialization
         initScripts();
     </script>
 
