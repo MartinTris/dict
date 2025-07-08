@@ -57,8 +57,9 @@ class Fw4aController extends Controller
      */
     public function show(Fw4a $fw4a)
     {
+        $regions = Region::all();
         $fw4a->load(['region', 'province', 'district', 'locality']);
-        return view('connect.fw4a.show', compact('fw4a'));
+        return view('connect.fw4a.show', compact('fw4a', 'regions'));
     }
 
     /**

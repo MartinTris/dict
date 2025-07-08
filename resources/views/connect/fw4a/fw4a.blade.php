@@ -94,36 +94,20 @@
         // Wait for jQuery 
         function initScripts() {
             if (typeof jQuery !== 'undefined') {
-                console.log('jQuery is loaded and ready!');
-                console.log('jQuery version:', jQuery.fn.jquery);
 
                 // edit modal functionality
                 $(document).on('click', '.edit-btn', function () {
-                    alert('Edit button clicked!'); // Simple test
-                    console.log('=== EDIT BUTTON CLICKED ===');
-                    console.log('Button clicked:', this);
+                    
 
                     const raw = $(this).attr('data-fw4a');
-                    console.log('Raw data:', raw);
 
                     let fw4a;
 
                     try {
                         fw4a = JSON.parse(raw);
-                        console.log('Parsed data:', fw4a);
                     } catch (e) {
-                        console.error('Invalid JSON:', raw);
-                        console.error('Error:', e);
                         return;
                     }
-
-                    console.log('Editing:', fw4a);
-                    console.log('ID:', fw4a.id);
-                    console.log('Site Code:', fw4a.site_code);
-                    console.log('Region ID:', fw4a.region_id);
-                    console.log('Province ID:', fw4a.province_id);
-                    console.log('District ID:', fw4a.district_id);
-                    console.log('Locality ID:', fw4a.locality_id);
 
                     // Set form action
                     $('#editSiteForm').attr('action', `/fw4a/${fw4a.id}`);
@@ -139,47 +123,36 @@
                     $('#edit_contractor').val(fw4a.contractor);
                     $('#edit_latitude').val(fw4a.latitude);
                     $('#edit_longitude').val(fw4a.longitude);
-                    console.log('Basic fields set');
 
                     // Load and set region
                     $('#edit_region').val(fw4a.region_id);
-                    console.log('Region set to:', fw4a.region_id);
 
                     // Load provinces for the selected region
                     if (fw4a.region_id) {
-                        console.log('Loading provinces for region:', fw4a.region_id);
                         $.get(`/get-provinces/${fw4a.region_id}`, function (data) {
-                            console.log('Provinces loaded:', data);
                             $('#edit_province').html('<option value="">Select Province</option>');
                             data.forEach(p => {
                                 $('#edit_province').append(`<option value="${p.id}">${p.province_name}</option>`);
                             });
                             $('#edit_province').val(fw4a.province_id);
-                            console.log('Province set to:', fw4a.province_id);
 
                             // Load districts for the selected province
                             if (fw4a.province_id) {
-                                console.log('Loading districts for province:', fw4a.province_id);
                                 $.get(`/get-districts/${fw4a.province_id}`, function (data) {
-                                    console.log('Districts loaded:', data);
                                     $('#edit_district').html('<option value="">Select District</option>');
                                     data.forEach(d => {
                                         $('#edit_district').append(`<option value="${d.id}">${d.district_name}</option>`);
                                     });
                                     $('#edit_district').val(fw4a.district_id);
-                                    console.log('District set to:', fw4a.district_id);
 
                                     // Load localities for the selected district
                                     if (fw4a.district_id) {
-                                        console.log('Loading localities for district:', fw4a.district_id);
                                         $.get(`/get-localities/${fw4a.district_id}`, function (data) {
-                                            console.log('Localities loaded:', data);
                                             $('#edit_locality').html('<option value="">Select Locality</option>');
                                             data.forEach(l => {
                                                 $('#edit_locality').append(`<option value="${l.id}">${l.locality_name}</option>`);
                                             });
                                             $('#edit_locality').val(fw4a.locality_id);
-                                            console.log('Locality set to:', fw4a.locality_id);
                                         });
                                     }
                                 });
@@ -242,7 +215,6 @@
                     });
                 }
             } else {
-                console.log('jQuery not loaded yet, retrying...');
                 setTimeout(initScripts, 100);
             }
         }
