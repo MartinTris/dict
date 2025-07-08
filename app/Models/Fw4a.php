@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Fw4a extends Model
 {
     use HasFactory, BelongsToUser;
+    protected $table = 'fw4a_sites';
      protected $fillable = [
         'site_code',
         'site_name',
@@ -16,11 +17,12 @@ class Fw4a extends Model
         'district_id',
         'locality_id',
         'contract_status',
-        'contract_id',
-        'category_id',
-        'contractor_id',
+        'contract',
+        'category',
+        'contractor',
         'latitude',
         'longitude',
+        'user_id'
     ];
     
     public function region() { return $this->belongsTo(Region::class); }
