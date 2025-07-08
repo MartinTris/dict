@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Fw4a;
 use App\Models\Region;
-use App\Models\Contract;
-use App\Models\Contractor;
 use Illuminate\Http\Request;
 
 class Fw4aController extends Controller
@@ -18,10 +15,7 @@ class Fw4aController extends Controller
     {
         $fw4as = Fw4a::all();
         $regions = Region::all();
-        $contracts = Contract::all();
-        $categories = Category::all();
-        $contractors = Contractor::all();
-        return view('connect.fw4a.fw4a', compact('fw4as','regions', 'contracts', 'categories', 'contractors'));
+        return view('connect.fw4a.fw4a', compact('fw4as','regions'));
     }
 
     /**
@@ -44,17 +38,18 @@ class Fw4aController extends Controller
             'province_id'     => 'required|exists:provinces,id',
             'district_id'     => 'required|exists:districts,id',
             'locality_id'     => 'required|exists:localities,id',
-            'contract_status' => 'required|in:active,terminated,for renewal',
-            'contract_id'     => 'required|exists:contracts,id',
-            'category_id'     => 'required|exists:categories,id',
-            'contractor_id'   => 'required|exists:contractors,id',
+            'contract_status' => 'required|string',
+            'contract'     => 'required|string',
+            'category'     => 'required|string',
+            'contractor'   => 'required|string',
             'latitude'        => 'required|string',
             'longitude'       => 'required|string',
+            'user_id' => 'required|exists:users,id',
         ]);
     
         Fw4a::create($validated);
     
-        return redirect()->back()->with('success', 'New site has been successfully added.');
+        return redirect()->back()->with('success', 'Site has been successfully added.');
     }
 
     /**
@@ -62,7 +57,8 @@ class Fw4aController extends Controller
      */
     public function show(Fw4a $fw4a)
     {
-        //
+        $fw4a->load(['region', 'province', 'district', 'locality']);
+        return view('connect.fw4a.show', compact('fw4a'));
     }
 
     /**
