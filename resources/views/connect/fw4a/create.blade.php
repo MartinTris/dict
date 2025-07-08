@@ -7,6 +7,7 @@
                     <h5 class="modal-title">Add New Site</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                 <div class="modal-body row g-3 px-4">
                     <div class="col-md-6">
                         <label>Site Code</label>
@@ -56,35 +57,19 @@
 
                     <div class="col-md-4">
                         <label>Contract Status</label>
-                        <select name="contract_status" class="form-select" required>
-                            <option value="active">Active</option>
-                            <option value="terminated">Terminated</option>
-                            <option value="for renewal">For Renewal</option>
-                        </select>
+                        <input type="text" name="contract_status" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>Contract</label>
-                        <select name="contract_id" class="form-select" required>
-                            @foreach($contracts as $contract)
-                                <option value="{{ $contract->id }}">{{ $contract->contract_name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="contract" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>Category</label>
-                        <select name="category_id" class="form-select" required>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="category" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label>Contractor</label>
-                        <select name="contractor_id" class="form-select" required>
-                            @foreach($contractors as $contractor)
-                                <option value="{{ $contractor->id }}">{{ $contractor->contractor_name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="contractor" class="form-control" required>
                     </div>
                     <div class="col-md-3">
                         <label>Latitude</label>
