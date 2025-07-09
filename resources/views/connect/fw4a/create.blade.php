@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>AP MAC Address</label>
-                        <input type="text" name="ap_mac_address" class="form-control" required>
+                        <input type="text" name="ap_mac_address" class="form-control">
                     </div>
                     <div class="col-md-5">
                         <label>Site Name</label>
@@ -61,27 +61,27 @@
 
                     <div class="col-md-4">
                         <label>Contract Status</label>
-                        <input type="text" name="contract_status" class="form-control" required>
+                        <input type="text" name="contract_status" class="form-control">
                     </div>
                     <div class="col-md-4">
                         <label>Contract</label>
-                        <input type="text" name="contract" class="form-control" required>
+                        <input type="text" name="contract" class="form-control">
                     </div>
                     <div class="col-md-4">
                         <label>Category</label>
-                        <input type="text" name="category" class="form-control" required>
+                        <input type="text" name="category" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label>Contractor</label>
-                        <input type="text" name="contractor" class="form-control" required>
+                        <input type="text" name="contractor" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Latitude</label>
-                        <input type="text" name="latitude" class="form-control" required>
+                        <input type="text" name="latitude" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Longitude</label>
-                        <input type="text" name="longitude" class="form-control" required>
+                        <input type="text" name="longitude" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer px-4">

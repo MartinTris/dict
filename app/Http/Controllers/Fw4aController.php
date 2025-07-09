@@ -32,19 +32,19 @@ class Fw4aController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'site_code'       => 'required|string|unique:fw4a_sites,site_code',
+            'site_code'       => 'required|string',
             'ap_mac_address'  => 'nullable|string|unique:fw4a_sites,ap_mac_address',
             'site_name'       => 'required|string',
             'region_id'       => 'required|exists:regions,id',
             'province_id'     => 'required|exists:provinces,id',
             'district_id'     => 'required|exists:districts,id',
             'locality_id'     => 'required|exists:localities,id',
-            'contract_status' => 'required|string',
-            'contract'     => 'required|string',
-            'category'     => 'required|string',
-            'contractor'   => 'required|string',
-            'latitude'        => 'required|string',
-            'longitude'       => 'required|string',
+            'contract_status' => 'nullable|string',
+            'contract'     => 'nullable|string',
+            'category'     => 'nullable|string',
+            'contractor'   => 'nullable|string',
+            'latitude'        => 'nullable|string',
+            'longitude'       => 'nullable|string',
             'user_id' => 'required|exists:users,id',
         ]);
     
@@ -78,19 +78,19 @@ class Fw4aController extends Controller
     public function update(Request $request, Fw4a $fw4a)
     {
         $validated = $request->validate([
-            'site_code'       => 'required|string|unique:fw4a_sites,site_code,' . $fw4a->id,
+            'site_code'       => 'required|string',
             'ap_mac_address'  => 'nullable|string|unique:fw4a_sites,ap_mac_address,' . $fw4a->id,
             'site_name'       => 'required|string',
             'region_id'       => 'required|exists:regions,id',
             'province_id'     => 'required|exists:provinces,id',
             'district_id'     => 'required|exists:districts,id',
             'locality_id'     => 'required|exists:localities,id',
-            'contract_status' => 'required|string',
-            'contract'        => 'required|string',
-            'category'        => 'required|string',
-            'contractor'      => 'required|string',
-            'latitude'        => 'required|string',
-            'longitude'       => 'required|string',
+            'contract_status' => 'nullable|string',
+            'contract'        => 'nullable|string',
+            'category'        => 'nullable|string',
+            'contractor'      => 'nullable|string',
+            'latitude'        => 'nullable|string',
+            'longitude'       => 'nullable|string',
             'user_id'         => 'required|exists:users,id',
         ]);
 

@@ -61,28 +61,27 @@
 
                     <div class="col-md-4">
                         <label>Contract Status</label>
-                        <input type="text" name="contract_status" id="edit_contract_status" class="form-control"
-                            required>
+                        <input type="text" name="contract_status" id="edit_contract_status" class="form-control">
                     </div>
                     <div class="col-md-4">
                         <label>Contract</label>
-                        <input type="text" name="contract" id="edit_contract" class="form-control" required>
+                        <input type="text" name="contract" id="edit_contract" class="form-control">
                     </div>
                     <div class="col-md-4">
                         <label>Category</label>
-                        <input type="text" name="category" id="edit_category" class="form-control" required>
+                        <input type="text" name="category" id="edit_category" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label>Contractor</label>
-                        <input type="text" name="contractor" id="edit_contractor" class="form-control" required>
+                        <input type="text" name="contractor" id="edit_contractor" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Latitude</label>
-                        <input type="text" name="latitude" id="edit_latitude" class="form-control" required>
+                        <input type="text" name="latitude" id="edit_latitude" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Longitude</label>
-                        <input type="text" name="longitude" id="edit_longitude" class="form-control" required>
+                        <input type="text" name="longitude" id="edit_longitude" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer px-4">
