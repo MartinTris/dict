@@ -13,7 +13,9 @@ class Fw4aController extends Controller
      */
     public function index()
     {
-        $fw4as = Fw4a::with(['region', 'province', 'district', 'locality'])->get();
+        $fw4as = Fw4a::with(['region', 'province', 'district', 'locality'])
+            ->orderBy('site_code')
+            ->paginate(10);
         $regions = Region::all();
         return view('connect.fw4a.fw4a', compact('fw4as','regions'));
     }
