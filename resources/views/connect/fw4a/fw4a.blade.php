@@ -66,10 +66,9 @@
                                             data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('fw4a.destroy', $fw4a->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('fw4a.destroy', $fw4a->id) }}" method="POST" class="d-inline delete-form">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger mb-1"
-                                                onclick="return confirm('Are you sure?')">
+                                            <button type="button" class="btn btn-sm btn-danger mb-1 delete-btn">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -88,139 +87,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Script -->
-    <script>
-        // Wait for jQuery 
-        function initScripts() {
-            if (typeof jQuery !== 'undefined') {
-
-                // edit modal functionality
-                $(document).on('click', '.edit-btn', function () {
-                    
-
-                    const raw = $(this).attr('data-fw4a');
-
-                    let fw4a;
-
-                    try {
-                        fw4a = JSON.parse(raw);
-                    } catch (e) {
-                        return;
-                    }
-
-                    // Set form action
-                    $('#editSiteForm').attr('action', `/fw4a/${fw4a.id}`);
-                    // Set hidden field
-                    $('#edit_fw4a_id').val(fw4a.id);
-
-                    // Set fields
-                    $('#edit_site_code').val(fw4a.site_code);
-                    $('#edit_site_name').val(fw4a.site_name);
-                    $('#edit_contract_status').val(fw4a.contract_status);
-                    $('#edit_contract').val(fw4a.contract);
-                    $('#edit_category').val(fw4a.category);
-                    $('#edit_contractor').val(fw4a.contractor);
-                    $('#edit_latitude').val(fw4a.latitude);
-                    $('#edit_longitude').val(fw4a.longitude);
-
-                    // Load and set region
-                    $('#edit_region').val(fw4a.region_id);
-
-                    // Load provinces for the selected region
-                    if (fw4a.region_id) {
-                        $.get(`/get-provinces/${fw4a.region_id}`, function (data) {
-                            $('#edit_province').html('<option value="">Select Province</option>');
-                            data.forEach(p => {
-                                $('#edit_province').append(`<option value="${p.id}">${p.province_name}</option>`);
-                            });
-                            $('#edit_province').val(fw4a.province_id);
-
-                            // Load districts for the selected province
-                            if (fw4a.province_id) {
-                                $.get(`/get-districts/${fw4a.province_id}`, function (data) {
-                                    $('#edit_district').html('<option value="">Select District</option>');
-                                    data.forEach(d => {
-                                        $('#edit_district').append(`<option value="${d.id}">${d.district_name}</option>`);
-                                    });
-                                    $('#edit_district').val(fw4a.district_id);
-
-                                    // Load localities for the selected district
-                                    if (fw4a.district_id) {
-                                        $.get(`/get-localities/${fw4a.district_id}`, function (data) {
-                                            $('#edit_locality').html('<option value="">Select Locality</option>');
-                                            data.forEach(l => {
-                                                $('#edit_locality').append(`<option value="${l.id}">${l.locality_name}</option>`);
-                                            });
-                                            $('#edit_locality').val(fw4a.locality_id);
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-
-                // dropdowns for edit modal
-                $('#edit_region').on('change', function () {
-                    let regionId = $(this).val();
-                    $('#edit_province').html('<option value="">Select Province</option>');
-                    $('#edit_district').html('<option value="">Select District</option>');
-                    $('#edit_locality').html('<option value="">Select Locality</option>');
-
-                    if (regionId) {
-                        $.get(`/get-provinces/${regionId}`, function (data) {
-                            data.forEach(p => {
-                                $('#edit_province').append(`<option value="${p.id}">${p.province_name}</option>`);
-                            });
-                        });
-                    }
-                });
-
-                $('#edit_province').on('change', function () {
-                    let provinceId = $(this).val();
-                    $('#edit_district').html('<option value="">Select District</option>');
-                    $('#edit_locality').html('<option value="">Select Locality</option>');
-
-                    if (provinceId) {
-                        $.get(`/get-districts/${provinceId}`, function (data) {
-                            data.forEach(d => {
-                                $('#edit_district').append(`<option value="${d.id}">${d.district_name}</option>`);
-                            });
-                        });
-                    }
-                });
-
-                $('#edit_district').on('change', function () {
-                    let districtId = $(this).val();
-                    $('#edit_locality').html('<option value="">Select Locality</option>');
-
-                    if (districtId) {
-                        $.get(`/get-localities/${districtId}`, function (data) {
-                            data.forEach(l => {
-                                $('#edit_locality').append(`<option value="${l.id}">${l.locality_name}</option>`);
-                            });
-                        });
-                    }
-                });
-
-                // DataTable initialization
-                if (typeof $.fn.DataTable !== 'undefined') {
-                    $('#dataTable').DataTable({
-                        responsive: true,
-                        scrollX: true,
-                        pageLength: 10,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                        order: [[0, 'desc']],
-                    });
-                }
-            } else {
-                setTimeout(initScripts, 100);
-            }
-        }
-
-        initScripts();
-    </script>
 
     <!-- Styling -->
     <style>
@@ -250,3 +116,31 @@
         }
     </style>
 @endsection
+
+<!-- Make sure jQuery is loaded before SweetAlert2 and your script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+        // SweetAlert delete confirmation
+        $(document).on('click', '.delete-btn', function (e) {
+            e.preventDefault();
+            const form = $(this).closest('form');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
