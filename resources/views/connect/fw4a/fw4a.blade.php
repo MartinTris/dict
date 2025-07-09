@@ -29,6 +29,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">Site Code</th>
+                                <th class="text-center">AP MAC Address</th>
                                 <th class="text-center">Site Name</th>
                                 <th class="text-center">Region</th>
                                 <th class="text-center">Province</th>
@@ -47,6 +48,7 @@
                             @foreach ($fw4as as $fw4a)
                                 <tr>
                                     <td class="text-center">{{ $fw4a->site_code }}</td>
+                                    <td class="text-center">{{ $fw4a->ap_mac_address }}</td>
                                     <td class="text-center">{{ $fw4a->site_name }}</td>
                                     <td class="text-center">{{ $fw4a->region->region_code }}</td>
                                     <td class="text-center">{{ $fw4a->province->province_name }}</td>
@@ -164,6 +166,7 @@
 
                 // Set fields
                 $('#edit_site_code').val(fw4a.site_code);
+                $('#edit_ap_mac_address').val(fw4a.ap_mac_address);
                 $('#edit_site_name').val(fw4a.site_name);
                 $('#edit_contract_status').val(fw4a.contract_status);
                 $('#edit_contract').val(fw4a.contract);

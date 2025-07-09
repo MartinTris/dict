@@ -9,11 +9,15 @@
                 </div>
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                 <div class="modal-body row g-3 px-4">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label>Site Code</label>
                         <input type="text" name="site_code" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label>AP MAC Address</label>
+                        <input type="text" name="ap_mac_address" class="form-control" required>
+                    </div>
+                    <div class="col-md-5">
                         <label>Site Name</label>
                         <input type="text" name="site_name" class="form-control" required>
                     </div>

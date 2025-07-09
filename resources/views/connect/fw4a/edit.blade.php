@@ -11,15 +11,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body row g-3 px-4">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label>Site Code</label>
                         <input type="text" name="site_code" id="edit_site_code" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label>AP MAC Address</label>
+                        <input type="text" name="ap_mac_address" id="edit_ap_mac_address" class="form-control" required>
+                    </div>
+                    <div class="col-md-5">
                         <label>Site Name</label>
                         <input type="text" name="site_name" id="edit_site_name" class="form-control" required>
                     </div>
-                    
+
                     <!-- Region -->
                     <div class="col-md-3">
                         <label>Region</label>
@@ -57,7 +61,8 @@
 
                     <div class="col-md-4">
                         <label>Contract Status</label>
-                        <input type="text" name="contract_status" id="edit_contract_status" class="form-control" required>
+                        <input type="text" name="contract_status" id="edit_contract_status" class="form-control"
+                            required>
                     </div>
                     <div class="col-md-4">
                         <label>Contract</label>

@@ -27,6 +27,10 @@
                                 <td>{{ $fw4a->site_code }}</td>
                             </tr>
                             <tr>
+                                <th>AP MAC Address:</th>
+                                <td>{{ $fw4a->ap_mac_address }}</td>
+                            </tr>
+                            <tr>
                                 <th>Site Name:</th>
                                 <td>{{ $fw4a->site_name }}</td>
                             </tr>
@@ -187,6 +191,7 @@
 
                     // Set fields
                     $('#edit_site_code').val(fw4a.site_code);
+                    $('#edit_ap_mac_address').val(fw4a.ap_mac_address);
                     $('#edit_site_name').val(fw4a.site_name);
                     $('#edit_contract_status').val(fw4a.contract_status);
                     $('#edit_contract').val(fw4a.contract);

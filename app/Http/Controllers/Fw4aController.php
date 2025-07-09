@@ -33,6 +33,7 @@ class Fw4aController extends Controller
     {
         $validated = $request->validate([
             'site_code'       => 'required|string|unique:fw4a_sites,site_code',
+            'ap_mac_address'  => 'nullable|string|unique:fw4a_sites,ap_mac_address',
             'site_name'       => 'required|string',
             'region_id'       => 'required|exists:regions,id',
             'province_id'     => 'required|exists:provinces,id',
@@ -78,6 +79,7 @@ class Fw4aController extends Controller
     {
         $validated = $request->validate([
             'site_code'       => 'required|string|unique:fw4a_sites,site_code,' . $fw4a->id,
+            'ap_mac_address'  => 'nullable|string|unique:fw4a_sites,ap_mac_address,' . $fw4a->id,
             'site_name'       => 'required|string',
             'region_id'       => 'required|exists:regions,id',
             'province_id'     => 'required|exists:provinces,id',
