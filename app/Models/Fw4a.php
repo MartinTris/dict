@@ -11,6 +11,7 @@ class Fw4a extends Model
     protected $table = 'fw4a_sites';
      protected $fillable = [
         'site_code',
+        'ap_mac_address',
         'site_name',
         'region_id',
         'province_id',
