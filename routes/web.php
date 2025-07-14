@@ -10,12 +10,9 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
-<<<<<<< HEAD
 use App\Http\Controllers\CalendarController;
 
-=======
 use App\Http\Controllers\HRFormController;
->>>>>>> 87351d0954c49ea5371661087d6da956a8ea4a21
 Route::get('/', function () {
     return view('auth.admin-login');
 });
