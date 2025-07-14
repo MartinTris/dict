@@ -1,12 +1,30 @@
 @extends('layouts.app')
-
+@include('hrforms.create')
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">HR Forms Library</h1>
-
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    Something went wrong.
+                    {{--@foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach--}}
+                </ul>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Downloadable Forms</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm text-white" data-bs-toggle="modal"
+                        data-bs-target="#addFormModal" style="background-color: #003566;">
+                        <i class="fas fa-plus"></i> Upload New Forms
+                    </button>
+                </div>
             </div>
 
             <div class="card-body">
@@ -17,7 +35,7 @@
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapse{{ $category->id }}" aria-expanded="false"
                                     aria-controls="collapse{{ $category->id }}">
-                                    📁 {{ $category->name }}
+                                    {{ $category->name }}
                                 </button>
                             </h2>
                             <div id="collapse{{ $category->id }}" class="accordion-collapse collapse"
@@ -29,14 +47,17 @@
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     <div>{{ $form->title }}</div>
                                                     <div>
-                                                        <a href="{{ route('hrforms.view', $form->id) }}" class="btn btn-sm btn-info"
-                                                            target="_blank">
-                                                            <i class="fas fa-eye"></i> View
-                                                        </a>
-                                                        <a href="{{ route('hrforms.download', $form->id) }}"
-                                                            class="btn btn-sm btn-success">
+                                                        <a href="{{ route('hrforms.download', $form->id) }} "
+                                                            class="btn btn-sm btn-success" style="background-color: #003566;">
                                                             <i class="fas fa-download"></i> Download
                                                         </a>
+                                                        <form action="{{ route('hrforms.destroy', $form->id) }}" method="POST"
+                                                            class="d-inline delete-form">
+                                                            @csrf @method('DELETE')
+                                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
+                                                                <i class="fas fa-trash"></i> Delete
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </li>
                                             @endforeach
@@ -53,3 +74,29 @@
         </div>
     </div>
 @endsection
+<!-- scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        // SweetAlert delete confirmation
+        $(document).on('click', '.delete-btn', function (e) {
+            e.preventDefault();
+            const form = $(this).closest('form');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>

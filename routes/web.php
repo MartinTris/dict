@@ -10,8 +10,12 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
+<<<<<<< HEAD
 use App\Http\Controllers\CalendarController;
 
+=======
+use App\Http\Controllers\HRFormController;
+>>>>>>> 87351d0954c49ea5371661087d6da956a8ea4a21
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -165,10 +169,11 @@ Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
 
 //HR Form Routes
-use App\Http\Controllers\HRFormController;
 
 Route::prefix('hr-forms')->name('hrforms.')->group(function () {
     Route::get('/', [HRFormController::class, 'index'])->name('index');
+    Route::post('/create', [HRFormController::class, 'store'])->name('store');
+    Route::delete('/delete/{id}', [HRFormController::class, 'destroy'])->name('destroy');
     Route::get('/download/{id}', [HRFormController::class, 'download'])->name('download');
     Route::get('/view/{id}', [HRFormController::class, 'view'])->name('view');
 });

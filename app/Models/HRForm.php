@@ -12,6 +12,7 @@ class HRForm extends Model
     protected $table = 'hr_forms';
     protected $fillable = ['category_id', 'title', 'file_path'];
 
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(HrFormsCategory::class, 'category_id');
