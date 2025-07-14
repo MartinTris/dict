@@ -17,10 +17,7 @@
                         data-bs-target="#addSiteModal" style="background-color: #003566;">
                         <i class="fas fa-plus"></i> Add New Site
                     </button>
-                    <a href="{{-- route('pnpki.visualization') --}}" class="btn btn-sm text-white"
-                        style="background-color: #003566;">
-                        <i class="fas fa-chart-bar"></i> Data Visualization
-                    </a>
+                    
                 </div>
             </div>
 
