@@ -167,7 +167,7 @@ Route::get('/spark', [SparkController::class, 'index'])->name('spark');
 
 //HR Form Routes
 
-Route::prefix('hr-forms')->name('hrforms.')->group(function () {
+Route::middleware('auth')->prefix('hr-forms')->name('hrforms.')->group(function () {
     Route::get('/', [HRFormController::class, 'index'])->name('index');
     Route::post('/create', [HRFormController::class, 'store'])->name('store');
     Route::delete('/delete/{id}', [HRFormController::class, 'destroy'])->name('destroy');
@@ -176,4 +176,8 @@ Route::prefix('hr-forms')->name('hrforms.')->group(function () {
 });
 
 // Calendar Routes
-Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
+Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function () {
+    Route::get('/', [CalendarController::class, 'index'])->name('index');
+    Route::post('/create', [CalendarController::class, 'store'])->name('store');
+    Route::delete('/delete/{id}', [CalendarController::class, 'destroy'])->name('destroy');
+});
