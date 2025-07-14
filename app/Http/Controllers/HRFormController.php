@@ -48,4 +48,10 @@ class HRFormController extends Controller
 
         return redirect()->back()->with('success', 'Form deleted successfully.');
     }
+
+    public function download($id)
+    {
+        $form = HRForm::findOrFail($id);
+        return Storage::disk('public')->download($form->file_path);
+    }
 }
