@@ -131,7 +131,7 @@
 
   <!-- Nav Item - HR Forms -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+    <a class="nav-link custom-active" href="{{ route('hrforms.index')}}">
       <i class="fas fa-fw fa-circle-user"></i>
       <span>HR Forms</span>
     </a>
