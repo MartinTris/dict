@@ -123,7 +123,7 @@
 
   <!-- Nav Item - Calendar of Activities -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+    <a class="nav-link custom-active" href="{{ route('calendar')}}">
       <i class="fas fa-fw fa-circle-user"></i>
       <span>Calendar of Activities</span>
     </a>

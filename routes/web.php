@@ -11,6 +11,8 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
 use App\Http\Controllers\HRFormController;
+use App\Http\Controllers\CalendarController;
+
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -38,6 +40,8 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
 Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+
+
 
 // Tech4ED Routes
 Route::get('/tech4ed', [App\Http\Controllers\Tech4edController::class, 'index'])->name('tech4ed');
@@ -170,3 +174,6 @@ Route::prefix('hr-forms')->name('hrforms.')->group(function () {
     Route::get('/download/{id}', [HRFormController::class, 'download'])->name('download');
     Route::get('/view/{id}', [HRFormController::class, 'view'])->name('view');
 });
+
+// Calendar Routes
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
