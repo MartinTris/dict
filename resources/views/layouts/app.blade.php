@@ -20,9 +20,9 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  @yield('styles') <!-- Add this line for custom styles -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  @yield('styles') <!-- Custom styles -->
+  {{--@yield('styles')  Custom styles --}}
+  @stack('styles') <!-- Stack for additional styles -->
 </head>
 
 <body id="page-top">
@@ -87,7 +87,7 @@
   <!-- Page level plugins -->
   <script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  @yield('scripts') <!-- Add this line for custom scripts -->
+  @stack('scripts')
 </body>
 
 </html>

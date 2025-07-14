@@ -179,5 +179,11 @@ Route::middleware('auth')->prefix('hr-forms')->name('hrforms.')->group(function 
 Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::post('/create', [CalendarController::class, 'store'])->name('store');
-    Route::delete('/delete/{id}', [CalendarController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('destroy');
+    Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
+    Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
+});
+
+Route::get('/test', function () {
+    return view('calendar.test');
 });
