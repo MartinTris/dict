@@ -1,88 +1,96 @@
 <style>
-/* Sidebar styles */
-.navbar-nav.sidebar {
-    background: #003566 !important; /* Set the main background color */
-    background-image: none !important; /* Remove any gradient */
-}
+  /* Sidebar styles */
+  .navbar-nav.sidebar {
+    background: #003566 !important;
+    /* Set the main background color */
+    background-image: none !important;
+    /* Remove any gradient */
+  }
 
-/* Sidebar brand (header) area */
-.sidebar-brand {
+  /* Sidebar brand (header) area */
+  .sidebar-brand {
     background: #003566 !important;
     color: white !important;
-}
+  }
 
-/* Links and items styling */
-.nav-link,
-.collapse-item {
+  /* Links and items styling */
+  .nav-link,
+  .collapse-item {
     color: white !important;
     text-decoration: none !important;
-}
+  }
 
-.nav-link:hover,
-.collapse-item:hover {
+  .nav-link:hover,
+  .collapse-item:hover {
     background-color: #0056b3 !important;
     color: white !important;
-}
+  }
 
-/* Dropdown container background */
-.collapse-inner {
+  /* Dropdown container background */
+  .collapse-inner {
     background-color: #003566 !important;
-}
+  }
 
-/* Dividers */
-.sidebar-divider {
+  /* Dividers */
+  .sidebar-divider {
     border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
+  }
 
-/* Remove focus outline */
-.nav-link:focus,
-.collapse-item:focus {
+  /* Remove focus outline */
+  .nav-link:focus,
+  .collapse-item:focus {
     outline: none !important;
-}
+  }
 
-/* Override any existing gradient classes */
-.bg-gradient-primary {
+  /* Override any existing gradient classes */
+  .bg-gradient-primary {
     background-color: #003566 !important;
     background-image: none !important;
-}
+  }
 
-/* Collapse menu background */
-#sidebarMenu .collapse,
-#sidebarMenu .collapsing {
+  /* Collapse menu background */
+  #sidebarMenu .collapse,
+  #sidebarMenu .collapsing {
     background-color: #003566 !important;
-}
+  }
 
-/* Logo styles */
-.sidebar-logo-mini {
+  /* Logo styles */
+  .sidebar-logo-mini {
     display: none;
-}
-.sidebar-logo-full {
-    display: inline;
-}
-.sidebar.toggled .sidebar-logo-full {
-    display: none !important;
-}
-.sidebar.toggled .sidebar-logo-mini {
-    display: inline !important;
-}
+  }
 
-/* Show mini logo and hide full logo on small screens */
-@media (max-width: 768px) {
+  .sidebar-logo-full {
+    display: inline;
+  }
+
+  .sidebar.toggled .sidebar-logo-full {
+    display: none !important;
+  }
+
+  .sidebar.toggled .sidebar-logo-mini {
+    display: inline !important;
+  }
+
+  /* Show mini logo and hide full logo on small screens */
+  @media (max-width: 768px) {
     .sidebar-logo-full {
-        display: none !important;
+      display: none !important;
     }
+
     .sidebar-logo-mini {
-        display: inline !important;
+      display: inline !important;
     }
-}
+  }
 </style>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark" id="sidebarMenu">
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
     <span class="sidebar-brand-icon">
-      <img src="{{ asset('images/DICTMS_Logo.png') }}" alt="DICT Monitoring System Logo" style="height: 80px;" class="sidebar-logo-full">
-      <img src="{{ asset('images/DICT_Logo.png') }}" alt="DICT Logo" style="height: 50px; display: none;" class="sidebar-logo-mini">
+      <img src="{{ asset('images/DICTMS_Logo.png') }}" alt="DICT Monitoring System Logo" style="height: 80px;"
+        class="sidebar-logo-full">
+      <img src="{{ asset('images/DICT_Logo.png') }}" alt="DICT Logo" style="height: 50px; display: none;"
+        class="sidebar-logo-mini">
     </span>
   </a>
 
@@ -96,9 +104,6 @@
       <span>Overview</span>
     </a>
   </li>
-
-
- 
 
   <!-- Nav Item - Profile -->
   <li class="nav-item">
@@ -116,12 +121,28 @@
     </a>
   </li>
 
+  <!-- Nav Item - Calendar of Activities -->
+  <li class="nav-item">
+    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+      <i class="fas fa-fw fa-circle-user"></i>
+      <span>Calendar of Activities</span>
+    </a>
+  </li>
+
+  <!-- Nav Item - HR Forms -->
+  <li class="nav-item">
+    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+      <i class="fas fa-fw fa-circle-user"></i>
+      <span>HR Forms</span>
+    </a>
+  </li>
   <!-- Divider -->
   <hr class="sidebar-divider">
 
   <!-- Sidebar - CREATE -->
   <li class="nav-item">
-    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseCreate" aria-expanded="false" aria-controls="collapseCreate">
+    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseCreate"
+      aria-expanded="false" aria-controls="collapseCreate">
       <span>CONNECT</span>
     </a>
     <div id="collapseCreate" class="collapse">
@@ -134,7 +155,8 @@
 
   <!-- Sidebar - HARNESS -->
   <li class="nav-item">
-    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseHarness" aria-expanded="false" aria-controls="collapseHarness">
+    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseHarness"
+      aria-expanded="false" aria-controls="collapseHarness">
       <span>HARNESS</span>
     </a>
     <div id="collapseHarness" class="collapse">
@@ -148,7 +170,8 @@
 
   <!-- Sidebar - INNOVATE -->
   <li class="nav-item">
-    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseInnovate" aria-expanded="false" aria-controls="collapseInnovate">
+    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseInnovate"
+      aria-expanded="false" aria-controls="collapseInnovate">
       <span>INNOVATE</span>
     </a>
     <div id="collapseInnovate" class="collapse">
@@ -163,12 +186,13 @@
 
   <!-- Sidebar - PROTECT -->
   <li class="nav-item">
-    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseProtect" aria-expanded="false" aria-controls="collapseProtect">
+    <a class="nav-link collapsed custom-active" href="#" data-toggle="collapse" data-target="#collapseProtect"
+      aria-expanded="false" aria-controls="collapseProtect">
       <span>PROTECT</span>
     </a>
     <div id="collapseProtect" class="collapse">
       <div class="collapse-inner">
-      <a class="collapse-item custom-active" href="{{ route('gecs') }}">GECS</a>
+        <a class="collapse-item custom-active" href="{{ route('gecs') }}">GECS</a>
         <a class="collapse-item custom-active" href="{{ route('cybersecurity') }}">Cybersecurity</a>
         <a class="collapse-item custom-active" href="{{ route('pnpki') }}">PNPKI</a>
       </div>
