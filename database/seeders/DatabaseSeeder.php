@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             RegionProvinceSeeder::class,
+            HrFormsCategorySeeder::class,
         ]);
     }
 }

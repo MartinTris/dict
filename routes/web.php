@@ -150,7 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/fw4a/{fw4a}', [Fw4aController::class, 'destroy'])->name('fw4a.destroy');
 });
 
-/*forms*/
+/*endpoints for fw4a location*/
 Route::get('/get-provinces/{region_id}', [LocationController::class, 'getProvinces']);
 Route::get('/get-districts/{province_id}', [LocationController::class, 'getDistricts']);
 Route::get('/get-localities/{district_id}', [LocationController::class, 'getLocalities']);
@@ -163,6 +163,15 @@ Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
 
 // Spark Routes
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
+
+//HR Form Routes
+use App\Http\Controllers\HRFormController;
+
+Route::prefix('hr-forms')->name('hrforms.')->group(function () {
+    Route::get('/', [HRFormController::class, 'index'])->name('index');
+    Route::get('/download/{id}', [HRFormController::class, 'download'])->name('download');
+    Route::get('/view/{id}', [HRFormController::class, 'view'])->name('view');
+});
 
 // Calendar Routes
 Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
