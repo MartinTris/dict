@@ -11,11 +11,20 @@ class Fw4aController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $fw4as = Fw4a::with(['region', 'province', 'district', 'locality'])
-            ->orderBy('site_code')
-            ->paginate(10);
+        $query = Fw4a::with(['region', 'province', 'district', 'locality']);
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('site_code', 'like', "%$search%")
+                  ->orWhere('ap_mac_address', 'like', "%$search%")
+                  ->orWhere('site_name', 'like', "%$search%")
+                  ->orWhere('contractor', 'like', "%$search%");
+            });
+        }
+    
+        $fw4as = $query->paginate(10)->withQueryString(); 
         $regions = Region::all();
         return view('connect.fw4a.fw4a', compact('fw4as','regions'));
     }

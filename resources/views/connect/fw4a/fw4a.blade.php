@@ -3,7 +3,7 @@
 @include('connect.fw4a.edit')
 @section('contents')
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">FW4A Management</h1>
+        <h1 class="h3 mb-4 text-gray-800">FW4A Site Management</h1>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -25,6 +25,21 @@
             </div>
 
             <div class="card-body">
+                <form method="GET" action="{{ route('fw4a') }}" class="mb-3 d-flex flex-wrap gap-2 justify-content-between">
+                    <div class="input-group">
+                        <input type="text" name="search" id="searchInput" class="form-control"
+                            placeholder="Search site code, name, or contractor..." value="{{ request('search') }}">
+                        @if(request('search'))
+                            <a href="{{ route('fw4a') }}" class="btn btn-outline-secondary" style="border-color: #ced4da;">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        @endif
+                        <button class="btn text-white" type="submit" style="background-color: #003566;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover nowrap w-100" id="dataTable">
                         <thead class="thead-dark">
@@ -95,6 +110,41 @@
 
     <!-- Styling -->
     <style>
+        #searchInput {
+            padding-right: 2.5rem;
+        }
+
+        #clearSearchBtn {
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            #clearSearchBtn {
+                right: 2.5rem;
+            }
+        }
+
+        .pagination {
+            margin: 0;
+        }
+
+        .pagination .page-item .page-link {
+            color: #003566;
+            border-radius: 6px;
+            margin: 0 2px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #003566;
+            border-color: #003566;
+            color: white;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #aaa;
+        }
+
         /* Ensure proper alignment */
         .table th,
         .table td {
@@ -104,6 +154,17 @@
         }
 
         /* Responsive tweaks */
+        @media (max-width: 768px) {
+            form.mb-3.d-flex {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .input-group {
+                width: 100% !important;
+            }
+        }
+
         @media (max-width: 768px) {
             .card-header .btn {
                 width: 100%;
