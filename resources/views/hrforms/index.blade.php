@@ -47,7 +47,7 @@
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     <div>{{ $form->title }}</div>
                                                     <div>
-                                                        <a href="{{ Storage::url($form->file_path) }} "
+                                                        <a href="{{ route('hrforms.download', $form->id) }} "
                                                             class="btn btn-sm btn-success" style="background-color: #003566;">
                                                             <i class="fas fa-download"></i> Download
                                                         </a>
