@@ -147,7 +147,16 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                events: '{{ route('calendar.fetch') }}',
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    $.when(
+                        $.get('{{ route('calendar.fetch') }}'),      // user events
+                        $.get('{{ route('holidays.fetch') }}', { year: new Date().getFullYear() }) // holiday events
+                    ).done(function (userEvents, holidayEvents) {
+                        // $.when returns arrays: [data, status, xhr]
+                        const merged = [...userEvents[0], ...holidayEvents[0]];
+                        successCallback(merged);
+                    }).fail(failureCallback);
+                },
 
                 select: function (info) {
                     resetModal();
@@ -172,6 +181,16 @@
 
                 eventDidMount: function (info) {
                     var tooltipText = '<b>' + info.event.title + '</b>';
+                    if (info.event.extendedProps.isHoliday) {
+                        info.el.style.backgroundColor = 'rgba(255, 0, 0, 0.9)'; // Semi-transparent red background
+                        info.el.style.color = 'black';
+                        info.el.style.fontWeight = 'bold';
+                        info.el.style.textAlign = 'center';
+                        info.el.style.lineHeight = '30px'; 
+                        info.el.style.fontSize = '14px';  
+                        info.el.style.padding = '10px 5px'; 
+                        info.el.style.zIndex = 10;
+                    }
                     if (info.event.extendedProps.description) {
                         tooltipText += '<br>' + info.event.extendedProps.description;
                     }
@@ -229,15 +248,15 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <strong>${e.title}</strong>
-                            <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                        </div>
-                        <div>
-                            <small>${new Date(e.start).toLocaleString()}</small>
-                            ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-                        </div>
-                    </li>`
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>${e.title}</strong>
+                                                <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                            </div>
+                                            <div>
+                                                <small>${new Date(e.start).toLocaleString()}</small>
+                                                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+                                            </div>
+                                        </li>`
                         );
                     });
                 }

@@ -176,6 +176,7 @@ Route::middleware('auth')->prefix('hr-forms')->name('hrforms.')->group(function 
 });
 
 // Calendar Routes
+Route::get('/holidays', [\App\Http\Controllers\HolidayController::class, 'fetch'])->name('holidays.fetch');
 Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function () {
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::post('/create', [CalendarController::class, 'store'])->name('store');
