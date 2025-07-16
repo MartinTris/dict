@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
+    
     <style>
         #calendar {
             min-height: 600px;
@@ -30,7 +31,7 @@
         }
 
         .btn-primary {
-            background-color: #1A73E8;
+            background-color: #35478c;
             border: none;
             border-radius: .3rem;
         }
@@ -49,6 +50,42 @@
             #calendar {
                 padding: .5rem;
             }
+        }
+        /* Override all text elements in FullCalendar */
+        .fc,
+        .fc-daygrid-day-number,
+        .fc-col-header-cell,
+        .fc-event,
+        .fc-event-title,
+        .fc-event-time,
+        .fc-button,
+        .fc-toolbar-title {
+            color: rgb(9, 14, 69) !important;
+        }
+
+        /* Ensure links (like day numbers) are black and not blue */
+        .fc a,
+        .fc-daygrid-day-number a,
+        .fc-col-header-cell a {
+            color: rgb(9, 14, 69) !important;
+            text-decoration: none !important;
+            /* Optional: Remove underlines if present */
+        }
+
+        /* Ensure buttons in the toolbar (prev, next, today) are black */
+        .fc-button {
+            color: rgb(9, 14, 69) !important;
+            background-color: #f8f9fa !important;
+            /* Optional: Light background for contrast */
+            border-color: #ddd !important;
+            /* Optional: Light border for contrast */
+        }
+
+        /* Ensure active/hover states for buttons don't change text color */
+        .fc-button:hover,
+        .fc-button:active,
+        .fc-button.fc-button-active {
+            color: rgb(9, 14, 69) !important;
         }
     </style>
 @endpush
@@ -104,8 +141,8 @@
                             <input type="datetime-local" class="form-control" id="eventEnd" required>
                         </div>
                         <div class="mb-3">
-                            <label for="eventDescription" class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                            <label for="eventDescription" class="form-label fw-semibold">Location</label>
+                            <input class="form-control" id="eventDescription" rows="3"></input>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between px-4 pb-4">
@@ -182,13 +219,15 @@
                 eventDidMount: function (info) {
                     var tooltipText = '<b>' + info.event.title + '</b>';
                     if (info.event.extendedProps.isHoliday) {
-                        info.el.style.backgroundColor = 'rgba(255, 0, 0, 0.9)'; // Semi-transparent red background
-                        info.el.style.color = 'black';
-                        info.el.style.fontWeight = 'bold';
+
+                        info.el.style.backgroundColor = 'rgba(205, 223, 249, 0.5)'; 
+                        info.el.style.color = 'rgb(22, 25, 59)';
+                        info.el.style.opacity = '1';
+                        //info.el.style.fontWeight = 'bold';
                         info.el.style.textAlign = 'center';
-                        info.el.style.lineHeight = '30px'; 
-                        info.el.style.fontSize = '14px';  
-                        info.el.style.padding = '10px 5px'; 
+                        info.el.style.lineHeight = '20px'; 
+                        info.el.style.fontSize = '16px';  
+                        info.el.style.padding = '15px 10px'; 
                         info.el.style.zIndex = 10;
                     }
                     if (info.event.extendedProps.description) {
@@ -248,15 +287,15 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <strong>${e.title}</strong>
-                                                <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                            </div>
-                                            <div>
-                                                <small>${new Date(e.start).toLocaleString()}</small>
-                                                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-                                            </div>
-                                        </li>`
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <strong>${e.title}</strong>
+                                    <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                </div>
+                                <div>
+                                    <small>${new Date(e.start).toLocaleString()}</small>
+                                    ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.description}</span>` : ''}
+                                </div>
+                            </li>`
                         );
                     });
                 }
