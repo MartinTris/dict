@@ -38,6 +38,12 @@
             border-radius: .3rem;
         }
 
+        #upcomingEvents {
+            max-height: 600px;
+            overflow-y: auto;
+            font-size: 0.95rem;
+        }
+
         @media(max-width: 768px) {
             #calendar {
                 padding: .5rem;
@@ -48,7 +54,19 @@
 
 @section('contents')
     <div class="container py-3">
-        <div id="calendar"></div>
+        <div class="row">
+            <div class="col-md-9">
+                <div id="calendar"></div>
+            </div>
+            <div class="col-md-3">
+                <div id="upcomingEvents" class="bg-white rounded shadow-sm p-3" style="min-height:600px;">
+                    <h6 class="fw-bold mb-3">Upcoming Events</h6>
+                    <ul class="list-group" id="upcomingEventsList">
+                        <!-- Events will be injected here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Event Modal -->
@@ -97,7 +115,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'bottom-end',
@@ -121,7 +139,7 @@
                 },
                 events: '{{ route('calendar.fetch') }}',
 
-                select: function (info) {
+                select: function(info) {
                     resetModal();
                     const clickedDate = info.startStr + 'T08:00';
                     document.getElementById('eventStart').value = clickedDate;
@@ -129,18 +147,21 @@
                     eventModal.show();
                 },
 
-                eventClick: function (info) {
+                eventClick: function(info) {
                     resetModal();
                     document.getElementById('eventId').value = info.event.id;
                     document.getElementById('eventTitle').value = info.event.title;
-                    document.getElementById('eventStart').value = info.event.start.toISOString().slice(0, 16);
-                    document.getElementById('eventEnd').value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
-                    document.getElementById('eventDescription').value = info.event.extendedProps.description || '';
+                    document.getElementById('eventStart').value = info.event.start.toISOString().slice(
+                        0, 16);
+                    document.getElementById('eventEnd').value = info.event.end ? info.event.end
+                        .toISOString().slice(0, 16) : '';
+                    document.getElementById('eventDescription').value = info.event.extendedProps
+                        .description || '';
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
 
-                eventDidMount: function (info) {
+                eventDidMount: function(info) {
                     var tooltipText = '<b>' + info.event.title + '</b>';
                     if (info.event.extendedProps.description) {
                         tooltipText += '<br>' + info.event.extendedProps.description;
@@ -156,9 +177,43 @@
                 }
             });
 
-            calendar.render();
+            function loadUpcomingEvents() {
+                $.ajax({
+                    url: '{{ route('calendar.fetch') }}',
+                    method: 'GET',
+                    success: function(events) {
+                        // Filter for upcoming events (today or later)
+                        const now = new Date();
+                        const upcoming = events.filter(e => new Date(e.start) >= now);
+                        upcoming.sort((a, b) => new Date(a.start) - new Date(b.start));
+                        const list = $('#upcomingEventsList');
+                        list.empty();
+                        if (upcoming.length === 0) {
+                            list.append(
+                                '<li class="list-group-item text-muted">No upcoming events.</li>');
+                        } else {
+                            upcoming.forEach(e => {
+                                list.append(
+                                    `<li class="list-group-item">
+                                        <strong>${e.title}</strong><br>
+                                        <small>${new Date(e.start).toLocaleString()}</small>
+                                        ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+                                    </li>`
+                                );
+                            });
+                        }
+                    }
+                });
+            }
 
-            eventForm.addEventListener('submit', function (e) {
+            calendar.render();
+            loadUpcomingEvents();
+
+            calendar.on('eventAdd', loadUpcomingEvents);
+            calendar.on('eventChange', loadUpcomingEvents);
+            calendar.on('eventRemove', loadUpcomingEvents);
+
+            eventForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 const eventId = document.getElementById('eventId').value;
@@ -167,7 +222,7 @@
                 const end = document.getElementById('eventEnd').value;
                 const description = document.getElementById('eventDescription').value;
 
-                let url = eventId ? '/calendar/' + eventId : '{{ route("calendar.store") }}';
+                let url = eventId ? '/calendar/' + eventId : '{{ route('calendar.store') }}';
                 let method = eventId ? 'PUT' : 'POST';
 
                 $.ajax({
@@ -175,9 +230,12 @@
                     method: method,
                     data: {
                         _token: '{{ csrf_token() }}',
-                        title, start, end, description
+                        title,
+                        start,
+                        end,
+                        description
                     },
-                    success: function () {
+                    success: function() {
                         calendar.refetchEvents();
                         eventModal.hide();
                         Toast.fire({
@@ -185,13 +243,13 @@
                             title: eventId ? 'Event updated' : 'Event added'
                         });
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire('Error', 'Failed to save event.', 'error');
                     }
                 });
             });
 
-            deleteEventBtn.addEventListener('click', function () {
+            deleteEventBtn.addEventListener('click', function() {
                 var eventId = document.getElementById('eventId').value;
                 if (!eventId) return;
 
@@ -207,8 +265,10 @@
                         $.ajax({
                             url: '/calendar/' + eventId,
                             method: 'DELETE',
-                            data: { _token: '{{ csrf_token() }}' },
-                            success: function () {
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function() {
                                 calendar.refetchEvents();
                                 eventModal.hide();
                                 Toast.fire({
@@ -216,7 +276,7 @@
                                     title: 'Event deleted'
                                 });
                             },
-                            error: function () {
+                            error: function() {
                                 Swal.fire('Error', 'Failed to delete event.', 'error');
                             }
                         });
