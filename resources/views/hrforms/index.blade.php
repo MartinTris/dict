@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @include('hrforms.create')
+@push('styles')
+    <style>
+        .accordion-button {
+            transition: background-color 0.1s ease;
+        }
+    </style>
+@endpush
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">HR Forms Library</h1>
@@ -83,9 +90,10 @@
         $(document).on('click', '.delete-btn', function (e) {
             e.preventDefault();
             const form = $(this).closest('form');
+            const formTitle = $(this).closest('.list-group-item').find('div').first().text();
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This action cannot be undone.",
+                html: `You are about to delete <span style="color: red; font-style: italic; font-style: underline;">${formTitle}</span>. This action cannot be undone.`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
