@@ -125,7 +125,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'bottom-end',
@@ -149,7 +149,7 @@
                 },
                 events: '{{ route('calendar.fetch') }}',
 
-                select: function(info) {
+                select: function (info) {
                     resetModal();
                     const clickedDate = info.startStr + 'T08:00';
                     document.getElementById('eventStart').value = clickedDate;
@@ -157,7 +157,7 @@
                     eventModal.show();
                 },
 
-                eventClick: function(info) {
+                eventClick: function (info) {
                     resetModal();
                     document.getElementById('eventId').value = info.event.id;
                     document.getElementById('eventTitle').value = info.event.title;
@@ -171,7 +171,7 @@
                     eventModal.show();
                 },
 
-                eventDidMount: function(info) {
+                eventDidMount: function (info) {
                     var tooltipText = '<b>' + info.event.title + '</b>';
                     if (info.event.extendedProps.description) {
                         tooltipText += '<br>' + info.event.extendedProps.description;
@@ -193,7 +193,7 @@
                 $.ajax({
                     url: '{{ route('calendar.fetch') }}',
                     method: 'GET',
-                    success: function(events) {
+                    success: function (events) {
                         const now = new Date();
                         let filteredEvents = events;
 
@@ -230,25 +230,26 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-                <strong>${e.title}</strong>
-                <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-            </div>
-            <div>
-                <small>${new Date(e.start).toLocaleString()}</small>
-                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-            </div>
-        </li>`
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>${e.title}</strong>
+                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                    </div>
+                    <div>
+                        <small>${new Date(e.start).toLocaleString()}</small>
+                        ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+                    </div>
+                </li>`
                         );
                     });
                 }
                 // Attach event handlers after rendering
-                $('.delete-event-btn').off('click').on('click', function() {
+                $('.delete-event-btn').off('click').on('click', function () {
                     const eventId = $(this).data('id');
+                    const formTitle = $(this).closest('.list-group-item').find('div').first().text();
                     if (!eventId) return;
                     Swal.fire({
                         title: 'Delete event?',
-                        text: 'This action cannot be undone.',
+                        html: `You are about to delete <span style="color: red; font-style: italic; font-style: underline;">${formTitle}</span>. This action cannot be undone.`,
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
@@ -264,7 +265,7 @@
                                 data: {
                                     _token: '{{ csrf_token() }}'
                                 },
-                                success: function() {
+                                success: function () {
                                     calendar.refetchEvents();
                                     loadUpcomingEvents($('#eventDateFilter').val());
                                     Toast.fire({
@@ -272,7 +273,7 @@
                                         title: 'Event deleted'
                                     });
                                 },
-                                error: function() {
+                                error: function () {
                                     Swal.fire('Error', 'Failed to delete event.',
                                         'error');
                                 }
@@ -282,7 +283,7 @@
                 });
             }
 
-            $('#eventDateFilter').on('change', function() {
+            $('#eventDateFilter').on('change', function () {
                 const filterValue = $(this).val();
                 loadUpcomingEvents(filterValue);
             });
@@ -294,7 +295,7 @@
             calendar.on('eventChange', loadUpcomingEvents);
             calendar.on('eventRemove', loadUpcomingEvents);
 
-            eventForm.addEventListener('submit', function(e) {
+            eventForm.addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 const eventId = document.getElementById('eventId').value;
@@ -316,7 +317,7 @@
                         end,
                         description
                     },
-                    success: function() {
+                    success: function () {
                         calendar.refetchEvents();
                         eventModal.hide();
                         Toast.fire({
@@ -324,13 +325,13 @@
                             title: eventId ? 'Event updated' : 'Event added'
                         });
                     },
-                    error: function() {
+                    error: function () {
                         Swal.fire('Error', 'Failed to save event.', 'error');
                     }
                 });
             });
 
-            deleteEventBtn.addEventListener('click', function() {
+            deleteEventBtn.addEventListener('click', function () {
                 var eventId = document.getElementById('eventId').value;
                 if (!eventId) return;
 
@@ -349,7 +350,7 @@
                             data: {
                                 _token: '{{ csrf_token() }}'
                             },
-                            success: function() {
+                            success: function () {
                                 calendar.refetchEvents();
                                 eventModal.hide();
                                 Toast.fire({
@@ -357,7 +358,7 @@
                                     title: 'Event deleted'
                                 });
                             },
-                            error: function() {
+                            error: function () {
                                 Swal.fire('Error', 'Failed to delete event.', 'error');
                             }
                         });
