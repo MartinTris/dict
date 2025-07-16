@@ -27,6 +27,11 @@ class HolidayController extends Controller
                 'allDay' => true,
                 'display' => 'background',
                 'isHoliday' => true,
+                'rrule' => [//make the holidays repeat yearly
+                    'freq' => 'yearly', 
+                    'byMonth' => date('m', strtotime($date)),
+                    'byDay' => date('d', strtotime($date)) 
+                ]
             ];
         }
 
