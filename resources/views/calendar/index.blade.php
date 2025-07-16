@@ -3,6 +3,7 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
         #calendar {
@@ -229,13 +230,56 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                                <strong>${e.title}</strong><br>
-                                <small>${new Date(e.start).toLocaleString()}</small>
-                                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-                            </li>`
+            <div class="d-flex justify-content-between align-items-center">
+                <strong>${e.title}</strong>
+                <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+            </div>
+            <div>
+                <small>${new Date(e.start).toLocaleString()}</small>
+                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+            </div>
+        </li>`
                         );
                     });
                 }
+                // Attach event handlers after rendering
+                $('.delete-event-btn').off('click').on('click', function() {
+                    const eventId = $(this).data('id');
+                    if (!eventId) return;
+                    Swal.fire({
+                        title: 'Delete event?',
+                        text: 'This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '/calendar/' + eventId,
+                                method: 'DELETE',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function() {
+                                    calendar.refetchEvents();
+                                    loadUpcomingEvents($('#eventDateFilter').val());
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Event deleted'
+                                    });
+                                },
+                                error: function() {
+                                    Swal.fire('Error', 'Failed to delete event.',
+                                        'error');
+                                }
+                            });
+                        }
+                    });
+                });
             }
 
             $('#eventDateFilter').on('change', function() {
