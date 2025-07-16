@@ -88,6 +88,7 @@
   <script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   @stack('scripts')
+  @yield('scripts') <!-- Stack for additional scripts -->
 </body>
 
 </html>
