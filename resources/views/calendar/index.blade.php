@@ -59,11 +59,20 @@
                 <div id="calendar"></div>
             </div>
             <div class="col-md-3">
-                <div id="upcomingEvents" class="bg-white rounded shadow-sm p-3" style="min-height:600px;">
+                <div class="bg-white rounded shadow-sm p-3" style="min-height:600px;">
                     <h6 class="fw-bold mb-3">Upcoming Events</h6>
-                    <ul class="list-group" id="upcomingEventsList">
-                        <!-- Events will be injected here -->
-                    </ul>
+                    <div class="mb-2">
+                        <select id="eventDateFilter" class="form-select form-select-sm">
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div id="upcomingEvents" style="max-height: 540px; overflow-y: auto;">
+                        <ul class="list-group" id="upcomingEventsList">
+                            <!-- Events will be injected here -->
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,34 +186,62 @@
                 }
             });
 
-            function loadUpcomingEvents() {
+            let upcomingEventsCache = [];
+
+            function loadUpcomingEvents(filter = 'week') {
                 $.ajax({
                     url: '{{ route('calendar.fetch') }}',
                     method: 'GET',
                     success: function(events) {
-                        // Filter for upcoming events (today or later)
                         const now = new Date();
-                        const upcoming = events.filter(e => new Date(e.start) >= now);
-                        upcoming.sort((a, b) => new Date(a.start) - new Date(b.start));
-                        const list = $('#upcomingEventsList');
-                        list.empty();
-                        if (upcoming.length === 0) {
-                            list.append(
-                                '<li class="list-group-item text-muted">No upcoming events.</li>');
-                        } else {
-                            upcoming.forEach(e => {
-                                list.append(
-                                    `<li class="list-group-item">
-                                        <strong>${e.title}</strong><br>
-                                        <small>${new Date(e.start).toLocaleString()}</small>
-                                        ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-                                    </li>`
-                                );
-                            });
+                        let filteredEvents = events;
+
+                        if (filter === 'week') {
+                            const nextWeek = new Date();
+                            nextWeek.setDate(now.getDate() + 7);
+                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
+                                .start) <= nextWeek);
+                        } else if (filter === 'month') {
+                            const nextMonth = new Date();
+                            nextMonth.setMonth(now.getMonth() + 1);
+                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
+                                .start) <= nextMonth);
+                        } else if (filter === 'year') {
+                            const nextYear = new Date();
+                            nextYear.setFullYear(now.getFullYear() + 1);
+                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
+                                .start) <= nextYear);
                         }
+
+                        filteredEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+                        upcomingEventsCache = filteredEvents; // cache for filtering
+                        renderUpcomingEvents(filteredEvents);
                     }
                 });
             }
+
+            function renderUpcomingEvents(events) {
+                const list = $('#upcomingEventsList');
+                list.empty();
+                if (events.length === 0) {
+                    list.append('<li class="list-group-item text-muted">No upcoming events.</li>');
+                } else {
+                    events.forEach(e => {
+                        list.append(
+                            `<li class="list-group-item">
+                                <strong>${e.title}</strong><br>
+                                <small>${new Date(e.start).toLocaleString()}</small>
+                                ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+                            </li>`
+                        );
+                    });
+                }
+            }
+
+            $('#eventDateFilter').on('change', function() {
+                const filterValue = $(this).val();
+                loadUpcomingEvents(filterValue);
+            });
 
             calendar.render();
             loadUpcomingEvents();
