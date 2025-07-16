@@ -153,10 +153,9 @@
                     resetModal();
                     const clickedDate = info.startStr + 'T08:00';
                     document.getElementById('eventStart').value = clickedDate;
-                    document.getElementById('eventEnd').value = clickedDate;
                     eventModal.show();
                 },
-
+                nextDayThreshold: '12:00',
                 eventClick: function (info) {
                     resetModal();
                     document.getElementById('eventId').value = info.event.id;
@@ -230,15 +229,15 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <strong>${e.title}</strong>
-                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                    </div>
-                    <div>
-                        <small>${new Date(e.start).toLocaleString()}</small>
-                        ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
-                    </div>
-                </li>`
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${e.title}</strong>
+                            <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                        </div>
+                        <div>
+                            <small>${new Date(e.start).toLocaleString()}</small>
+                            ${e.description ? `<br><span class="text-muted">${e.description}</span>` : ''}
+                        </div>
+                    </li>`
                         );
                     });
                 }
