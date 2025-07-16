@@ -3,41 +3,84 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <style>
+        #calendar {
+            min-height: 600px;
+            height: auto;
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .modal-content {
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header,
+        .modal-footer {
+            border: none;
+        }
+
+        .form-control {
+            border-radius: .75rem;
+        }
+
+        .btn-primary {
+            background-color: #1A73E8;
+            border: none;
+            border-radius: .3rem;
+        }
+
+        .btn-danger {
+            border-radius: .3rem;
+        }
+
+        @media(max-width: 768px) {
+            #calendar {
+                padding: .5rem;
+            }
+        }
+    </style>
 @endpush
 
 @section('contents')
-    <div id="calendar" style="height: 800px;"></div>
+    <div class="container py-3">
+        <div id="calendar"></div>
+    </div>
 
     <!-- Event Modal -->
     <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="eventForm">
+        <div class="modal-dialog modal-dialog-centered">
+            <form id="eventForm" class="w-100">
                 @csrf
                 <input type="hidden" id="eventId">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eventModalLabel">Add / Edit Event</h5>
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title fw-semibold" id="eventModalLabel">Add / Edit Event</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body px-4">
                         <div class="mb-3">
-                            <label for="eventTitle" class="form-label">Title</label>
+                            <label for="eventTitle" class="form-label fw-semibold">Title</label>
                             <input type="text" class="form-control" id="eventTitle" required>
                         </div>
                         <div class="mb-3">
-                            <label for="eventStart" class="form-label">Start</label>
+                            <label for="eventStart" class="form-label fw-semibold">Start</label>
                             <input type="datetime-local" class="form-control" id="eventStart" required>
                         </div>
                         <div class="mb-3">
-                            <label for="eventEnd" class="form-label">End</label>
+                            <label for="eventEnd" class="form-label fw-semibold">End</label>
                             <input type="datetime-local" class="form-control" id="eventEnd" required>
                         </div>
                         <div class="mb-3">
-                            <label for="eventDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="eventDescription"></textarea>
+                            <label for="eventDescription" class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer justify-content-between px-4 pb-4">
                         <button type="button" id="deleteEventBtn" class="btn btn-danger d-none">Delete</button>
                         <button type="submit" class="btn btn-primary">Save Event</button>
                     </div>
@@ -80,8 +123,9 @@
 
                 select: function (info) {
                     resetModal();
-                    document.getElementById('eventStart').value = info.startStr.slice(0, 16);
-                    document.getElementById('eventEnd').value = info.endStr ? info.endStr.slice(0, 16) : info.startStr.slice(0, 16);
+                    const clickedDate = info.startStr + 'T08:00';
+                    document.getElementById('eventStart').value = clickedDate;
+                    document.getElementById('eventEnd').value = clickedDate;
                     eventModal.show();
                 },
 
@@ -102,7 +146,7 @@
                         tooltipText += '<br>' + info.event.extendedProps.description;
                     }
 
-                    $(info.el).tooltip({
+                    new bootstrap.Tooltip(info.el, {
                         title: tooltipText,
                         html: true,
                         placement: 'top',
@@ -123,28 +167,16 @@
                 const end = document.getElementById('eventEnd').value;
                 const description = document.getElementById('eventDescription').value;
 
-                let url = '';
-                let method = '';
-                let data = {
-                    _token: '{{ csrf_token() }}',
-                    title: title,
-                    start: start,
-                    end: end,
-                    description: description
-                };
-
-                if (eventId) {
-                    url = '/calendar/' + eventId;
-                    method = 'PUT';
-                } else {
-                    url = '{{ route("calendar.store") }}';
-                    method = 'POST';
-                }
+                let url = eventId ? '/calendar/' + eventId : '{{ route("calendar.store") }}';
+                let method = eventId ? 'PUT' : 'POST';
 
                 $.ajax({
                     url: url,
                     method: method,
-                    data: data,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        title, start, end, description
+                    },
                     success: function () {
                         calendar.refetchEvents();
                         eventModal.hide();

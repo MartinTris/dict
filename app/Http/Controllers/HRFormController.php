@@ -52,6 +52,6 @@ class HRFormController extends Controller
     public function download($id)
     {
         $form = HRForm::findOrFail($id);
-        return Storage::disk('public')->download($form->file_path);
+        return response()->download(storage_path('app/public/' . $form->file_path));
     }
 }
