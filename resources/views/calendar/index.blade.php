@@ -63,16 +63,20 @@
             color: rgb(9, 14, 69) !important;
         }
 
-        /* Ensure links (like day numbers) are black and not blue */
+        .fc-event-main-frame {
+            background-color: rgb(172, 240, 242) !important;
+            border-color: rgb(180, 193, 231) !important;
+        }
+        
         .fc a,
         .fc-daygrid-day-number a,
         .fc-col-header-cell a {
             color: rgb(9, 14, 69) !important;
             text-decoration: none !important;
-            /* Optional: Remove underlines if present */
+            
         }
 
-        /* Ensure buttons in the toolbar (prev, next, today) are black */
+        
         .fc-button {
             color: rgb(9, 14, 69) !important;
             background-color: #f8f9fa !important;
@@ -81,7 +85,7 @@
             /* Optional: Light border for contrast */
         }
 
-        /* Ensure active/hover states for buttons don't change text color */
+        
         .fc-button:hover,
         .fc-button:active,
         .fc-button.fc-button-active {
@@ -141,9 +145,14 @@
                             <input type="datetime-local" class="form-control" id="eventEnd" required>
                         </div>
                         <div class="mb-3">
-                            <label for="eventDescription" class="form-label fw-semibold">Location</label>
-                            <input class="form-control" id="eventDescription" rows="3"></input>
+                            <label for="eventLocation" class="form-label fw-semibold">Location</label>
+                            <input class="form-control" id="eventLocation" rows="3"></input>
                         </div>
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label fw-semibold">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3" draggable="true" style="resize: both;"></textarea>
+                        </div>
+
                     </div>
                     <div class="modal-footer justify-content-between px-4 pb-4">
                         <button type="button" id="deleteEventBtn" class="btn btn-danger d-none">Delete</button>
@@ -210,8 +219,8 @@
                         0, 16);
                     document.getElementById('eventEnd').value = info.event.end ? info.event.end
                         .toISOString().slice(0, 16) : '';
-                    document.getElementById('eventDescription').value = info.event.extendedProps
-                        .description || '';
+                    document.getElementById('eventLocation').value = info.event.extendedProps
+                        .location || '';
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
@@ -230,8 +239,8 @@
                         info.el.style.padding = '15px 10px'; 
                         info.el.style.zIndex = 10;
                     }
-                    if (info.event.extendedProps.description) {
-                        tooltipText += '<br>' + info.event.extendedProps.description;
+                    if (info.event.extendedProps.location) {
+                        tooltipText += '<br>' + info.event.extendedProps.location;
                     }
 
                     new bootstrap.Tooltip(info.el, {
@@ -292,8 +301,32 @@
                                     <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
                                 </div>
                                 <div>
-                                    <small>${new Date(e.start).toLocaleString()}</small>
-                                    ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.description}</span>` : ''}
+                                    <div>
+                                        <div class="text-muted">
+                                            <i class="bi bi-calendar-event me-1"></i>
+                                            ${new Date(e.start).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}
+                                            ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}` : ''}
+                                        </div>
+                                        <div class="text-muted">
+                                            <i class="bi bi-clock-fill me-1"></i>
+                                            ${new Date(e.start).toLocaleTimeString('en-US', {
+                                                hour: 'numeric',
+                                                minute: '2-digit'
+                                            })}
+                                            ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
+                                                hour: 'numeric',
+                                                minute: '2-digit'
+                                            })}` : ''}
+                                            ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.description}</span>` : ''}
+                                        </div>
                                 </div>
                             </li>`
                         );
@@ -359,6 +392,7 @@
                 const title = document.getElementById('eventTitle').value;
                 const start = document.getElementById('eventStart').value;
                 const end = document.getElementById('eventEnd').value;
+                const location = document.getElementById('eventLocation').value;
                 const description = document.getElementById('eventDescription').value;
 
                 let url = eventId ? '/calendar/' + eventId : '{{ route('calendar.store') }}';
@@ -372,6 +406,7 @@
                         title,
                         start,
                         end,
+                        location,
                         description
                     },
                     success: function () {
