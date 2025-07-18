@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('fw4a_sites', function (Blueprint $table) {
             $table->id();
-
-            $table->string('site_code')->unique();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('site_code');
+            $table->string('ap_mac_address')->nullable();
             $table->string('site_name');
 
             $table->foreignId('region_id')->constrained('regions');
@@ -22,14 +23,13 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained('districts');
             $table->foreignId('locality_id')->constrained('localities');
 
-            $table->enum('contract_status', ['terminated', 'active', 'for renewal']);
+            $table->string('contract_status')->nullable();
+            $table->string('contract')->nullable();
+            $table->string('category')->nullable();
+            $table->string('contractor')->nullable();
 
-            $table->foreignId('contract_id')->constrained('contracts');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('contractor_id')->constrained('contractors');
-
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
 
             $table->timestamps();
         });
