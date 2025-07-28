@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\CalendarEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CalendarController extends Controller
 {
@@ -18,8 +19,8 @@ class CalendarController extends Controller
             return [
                 'id' => $event->id,
                 'title' => $event->title,
-                'start' => $event->start,
-                'end' => $event->end,
+                'start' => Carbon::parse($event->start)->toIso8601String(),
+                'end' => Carbon::parse($event->end)->toIso8601String(),
                 'description' => $event->description,
                 'location' => $event->location
             ];

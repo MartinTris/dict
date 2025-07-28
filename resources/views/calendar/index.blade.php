@@ -189,6 +189,7 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                timeZone: 'Asia/Manila',
                 selectable: true,
                 headerToolbar: {
                     left: 'prev,next today',
@@ -222,9 +223,9 @@
                     document.getElementById('eventEnd').value = info.event.end ? info.event.end
                         .toISOString().slice(0, 16) : '';
                     document.getElementById('eventLocation').value = info.event.extendedProps
-                        .location || '';
+                        .location ?? '';
                     document.getElementById('eventDescription').value = info.event.extendedProps
-                        .description || '';
+                        .description ?? '';
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
@@ -265,31 +266,31 @@
                     method: 'GET',
                     success: function (events) {
                         const now = new Date();
-                        let filteredEvents = events;
+                        let start = new Date(now);
+                        let end = new Date(now);
 
                         if (filter === 'week') {
-                            const nextWeek = new Date();
-                            nextWeek.setDate(now.getDate() + 7);
-                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
-                                .start) <= nextWeek);
+                            end.setDate(start.getDate() + 7);
                         } else if (filter === 'month') {
-                            const nextMonth = new Date();
-                            nextMonth.setMonth(now.getMonth() + 1);
-                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
-                                .start) <= nextMonth);
+                            start = new Date(now.getFullYear(), now.getMonth(), 1); // start of month
+                            end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59); // end of month
                         } else if (filter === 'year') {
-                            const nextYear = new Date();
-                            nextYear.setFullYear(now.getFullYear() + 1);
-                            filteredEvents = events.filter(e => new Date(e.start) >= now && new Date(e
-                                .start) <= nextYear);
+                            start = new Date(now.getFullYear(), 0, 1); // Jan 1
+                            end = new Date(now.getFullYear(), 11, 31, 23, 59, 59); // Dec 31
                         }
 
+                        const filteredEvents = events.filter(e => {
+                            const eventStart = new Date(e.start);
+                            return eventStart >= start && eventStart <= end;
+                        });
+
                         filteredEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
-                        upcomingEventsCache = filteredEvents; // cache for filtering
+                        upcomingEventsCache = filteredEvents;
                         renderUpcomingEvents(filteredEvents);
                     }
                 });
             }
+
 
             function renderUpcomingEvents(events) {
                 const list = $('#upcomingEventsList');
@@ -300,39 +301,39 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <strong>${e.title}</strong>
-                                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                    </div>
-                                    <div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong>${e.title}</strong>
+                                            <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                        </div>
                                         <div>
-                                            <div class="text-muted">
-                                                <i class="bi bi-calendar-event me-1"></i>
-                                                ${new Date(e.start).toLocaleDateString('en-US', {
+                                            <div>
+                                                <div class="text-muted">
+                                                    <i class="bi bi-calendar-event me-1"></i>
+                                                    ${new Date(e.start).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}
-                                                ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
+                                                    ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}` : ''}
-                                            </div>
-                                            <div class="text-muted">
-                                                <i class="bi bi-clock-fill me-1"></i>
-                                                ${new Date(e.start).toLocaleTimeString('en-US', {
+                                                </div>
+                                                <div class="text-muted">
+                                                    <i class="bi bi-clock-fill me-1"></i>
+                                                    ${new Date(e.start).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}
-                                                ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
+                                                    ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}` : ''}
-                                                ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : ''}
-                                            </div>
-                                    </div>
-                                </li>`
+                                                    ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
+                                                </div>
+                                        </div>
+                                    </li>`
                         );
                     });
                 }
