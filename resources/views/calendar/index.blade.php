@@ -174,6 +174,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'bottom-end',
@@ -300,45 +301,75 @@
                 } else {
                     events.forEach(e => {
                         list.append(
-                            `<li class="list-group-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <strong>${e.title}</strong>
-                                            <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <div class="text-muted">
-                                                    <i class="bi bi-calendar-event me-1"></i>
-                                                    ${new Date(e.start).toLocaleDateString('en-US', {
+                            `<li class="list-group-item upcoming-event-item"
+                                    data-id="${e.id}"
+                                    data-title="${e.title}"
+                                    data-start="${e.start}"
+                                    data-end="${e.end || ''}"
+                                    data-location="${e.location || ''}"
+                                    data-description="${e.description || ''}">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <strong>${e.title}</strong>
+                                                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <div class="text-muted">
+                                                                <i class="bi bi-calendar-event me-1"></i>
+                                                                ${new Date(e.start).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}
-                                                    ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
+                                                                ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}` : ''}
-                                                </div>
-                                                <div class="text-muted">
-                                                    <i class="bi bi-clock-fill me-1"></i>
-                                                    ${new Date(e.start).toLocaleTimeString('en-US', {
+                                                            </div>
+                                                            <div class="text-muted">
+                                                                <i class="bi bi-clock-fill me-1"></i>
+                                                                ${new Date(e.start).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}
-                                                    ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
+                                                                ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}` : ''}
-                                                    ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
-                                                </div>
-                                        </div>
-                                    </li>`
+                                                                ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
+                                                            </div>
+                                                    </div>
+                                                </li>`
                         );
                     });
                 }
+
+                $('.upcoming-event-item').off('click').on('click', function () {
+                    resetModal();
+
+                    // Fill modal with clicked event's data
+                    $('#eventId').val($(this).data('id'));
+                    $('#eventTitle').val($(this).data('title'));
+                    $('#eventStart').val(new Date($(this).data('start')).toISOString().slice(0, 16));
+
+                    const end = $(this).data('end');
+                    if (end) {
+                        $('#eventEnd').val(new Date(end).toISOString().slice(0, 16));
+                    }
+
+                    $('#eventLocation').val($(this).data('location'));
+                    $('#eventDescription').val($(this).data('description'));
+
+                    $('#deleteEventBtn').removeClass('d-none');
+
+                    // Show the modal
+                    eventModal.show();
+                });
+
                 // Attach event handlers after rendering
-                $('.delete-event-btn').off('click').on('click', function () {
+                $('.delete-event-btn').off('click').on('click', function (e) {
+                    e.stopPropagation();
                     const eventId = $(this).data('id');
                     const formTitle = $(this).closest('.list-group-item').find('div').first().text();
                     if (!eventId) return;
@@ -376,6 +407,8 @@
                         }
                     });
                 });
+
+
             }
 
             $('#eventDateFilter').on('change', function () {
