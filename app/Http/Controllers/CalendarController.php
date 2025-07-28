@@ -21,6 +21,7 @@ class CalendarController extends Controller
                 'start' => $event->start,
                 'end' => $event->end,
                 'description' => $event->description,
+                'location' => $event->location
             ];
         });
 
@@ -33,7 +34,8 @@ class CalendarController extends Controller
             'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date|after_or_equal:start',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'location' => 'nullable|string|max:255',
         ]);
 
         $event = CalendarEvent::create($validated);
@@ -47,7 +49,8 @@ class CalendarController extends Controller
             'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date|after_or_equal:start',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'location' => 'nullable|string|max:255',
         ]);
 
         $event = CalendarEvent::findOrFail($id);
