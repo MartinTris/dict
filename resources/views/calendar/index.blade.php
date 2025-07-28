@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    
+
     <style>
         #calendar {
             min-height: 600px;
@@ -51,6 +51,7 @@
                 padding: .5rem;
             }
         }
+
         /* Override all text elements in FullCalendar */
         .fc,
         .fc-daygrid-day-number,
@@ -67,16 +68,16 @@
             background-color: rgb(172, 240, 242) !important;
             border-color: rgb(180, 193, 231) !important;
         }
-        
+
         .fc a,
         .fc-daygrid-day-number a,
         .fc-col-header-cell a {
             color: rgb(9, 14, 69) !important;
             text-decoration: none !important;
-            
+
         }
 
-        
+
         .fc-button {
             color: rgb(9, 14, 69) !important;
             background-color: #f8f9fa !important;
@@ -85,7 +86,7 @@
             /* Optional: Light border for contrast */
         }
 
-        
+
         .fc-button:hover,
         .fc-button:active,
         .fc-button.fc-button-active {
@@ -150,7 +151,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" id="eventDescription" rows="3" draggable="true" style="resize: both;"></textarea>
+                            <textarea class="form-control" id="eventDescription" rows="3" draggable="true"
+                                style="resize: both;"></textarea>
                         </div>
 
                     </div>
@@ -221,6 +223,8 @@
                         .toISOString().slice(0, 16) : '';
                     document.getElementById('eventLocation').value = info.event.extendedProps
                         .location || '';
+                    document.getElementById('eventDescription').value = info.event.extendedProps
+                        .description || '';
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
@@ -229,14 +233,14 @@
                     var tooltipText = '<b>' + info.event.title + '</b>';
                     if (info.event.extendedProps.isHoliday) {
 
-                        info.el.style.backgroundColor = 'rgba(205, 223, 249, 0.5)'; 
+                        info.el.style.backgroundColor = 'rgba(205, 223, 249, 0.5)';
                         info.el.style.color = 'rgb(22, 25, 59)';
                         info.el.style.opacity = '1';
                         //info.el.style.fontWeight = 'bold';
                         info.el.style.textAlign = 'center';
-                        info.el.style.lineHeight = '20px'; 
-                        info.el.style.fontSize = '16px';  
-                        info.el.style.padding = '15px 10px'; 
+                        info.el.style.lineHeight = '20px';
+                        info.el.style.fontSize = '16px';
+                        info.el.style.padding = '15px 10px';
                         info.el.style.zIndex = 10;
                     }
                     if (info.event.extendedProps.location) {
@@ -296,39 +300,39 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <strong>${e.title}</strong>
-                                    <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                </div>
-                                <div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <strong>${e.title}</strong>
+                                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                    </div>
                                     <div>
-                                        <div class="text-muted">
-                                            <i class="bi bi-calendar-event me-1"></i>
-                                            ${new Date(e.start).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric'
-                                            })}
-                                            ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric'
-                                            })}` : ''}
-                                        </div>
-                                        <div class="text-muted">
-                                            <i class="bi bi-clock-fill me-1"></i>
-                                            ${new Date(e.start).toLocaleTimeString('en-US', {
-                                                hour: 'numeric',
-                                                minute: '2-digit'
-                                            })}
-                                            ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
-                                                hour: 'numeric',
-                                                minute: '2-digit'
-                                            })}` : ''}
-                                            ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.description}</span>` : ''}
-                                        </div>
-                                </div>
-                            </li>`
+                                        <div>
+                                            <div class="text-muted">
+                                                <i class="bi bi-calendar-event me-1"></i>
+                                                ${new Date(e.start).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                            })}
+                                                ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                            })}` : ''}
+                                            </div>
+                                            <div class="text-muted">
+                                                <i class="bi bi-clock-fill me-1"></i>
+                                                ${new Date(e.start).toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: '2-digit'
+                            })}
+                                                ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: '2-digit'
+                            })}` : ''}
+                                                ${e.description ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : ''}
+                                            </div>
+                                    </div>
+                                </li>`
                         );
                     });
                 }
