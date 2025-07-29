@@ -20,7 +20,7 @@ class HRFormController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:hr_forms_categories,id',
-            'file_path' => 'required|file|mimes:pdf,doc,docx,xls,xlsx',
+            'file_path' => 'required|file|mimes:pdf,doc,docx,jpeg,png,xls,xlsx',
         ]);
     
         $file = $request->file('file_path');

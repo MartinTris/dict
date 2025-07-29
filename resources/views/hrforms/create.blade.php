@@ -26,8 +26,8 @@
                     <div class="col-md-6">
                         <label>Upload Form File</label>
                         <input type="file" name="file_path" class="form-control" required
-                            accept=".doc,.docx,.xls,.xlsx">
-                        <small class="form-text text-muted">Allowed file types: .doc, .docx, .xls, .xlsx</small>
+                            accept=".doc,.docx,.jpeg,.xls,.xlsx">
+                        <small class="form-text text-muted">Allowed file types: .doc, .docx, .jpeg, .pdf, .png, .xls, .xlsx</small>
                     </div>
 
                 </div>
