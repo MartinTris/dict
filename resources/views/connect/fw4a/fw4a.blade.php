@@ -17,25 +17,51 @@
                         data-bs-target="#addSiteModal" style="background-color: #003566;">
                         <i class="fas fa-plus"></i> Add New Site
                     </button>
-                    
+
                 </div>
             </div>
 
             <div class="card-body">
-                <form method="GET" action="{{ route('fw4a') }}" class="mb-3 d-flex flex-wrap gap-2 justify-content-between">
-                    <div class="input-group">
-                        <input type="text" name="search" id="searchInput" class="form-control"
-                            placeholder="Search site code, name, or contractor..." value="{{ request('search') }}">
-                        @if(request('search'))
-                            <a href="{{ route('fw4a') }}" class="btn btn-outline-secondary" style="border-color: #ced4da;">
-                                <i class="fas fa-times"></i>
-                            </a>
-                        @endif
-                        <button class="btn text-white" type="submit" style="background-color: #003566;">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <form method="GET" action="{{ route('fw4a') }}" class="mb-3">
+                    <div class="row g-2 align-items-end">
+                        <!-- Search Input -->
+                        <div class="col-md-7 col-12">
+                            <div class="input-group">
+                                <input type="text" name="search" id="searchInput" class="form-control"
+                                    placeholder="Site code, name, contractor..." value="{{ request('search') }}">
+                                @if(request('search'))
+                                    <a href="{{ route('fw4a') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- District Filter -->
+                        <div class="col-md-2 col-12">
+                            <select name="district_id" id="filterDistrict" class="form-select">
+                                <option value="">All Districts</option>
+                                {{-- Options loaded dynamically --}}
+                            </select>
+                        </div>
+
+                        <!-- Locality Filter -->
+                        <div class="col-md-2 col-12">
+                            <select name="locality_id" id="filterLocality" class="form-select">
+                                <option value="">All Localities</option>
+                                {{-- Options loaded dynamically --}}
+                            </select>
+                        </div>
+
+                        <!-- Search Button -->
+                        <div class="col-md-1 col-12 d-grid">
+                            <button class="btn text-white" type="submit" style="background-color: #003566;">
+                                <i class="fas fa-search me-1"></i>
+                            </button>
+                        </div>
                     </div>
                 </form>
+
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover nowrap w-100" id="dataTable">
@@ -187,6 +213,59 @@
 <script>
     //deletion
     $(document).ready(function () {
+        const province_id = 1;
+        const provinceId = 1; // fixed province ID
+        const districtSelect = document.getElementById('filterDistrict');
+        const localitySelect = document.getElementById('filterLocality');
+
+        function fetchDistricts() {
+            fetch(`/get-districts/${provinceId}`)
+                .then(res => res.json())
+                .then(data => {
+                    districtSelect.innerHTML = `<option value="">Filter by District</option>`;
+                    data.forEach(d => {
+                        districtSelect.innerHTML += `<option value="${d.id}">${d.district_name}</option>`;
+                    });
+
+                    // Restore selected district if exists
+                    const selected = @json(request('district_id'));
+                    if (selected) districtSelect.value = selected;
+                });
+        }
+
+        function fetchLocalities(districtId) {
+            fetch(`/get-localities/${districtId}`)
+                .then(res => res.json())
+                .then(data => {
+                    localitySelect.innerHTML = `<option value="">Filter by Locality</option>`;
+                    data.forEach(l => {
+                        localitySelect.innerHTML += `<option value="${l.id}">${l.locality_name}</option>`;
+                    });
+
+                    // Restore selected locality if exists
+                    const selected = @json(request('locality_id'));
+                    if (selected) localitySelect.value = selected;
+                });
+        }
+
+        // Load districts on page load
+        fetchDistricts();
+
+        // Load localities when district changes
+        districtSelect.addEventListener('change', function () {
+            const districtId = this.value;
+            if (districtId) {
+                fetchLocalities(districtId);
+            } else {
+                localitySelect.innerHTML = `<option value="">Filter by Locality</option>`;
+            }
+        });
+
+        // If there's a selected district from query params, fetch its localities on load
+        const initialDistrict = @json(request('district_id'));
+        if (initialDistrict) {
+            fetchLocalities(initialDistrict);
+        }
         // SweetAlert delete confirmation
         $(document).on('click', '.delete-btn', function (e) {
             e.preventDefault();

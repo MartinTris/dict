@@ -13,31 +13,27 @@ class Fw4aController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Fw4a::with(['region', 'province', 'district', 'locality']);
-
-        if ($search = $request->input('search')) {
+        $fw4as = Fw4a::with(['region', 'province', 'district', 'locality'])
+        ->when($request->filled('search'), function ($query) use ($request) {
+            $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('site_code', 'like', "%$search%")
                   ->orWhere('ap_mac_address', 'like', "%$search%")
                   ->orWhere('site_name', 'like', "%$search%")
                   ->orWhere('contractor', 'like', "%$search%")
-                  ->orWhere('contract_status', 'like', "%$search%");
-        
-                // Search related district name
-                  $q->orWhereHas('district', function ($q2) use ($search) {
-                    $q2->where('district_name', 'like', "%$search%");
-                });
-        
-                // Search related locality name
-                $q->orWhereHas('locality', function ($q2) use ($search) {
-                    $q2->where('locality_name', 'like', "%$search%");
-                });
+                  ->orWhere('contract_status', 'like', "%$search%")
+                  ->orWhereHas('district', fn($q2) => $q2->where('district_name', 'like', "%$search%"))
+                  ->orWhereHas('locality', fn($q2) => $q2->where('locality_name', 'like', "%$search%"));
             });
-        }
-    
-        $fw4as = $query->paginate(10)->withQueryString(); 
-        $regions = Region::all();
-        return view('connect.fw4a.fw4a', compact('fw4as','regions'));
+        })
+        ->when($request->filled('district_id'), fn($q) => $q->where('district_id', $request->district_id))
+        ->when($request->filled('locality_id'), fn($q) => $q->where('locality_id', $request->locality_id))
+        ->paginate(10)
+        ->withQueryString();
+
+    $regions = Region::all();
+
+    return view('connect.fw4a.fw4a', compact('fw4as', 'regions'));
     }
 
     /**
