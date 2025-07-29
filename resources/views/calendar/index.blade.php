@@ -135,17 +135,23 @@
                             <label for="eventTitle" class="form-label fw-semibold">Title</label>
                             <input type="text" class="form-control" id="eventTitle" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="eventStart" class="form-label fw-semibold">Start</label>
-                            <input type="datetime-local" class="form-control" id="eventStart" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventEnd" class="form-label fw-semibold">End</label>
-                            <input type="datetime-local" class="form-control" id="eventEnd" required>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="eventStart" class="form-label fw-semibold">Start</label>
+                                <input type="datetime-local" class="form-control" id="eventStart" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="eventEnd" class="form-label fw-semibold">End</label>
+                                <input type="datetime-local" class="form-control" id="eventEnd" required>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="eventLocation" class="form-label fw-semibold">Location</label>
                             <input class="form-control" id="eventLocation" rows="3"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventAssigned" class="form-label fw-semibold">Assigned To</label>
+                            <input class="form-control" id="eventAssigned" required rows="3"></input>
                         </div>
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label fw-semibold">Description</label>
@@ -307,6 +313,7 @@
                                     data-start="${e.start}"
                                     data-end="${e.end || ''}"
                                     data-location="${e.location || ''}"
+                                    data-assigned="${e.assigned || ''}"
                                     data-description="${e.description || ''}">
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <strong>${e.title}</strong>
@@ -352,6 +359,7 @@
                     $('#eventId').val($(this).data('id'));
                     $('#eventTitle').val($(this).data('title'));
                     $('#eventStart').val(new Date($(this).data('start')).toISOString().slice(0, 16));
+                    
 
                     const end = $(this).data('end');
                     if (end) {
@@ -359,6 +367,7 @@
                     }
 
                     $('#eventLocation').val($(this).data('location'));
+                    $('#eventAssigned').val($(this).data('assigned'));
                     $('#eventDescription').val($(this).data('description'));
 
                     $('#deleteEventBtn').removeClass('d-none');
@@ -445,6 +454,7 @@
                         start,
                         end,
                         location,
+                        assigned,
                         description
                     },
                     success: function () {
