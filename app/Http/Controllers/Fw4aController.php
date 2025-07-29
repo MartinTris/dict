@@ -20,7 +20,18 @@ class Fw4aController extends Controller
                 $q->where('site_code', 'like', "%$search%")
                   ->orWhere('ap_mac_address', 'like', "%$search%")
                   ->orWhere('site_name', 'like', "%$search%")
-                  ->orWhere('contractor', 'like', "%$search%");
+                  ->orWhere('contractor', 'like', "%$search%")
+                  ->orWhere('contract_status', 'like', "%$search%");
+        
+                // Search related district name
+                  $q->orWhereHas('district', function ($q2) use ($search) {
+                    $q2->where('district_name', 'like', "%$search%");
+                });
+        
+                // Search related locality name
+                $q->orWhereHas('locality', function ($q2) use ($search) {
+                    $q2->where('locality_name', 'like', "%$search%");
+                });
             });
         }
     
