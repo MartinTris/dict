@@ -212,6 +212,8 @@
                     resetModal();
                     const clickedDate = info.startStr + 'T08:00';
                     document.getElementById('eventStart').value = clickedDate;
+                    const endDate = info.endStr ? info.endStr + 'T08:00' : '';
+                    document.getElementById('eventEnd').value = endDate;
                     eventModal.show();
                 },
                 nextDayThreshold: '12:00',
