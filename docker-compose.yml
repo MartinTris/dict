@@ -11,7 +11,8 @@ services:
     expose:
       - "9000"
     networks:
-      - laravel_network
+      dict_custom_net:
+        ipv4_address: 192.168.100.10
 
   web:
     image: nginx:alpine
@@ -25,7 +26,8 @@ services:
     depends_on:
       - app
     networks:
-      - laravel_network
+      dict_custom_net:
+        ipv4_address: 192.168.100.11
 
   db:
     image: mysql:8.0
@@ -37,10 +39,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - laravel_network
+      dict_custom_net:
+        ipv4_address: 192.168.100.12
 
 networks:
-  laravel_network:
+  dict_custom_net:
+    external: true
 
 volumes:
   mysql_data:
