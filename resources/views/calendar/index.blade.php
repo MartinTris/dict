@@ -11,7 +11,7 @@
             min-height: 600px;
             height: auto;
             background-color: #fff;
-            border-radius: 1rem;
+            border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 1rem;
         }
@@ -52,7 +52,6 @@
             }
         }
 
-        /* Override all text elements in FullCalendar */
         .fc,
         .fc-daygrid-day-number,
         .fc-col-header-cell,
@@ -81,9 +80,7 @@
         .fc-button {
             color: rgb(9, 14, 69) !important;
             background-color: #f8f9fa !important;
-            /* Optional: Light background for contrast */
             border-color: #ddd !important;
-            /* Optional: Light border for contrast */
         }
 
 
@@ -97,6 +94,7 @@
 
 @section('contents')
     <div class="container py-3">
+        <h1 class="h3 mb-4 text-gray-800">Calendar of Activities</h1>
         <div class="row">
             <div class="col-md-9">
                 <div id="calendar"></div>
