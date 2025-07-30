@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('hr_forms_categories')->onDelete('cascade');
             $table->string('title');
             $table->string('file_path');
+            $table->string('original_file_path')->nullable();
             $table->timestamps();
         });
     }
