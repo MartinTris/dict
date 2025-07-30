@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\HRFormsCategory;
 use App\Models\HRForm;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 class HRFormController extends Controller
 {
     //
@@ -22,17 +24,45 @@ class HRFormController extends Controller
             'category_id' => 'required|exists:hr_forms_categories,id',
             'file_path' => 'required|file|mimes:pdf,doc,docx,jpeg,png,xls,xlsx',
         ]);
-    
+
         $file = $request->file('file_path');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $originalName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $fileName = time() . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
+
         $path = $file->storeAs('hrforms', $fileName, 'public');
-    
+
+        $pdfPath = null;
+
+        // Convert office files to PDF
+        if (in_array($extension, ['doc', 'docx', 'xls', 'xlsx'])) {
+            $inputPath = storage_path("app/public/hrforms/{$fileName}");
+            $outputDir = storage_path("app/public/hrforms");
+
+            // Command to convert using LibreOffice
+            $process = new Process([
+                'soffice',
+                '--headless',
+                '--convert-to',
+                'pdf',
+                '--outdir',
+                $outputDir,
+                $inputPath
+            ]);
+            $process->run();
+
+            if ($process->isSuccessful()) {
+                $pdfPath = 'hrforms/' . pathinfo($fileName, PATHINFO_FILENAME) . '.pdf';
+            }
+        }
+
         HRForm::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
-            'file_path' => $path,
+            'file_path' => $pdfPath ?? $path, // fallback to original if no conversion
+            'original_file_path' => $path,
         ]);
-    
+
         return redirect()->back()->with('success', 'HR Form added successfully!');
     }
 
@@ -52,6 +82,6 @@ class HRFormController extends Controller
     public function download($id)
     {
         $form = HRForm::findOrFail($id);
-        return response()->download(storage_path('app/public/' . $form->file_path));
+        return response()->download(storage_path('app/public/' . $form->original_file_path));
     }
 }

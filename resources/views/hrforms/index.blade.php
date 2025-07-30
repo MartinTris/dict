@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @include('hrforms.create')
+@include('hrforms.preview')
 @push('styles')
     <style>
         .accordion-button {
@@ -52,12 +53,26 @@
                                         <ul class="list-group">
                                             @foreach ($category->forms as $form)
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>{{ $form->title }}</div>
-                                                    <div>
+                                                    @php
+                                                        $extension = pathinfo($form->original_file_path, PATHINFO_EXTENSION);
+                                                    @endphp
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span>{{ $form->title }}</span>
+                                                        <span class="badge bg-secondary text-uppercase">{{ $extension }}</span>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button" class="btn btn-sm btn-primary preview-btn"
+                                                            data-title="{{ $form->title }}"
+                                                            data-file="{{ asset('storage/' . $form->file_path) }}"
+                                                            data-bs-toggle="modal" data-bs-target="#previewModal">
+                                                            <i class="fas fa-eye"></i> Preview
+                                                        </button>
+
                                                         <a href="{{ route('hrforms.download', $form->id) }}"
                                                             class="btn btn-sm btn-success" style="background-color: #003566;">
                                                             <i class="fas fa-download"></i> Download
                                                         </a>
+
                                                         <form action="{{ route('hrforms.destroy', $form->id) }}" method="POST"
                                                             class="d-inline delete-form">
                                                             @csrf @method('DELETE')
@@ -66,6 +81,7 @@
                                                             </button>
                                                         </form>
                                                     </div>
+
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -106,5 +122,28 @@
                 }
             });
         });
+    });
+    $(document).on('click', '.preview-btn', function () {
+        const title = $(this).data('title');
+        const fileUrl = $(this).data('file');
+        const extension = fileUrl.split('.').pop().toLowerCase();
+
+        $('#previewTitle').text(title);
+        let content = '';
+
+        if (['pdf'].includes(extension)) {
+            content = `<iframe src="${fileUrl}" frameborder="0" style="width: 100%; height: 80vh;"></iframe>`;
+        } else if (['png', 'jpeg', 'jpg'].includes(extension)) {
+            content = `<img src="${fileUrl}" class="img-fluid d-block mx-auto" alt="${title}" />`;
+        } else if (['doc', 'docx', 'xls', 'xlsx'].includes(extension)) {
+            content = `
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}"
+                        frameborder="0" style="width: 100%; height: 80vh;"></iframe>
+                <p class="text-muted text-center mt-2">Rendered via Microsoft Office Online Viewer</p>`;
+        } else {
+            content = `<p class="text-danger">Preview not available for this file type.</p>`;
+        }
+
+        $('#previewContent').html(content);
     });
 </script>

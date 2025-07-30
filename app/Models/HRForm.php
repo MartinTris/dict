@@ -10,7 +10,7 @@ class HRForm extends Model
 {
     use HasFactory;
     protected $table = 'hr_forms';
-    protected $fillable = ['category_id', 'title', 'file_path'];
+    protected $fillable = ['category_id', 'title', 'file_path', 'original_file_path'];
 
 
     public function category(): BelongsTo
