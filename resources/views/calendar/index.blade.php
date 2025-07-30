@@ -154,6 +154,12 @@
                             <input class="form-control" id="eventAssigned" required rows="3"></input>
                         </div>
                         <div class="mb-3">
+                            <label for="eventProject" class="form-label fw-semibold">Project</label>
+                            <select class="form-select" id="eventProject" required>
+                                <!-- Options will be populated here -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="eventDescription" class="form-label fw-semibold">Description</label>
                             <textarea class="form-control" id="eventDescription" rows="3" draggable="true"
                                 style="resize: both;"></textarea>
@@ -314,6 +320,7 @@
                                     data-end="${e.end || ''}"
                                     data-location="${e.location || ''}"
                                     data-assigned="${e.assigned || ''}"
+                                    data-project="${e.project || ''}"
                                     data-description="${e.description || ''}">
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <strong>${e.title}</strong>
@@ -455,6 +462,7 @@
                         end,
                         location,
                         assigned,
+                        project,
                         description
                     },
                     success: function () {
