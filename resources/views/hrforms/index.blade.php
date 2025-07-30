@@ -6,6 +6,59 @@
         .accordion-button {
             transition: background-color 0.1s ease;
         }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+        }
+
+        .action-buttons .btn {
+            min-width: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+        }
+
+        .btn i {
+            margin-right: 0 !important;
+        }
+
+        @media (max-width: 576px) {
+            .action-buttons {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+
+        [data-tooltip] {
+            position: relative;
+            cursor: pointer;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            /* Show above the element */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 9999;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+        }
     </style>
 @endpush
 @section('contents')
@@ -60,28 +113,31 @@
                                                         <span>{{ $form->title }}</span>
                                                         <span class="badge bg-secondary text-uppercase">{{ $extension }}</span>
                                                     </div>
-                                                    <div class="d-flex gap-2">
-                                                        <button type="button" class="btn btn-sm btn-primary preview-btn"
-                                                            data-title="{{ $form->title }}"
+                                                    <div class="action-buttons">
+                                                        <button type="button" data-tooltip="Preview form"
+                                                            class="btn btn-sm btn-primary preview-btn" data-title="{{ $form->title }}"
                                                             data-file="{{ asset('storage/' . $form->file_path) }}"
                                                             data-bs-toggle="modal" data-bs-target="#previewModal">
-                                                            <i class="fas fa-eye"></i> Preview
+                                                            <i class="fas fa-eye"></i>
                                                         </button>
 
                                                         <a href="{{ route('hrforms.download', $form->id) }}"
-                                                            class="btn btn-sm btn-success" style="background-color: #003566;">
-                                                            <i class="fas fa-download"></i> Download
+                                                            data-tooltip="Download file" class="btn btn-sm btn-success"
+                                                            style="background-color: #003566;">
+                                                            <i class="fas fa-download"></i>
                                                         </a>
 
                                                         <form action="{{ route('hrforms.destroy', $form->id) }}" method="POST"
-                                                            class="d-inline delete-form">
+                                                            class="d-inline delete-form m-0 p-0"
+                                                            style="display: flex; align-items: center;">
                                                             @csrf @method('DELETE')
-                                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
-                                                                <i class="fas fa-trash"></i> Delete
+                                                            <button type="button" class="btn btn-sm btn-danger delete-btn"
+                                                                data-tooltip="Delete file">
+                                                                <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
-                                                    </div>
 
+                                                    </div>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -99,6 +155,7 @@
 @endsection
 <!-- scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
