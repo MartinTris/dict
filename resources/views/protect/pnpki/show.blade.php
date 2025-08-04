@@ -36,6 +36,14 @@
                                 <td>{{ $pnpki->province }}</td>
                             </tr>
                             <tr>
+                                <th>Municipality:</th>
+                                <td>{{ $pnpki->municipality ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>District:</th>
+                                <td>{{ $pnpki->district ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <th>Activity Title:</th>
                                 <td>{{ $pnpki->activity_title }}</td>
                             </tr>

@@ -59,6 +59,39 @@
                         </div>
                     </div>
                     
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="municipality">Municipality</label>
+                                <input type="text" class="form-control @error('municipality') is-invalid @enderror" 
+                                    id="municipality" name="municipality" value="{{ old('municipality', $pnpki->municipality) }}" required>
+                                @error('municipality')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <select class="form-control @error('district') is-invalid @enderror" 
+                                    id="district" name="district" required>
+                                    <option value="">Select District</option>
+                                    <option value="1ST" {{ old('district', $pnpki->district) == '1ST' ? 'selected' : '' }}>1ST DISTRICT</option>
+                                    <option value="2ND" {{ old('district', $pnpki->district) == '2ND' ? 'selected' : '' }}>2ND DISTRICT</option>
+                                    <option value="3RD" {{ old('district', $pnpki->district) == '3RD' ? 'selected' : '' }}>3RD DISTRICT</option>
+                                    <option value="4TH" {{ old('district', $pnpki->district) == '4TH' ? 'selected' : '' }}>4TH DISTRICT</option>
+                                    <option value="5TH" {{ old('district', $pnpki->district) == '5TH' ? 'selected' : '' }}>5TH DISTRICT</option>
+                                    <option value="6TH" {{ old('district', $pnpki->district) == '6TH' ? 'selected' : '' }}>6TH DISTRICT</option>
+                                    <option value="7TH" {{ old('district', $pnpki->district) == '7TH' ? 'selected' : '' }}>7TH DISTRICT</option>
+                                    <option value="8TH" {{ old('district', $pnpki->district) == '8TH' ? 'selected' : '' }}>8TH DISTRICT</option>
+                                </select>
+                                @error('district')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="activity_title">Activity Title</label>
                         <input type="text" class="form-control @error('activity_title') is-invalid @enderror" 
