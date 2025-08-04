@@ -163,7 +163,7 @@
         $(document).on('click', '.delete-btn', function (e) {
             e.preventDefault();
             const form = $(this).closest('form');
-            const formTitle = $(this).closest('.list-group-item').find('div').first().text();
+            const formTitle = $(this).closest('.list-group-item').find('div > span').first().text().trim();
             Swal.fire({
                 title: 'Are you sure?',
                 html: `You are about to delete <span style="color: red; font-style: italic; font-style: underline;">${formTitle}</span>. This action cannot be undone.`,

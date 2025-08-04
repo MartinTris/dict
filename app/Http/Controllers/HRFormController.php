@@ -84,4 +84,17 @@ class HRFormController extends Controller
         $form = HRForm::findOrFail($id);
         return response()->download(storage_path('app/public/' . $form->original_file_path));
     }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:hr_forms_categories,name',
+        ]);
+
+        $category = HRFormsCategory::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json($category);
+    }
 }
