@@ -14,6 +14,8 @@ class Pnpki extends Model
         'time_conducted',
         'organizer',
         'province',
+        'municipality',
+        'district',
         'activity_title',
         'type_of_activity',
         'mode_of_implementation',
