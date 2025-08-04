@@ -97,4 +97,17 @@ class HRFormController extends Controller
 
         return response()->json($category);
     }
+
+    public function destroyCategory($id)
+    {
+        $category = HRFormsCategory::findOrFail($id);
+
+        if ($category->forms()->count()) {
+            return response()->json(['error' => 'Cannot delete category with forms.'], 400);
+        }
+
+        $category->delete();
+        return response()->json(['success' => 'Category deleted successfully.']);
+    }
+
 }

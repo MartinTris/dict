@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>DICT Monitoring System</title>
   <!--DICT Logo-->
   <link rel="icon" type="image/png" href="{{ asset('images/DICT_Logo.png') }}">

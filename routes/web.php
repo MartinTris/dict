@@ -174,6 +174,7 @@ Route::middleware('auth')->prefix('hr-forms')->name('hrforms.')->group(function 
     Route::get('/download/{id}', [HRFormController::class, 'download'])->name('download');
     Route::get('/view/{id}', [HRFormController::class, 'view'])->name('view');
     Route::post('/categories', [HRFormController::class, 'storeCategory'])->name('categories.store');
+    Route::delete('/categories/{id}', [HRFormController::class, 'destroyCategory'])->name('categories.destroy');
 });
 
 // Calendar Routes
