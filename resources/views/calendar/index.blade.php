@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -89,6 +88,69 @@
         .fc-button.fc-button-active {
             color: rgb(9, 14, 69) !important;
         }
+
+        /* Ensure dropdown is visible */
+        .dropdown-menu {
+            position: absolute;
+            z-index: 1000;
+            min-width: 10rem;
+            padding: 0.5rem 0;
+            margin: 0;
+            font-size: 1rem;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 0.375rem;
+        }
+
+        .dropdown-menu.show {
+            display: block !important;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 0.25rem 1rem;
+            clear: both;
+            font-weight: 400;
+            color: #212529;
+            text-align: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .dropdown-item:hover {
+            color: #1e2125;
+            background-color: #e9ecef;
+        }
+
+        /* Override any conflicting styles */
+        #projectDropdown {
+            display: none;
+        }
+
+        #projectDropdown.show {
+            display: block !important;
+        }
+
+        /* Make project items clickable */
+        .project-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+        }
+
+        .project-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .project-item .project-option {
+            flex: 1;
+        }
     </style>
 @endpush
 
@@ -153,12 +215,34 @@
                             <label for="eventAssigned" class="form-label fw-semibold">Assigned To</label>
                             <input class="form-control" id="eventAssigned" required rows="3"></input>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 position-relative">
                             <label for="eventProject" class="form-label fw-semibold">Project</label>
-                            <select class="form-select" id="eventProject" required>
-                                <!-- Options will be populated here -->
-                            </select>
+                            <div class="dropdown">
+                                <button class="btn btn-light border w-100 d-flex justify-content-between align-items-center dropdown-toggle"
+                                    type="button" id="dropdownProjectBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="selectedProjectText">Select Project</span>
+                                </button>
+                                <ul class="dropdown-menu w-100" id="projectDropdown">
+                                    @if($projects && $projects->count() > 0)
+                                        @foreach($projects as $project)
+                                            <li class="dropdown-item project-item" data-id="{{ $project->id }}">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="project-option">{{ $project->name }}</span>
+                                                    <button type="button" class="btn btn-sm text-danger delete-project"
+                                                        data-id="{{ $project->id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                        <li><hr class="dropdown-divider"></li>
+                                    @endif
+                                    <li><a class="dropdown-item text-primary" href="#" id="addNewProjectBtn">+ Add New Project</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" id="selectedProjectId" name="project">
                         </div>
+
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label fw-semibold">Description</label>
                             <textarea class="form-control" id="eventDescription" rows="3" draggable="true"
@@ -174,6 +258,27 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="addProjectForm">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProjectLabel">Add New Project</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="name" class="form-control" placeholder="Enter Project Name" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 @endsection
 
 @push('scripts')
@@ -181,6 +286,120 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Initialize Bootstrap dropdown manually
+            var dropdownElement = document.getElementById('dropdownProjectBtn');
+            var dropdown = new bootstrap.Dropdown(dropdownElement);
+
+            // Alternative dropdown initialization
+            $(document).on('click', '#dropdownProjectBtn', function(e) {
+                e.preventDefault();
+                var $dropdownMenu = $('#projectDropdown');
+                $dropdownMenu.toggleClass('show');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('#projectDropdown').removeClass('show');
+                }
+            });
+
+            // Select project
+            $(document).on('click', '.project-item', function () {
+                const id = $(this).data('id');
+                const name = $(this).find('.project-option').text();
+                $('#selectedProjectId').val(id);
+                $('#selectedProjectText').text(name);
+                // Close dropdown manually
+                $('#projectDropdown').removeClass('show');
+            });
+
+            // Delete project
+            $(document).on('click', '.delete-project', function (e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                const name = $(this).siblings('.project-option').text();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    html: `Delete project <strong>${name}</strong>?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/calendar/projects/${id}`,
+                            type: 'DELETE',
+                            success: function () {
+                                $(`#projectDropdown .project-item[data-id="${id}"]`).remove();
+                                if ($('#selectedProjectId').val() == id) {
+                                    $('#selectedProjectId').val('');
+                                    $('#selectedProjectText').text('Select Project');
+                                }
+                                Swal.fire('Deleted!', 'Project removed.', 'success');
+                            },
+                            error: function () {
+                                Swal.fire('Error', 'Failed to delete project.', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Show add project modal
+            $(document).on('click', '#addNewProjectBtn', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('#addProjectModal').modal('show');
+            });
+
+            // Submit new project
+            $('#addProjectForm').on('submit', function (e) {
+                e.preventDefault();
+                $.post("{{ route('calendar.projects.store') }}", $(this).serialize(), function (res) {
+                    // Add new project to dropdown
+                    const newProjectHtml = `
+                        <li class="dropdown-item project-item" data-id="${res.id}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="project-option">${res.name}</span>
+                                <button type="button" class="btn btn-sm text-danger delete-project" data-id="${res.id}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </li>
+                    `;
+                    
+                    // Insert before the divider or at the beginning if no divider
+                    const divider = $('#projectDropdown .dropdown-divider');
+                    if (divider.length > 0) {
+                        divider.before(newProjectHtml);
+                    } else {
+                        $('#projectDropdown').prepend(newProjectHtml);
+                    }
+                    
+                    $('#selectedProjectId').val(res.id);
+                    $('#selectedProjectText').text(res.name);
+                    $('#addProjectModal').modal('hide');
+                    $('#addProjectForm')[0].reset();
+                }).fail(() => {
+                    alert('Error adding project.');
+                });
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -237,8 +456,17 @@
                         .toISOString().slice(0, 16) : '';
                     document.getElementById('eventLocation').value = info.event.extendedProps
                         .location ?? '';
+                    document.getElementById('eventAssigned').value = info.event.extendedProps
+                        .assigned ?? '';
                     document.getElementById('eventDescription').value = info.event.extendedProps
                         .description ?? '';
+                    
+                    // Set project if it exists
+                    if (info.event.extendedProps.project_id) {
+                        document.getElementById('selectedProjectId').value = info.event.extendedProps.project_id;
+                        document.getElementById('selectedProjectText').textContent = info.event.extendedProps.project || 'Select Project';
+                    }
+                    
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
@@ -314,47 +542,47 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item upcoming-event-item"
-                                    data-id="${e.id}"
-                                    data-title="${e.title}"
-                                    data-start="${e.start}"
-                                    data-end="${e.end || ''}"
-                                    data-location="${e.location || ''}"
-                                    data-assigned="${e.assigned || ''}"
-                                    data-project="${e.project || ''}"
-                                    data-description="${e.description || ''}">
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <strong>${e.title}</strong>
-                                                        <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                                    </div>
-                                                    <div>
-                                                        <div>
-                                                            <div class="text-muted">
-                                                                <i class="bi bi-calendar-event me-1"></i>
-                                                                ${new Date(e.start).toLocaleDateString('en-US', {
+                                                data-id="${e.id}"
+                                                data-title="${e.title}"
+                                                data-start="${e.start}"
+                                                data-end="${e.end || ''}"
+                                                data-location="${e.location || ''}"
+                                                data-assigned="${e.assigned || ''}"
+                                                data-project="${e.project || ''}"
+                                                data-description="${e.description || ''}">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <strong>${e.title}</strong>
+                                                                    <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+                                                                </div>
+                                                                <div>
+                                                                    <div>
+                                                                        <div class="text-muted">
+                                                                            <i class="bi bi-calendar-event me-1"></i>
+                                                                            ${new Date(e.start).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}
-                                                                ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
+                                                                            ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric'
                             })}` : ''}
-                                                            </div>
-                                                            <div class="text-muted">
-                                                                <i class="bi bi-clock-fill me-1"></i>
-                                                                ${new Date(e.start).toLocaleTimeString('en-US', {
+                                                                        </div>
+                                                                        <div class="text-muted">
+                                                                            <i class="bi bi-clock-fill me-1"></i>
+                                                                            ${new Date(e.start).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}
-                                                                ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
+                                                                            ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
                                 hour: 'numeric',
                                 minute: '2-digit'
                             })}` : ''}
-                                                                ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
-                                                            </div>
-                                                    </div>
-                                                </li>`
+                                                                            ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
+                                                                        </div>
+                                                                </div>
+                                                            </li>`
                         );
                     });
                 }
@@ -366,7 +594,7 @@
                     $('#eventId').val($(this).data('id'));
                     $('#eventTitle').val($(this).data('title'));
                     $('#eventStart').val(new Date($(this).data('start')).toISOString().slice(0, 16));
-                    
+
 
                     const end = $(this).data('end');
                     if (end) {
@@ -447,6 +675,8 @@
                 const start = document.getElementById('eventStart').value;
                 const end = document.getElementById('eventEnd').value;
                 const location = document.getElementById('eventLocation').value;
+                const assigned = document.getElementById('eventAssigned').value;
+                const project = document.getElementById('selectedProjectId').value;
                 const description = document.getElementById('eventDescription').value;
 
                 let url = eventId ? '/calendar/' + eventId : '{{ route('calendar.store') }}';
@@ -467,6 +697,7 @@
                     },
                     success: function () {
                         calendar.refetchEvents();
+                        loadUpcomingEvents($('#eventDateFilter').val());
                         eventModal.hide();
                         Toast.fire({
                             icon: 'success',
@@ -517,6 +748,8 @@
             function resetModal() {
                 eventForm.reset();
                 document.getElementById('eventId').value = '';
+                document.getElementById('selectedProjectId').value = '';
+                document.getElementById('selectedProjectText').textContent = 'Select Project';
                 deleteEventBtn.classList.add('d-none');
             }
         });
