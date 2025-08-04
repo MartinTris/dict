@@ -59,6 +59,30 @@
         [data-tooltip]:hover::after {
             opacity: 1;
         }
+
+        /* Search and Filter Styling */
+        #searchInput {
+            padding-right: 2.5rem;
+        }
+
+        .custom-search-btn {
+            flex: 0 0 auto;
+            padding: 0.375rem 0.9rem;
+            background-color: #003566;
+            color: white;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+            form.mb-3 .row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .input-group {
+                width: 100% !important;
+            }
+        }
     </style>
 @endpush
 @section('contents')
@@ -89,22 +113,58 @@
             </div>
 
             <div class="card-body">
+                <!-- Search and Filter Form -->
+                <form method="GET" action="{{ route('hrforms.index') }}" class="mb-3">
+                    <div class="row g-2 align-items-end">
+                        <!-- Search Input -->
+                        <div class="col-md-8 col-12">
+                            <div class="input-group">
+                                <input type="text" name="search" id="searchInput" class="form-control"
+                                    placeholder="Search by file name..." value="{{ request('search') }}">
+                                @if (request('search'))
+                                    <a href="{{ route('hrforms.index') }}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                @endif
+                                <button class="btn text-white" type="submit" style="background-color: #003566;">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="col-md-4 col-12">
+                            <select name="category_id" class="form-select">
+                                <option value="">All Categories</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
                 <div class="accordion" id="hrFormsAccordion">
                     @foreach ($categories as $category)
-                        <div class="accordion-item mb-3 border">
-                            <h2 class="accordion-header" id="heading{{ $category->id }}">
-                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse{{ $category->id }}" aria-expanded="false"
-                                    aria-controls="collapse{{ $category->id }}">
-                                    {{ $category->name }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ $category->id }}" class="accordion-collapse collapse"
-                                aria-labelledby="heading{{ $category->id }}" data-bs-parent="#hrFormsAccordion">
-                                <div class="accordion-body">
-                                    @if ($category->forms->count())
+                        @php
+                            $categoryForms = $groupedForms->get($category->id, collect());
+                        @endphp
+                        @if($categoryForms->count() > 0)
+                            <div class="accordion-item mb-3 border">
+                                <h2 class="accordion-header" id="heading{{ $category->id }}">
+                                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $category->id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $category->id }}" class="accordion-collapse collapse"
+                                    aria-labelledby="heading{{ $category->id }}" data-bs-parent="#hrFormsAccordion">
+                                    <div class="accordion-body">
                                         <ul class="list-group">
-                                            @foreach ($category->forms as $form)
+                                            @foreach ($categoryForms as $form)
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     @php
                                                         $extension = pathinfo($form->original_file_path, PATHINFO_EXTENSION);
@@ -141,12 +201,10 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-                                    @else
-                                        <p class="text-muted">No forms available in this category.</p>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -159,6 +217,23 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
+        // Auto-submit form when category filter changes
+        $('select[name="category_id"]').on('change', function() {
+            $(this).closest('form').submit();
+        });
+
+        // Clear search functionality
+        $('#searchInput').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                $(this).closest('form').submit();
+            }
+        });
+
+        // Show loading state when form is submitted
+        $('form').on('submit', function() {
+            $('button[type="submit"]').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+        });
+
         // SweetAlert delete confirmation
         $(document).on('click', '.delete-btn', function (e) {
             e.preventDefault();
@@ -180,6 +255,7 @@
             });
         });
     });
+    
     $(document).on('click', '.preview-btn', function () {
         const title = $(this).data('title');
         const fileUrl = $(this).data('file');
