@@ -23,6 +23,10 @@
                         <td>{{ $ibpls->location }}</td>
                     </tr>
                     <tr>
+                        <th style="background-color: #e9ecef;">District</th>
+                        <td>{{ $ibpls->district }}</td>
+                    </tr>
+                    <tr>
                         <th style="background-color: #e9ecef;">Operation</th>
                         <td>{{ $ibpls->operation }}</td>
                     </tr>

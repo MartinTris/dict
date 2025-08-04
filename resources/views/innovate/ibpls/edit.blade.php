@@ -20,7 +20,14 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <input type="text" class="form-control @error('district') is-invalid @enderror" 
+                        id="district" name="district" value="{{ old('district', $ibpls->district) }}" required>
+                    @error('district')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
                 <div class="form-group">
                     <label for="operation">Operation</label>
                     <select class="form-control @error('operation') is-invalid @enderror" 

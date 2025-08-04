@@ -8,14 +8,75 @@ use Illuminate\Support\Facades\DB;
 class IbplsController extends Controller
 {
     /**
+     * Normalize location name by removing "City" suffix
+     */
+    private function normalizeLocationName($location)
+    {
+        $location = str_replace(' City', '', $location);
+        $location = str_replace(' CITY', '', $location);
+        $location = str_replace(' city', '', $location);
+        $location = str_replace('City of ', '', $location);
+        $location = str_replace('CITY OF ', '', $location);
+        $location = str_replace('city of ', '', $location);
+        return trim($location);
+    }
+
+    /**
      * Display a listing of the IBPLS records.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ibplsRecords = Ibpls::all();
-        return view('innovate.ibpls.ibpls', compact('ibplsRecords'));
+        $ibplsRecords = Ibpls::query()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('location', 'like', "%$search%")
+                      ->orWhere('district', 'like', "%$search%")
+                      ->orWhere('operation', 'like', "%$search%")
+                      ->orWhere('status', 'like', "%$search%");
+                });
+            })
+            ->when($request->filled('location'), function ($query) use ($request) {
+                $normalizedLocation = $this->normalizeLocationName($request->location);
+                $query->where(function ($q) use ($normalizedLocation) {
+                    $q->where('location', 'like', "%{$normalizedLocation}%")
+                      ->orWhere('location', 'like', "%{$normalizedLocation} City%")
+                      ->orWhere('location', 'like', "%{$normalizedLocation} CITY%")
+                      ->orWhere('location', 'like', "City of {$normalizedLocation}%")
+                      ->orWhere('location', 'like', "CITY OF {$normalizedLocation}%");
+                });
+            })
+            ->when($request->filled('district'), function ($query) use ($request) {
+                $query->where('district', $request->district);
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        // Get unique values for filters
+        // Normalize location names to eliminate duplicates
+        $locations = Ibpls::select('location')
+            ->groupBy('location')
+            ->orderBy('location')
+            ->get()
+            ->map(function ($item) {
+                return $this->normalizeLocationName($item->location);
+            })
+            ->unique()
+            ->sort()
+            ->values();
+
+        $districts = Ibpls::select('district')
+            ->groupBy('district')
+            ->orderBy('district')
+            ->pluck('district');
+
+        return view('innovate.ibpls.ibpls', compact(
+            'ibplsRecords',
+            'locations',
+            'districts',
+        ));
     }
 
     /**
@@ -38,6 +99,7 @@ class IbplsController extends Controller
     {
         $validated = $request->validate([
             'location' => 'required|string|max:255',
+            'district' => 'required|string|max:255',
             'operation' => 'required|string|max:255',
             'status' => 'nullable|string|max:255',
         ]);
@@ -81,6 +143,7 @@ class IbplsController extends Controller
     {
         $validated = $request->validate([
             'location' => 'required|string|max:255',
+            'district' => 'required|string|max:255',
             'operation' => 'required|string|max:255',
             'status' => 'nullable|string|max:255',
         ]);

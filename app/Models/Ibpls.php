@@ -23,6 +23,7 @@ class Ibpls extends Model
      */
     protected $fillable = [
         'location',
+        'district',
         'operation',
         'status',
         'user_id'
