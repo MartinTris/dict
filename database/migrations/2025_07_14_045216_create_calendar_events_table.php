@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable(); 
             $table->string('location')->nullable();
+            $table->string('assigned')->nullable();
+            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('set null');
             $table->datetime('start');
             $table->datetime('end');
             $table->timestamps();
