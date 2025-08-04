@@ -53,6 +53,11 @@ Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::c
 Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
 Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
 
+// Tech4ED API Routes for districts
+Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
+Route::get('/tech4ed-api/congressional-districts', [App\Http\Controllers\Tech4edController::class, 'getCongressionalDistricts'])->name('tech4ed.congressional-districts');
+Route::get('/tech4ed-api/filter-by-district/{districtId}', [App\Http\Controllers\Tech4edController::class, 'filterByDistrict'])->name('tech4ed.filter-by-district');
+
 // routes/web.php
 Route::get('/bplo', [App\Http\Controllers\BploController::class, 'index'])->name('bplo');
 Route::get('/bplo/create', [App\Http\Controllers\BploController::class, 'create'])->name('bplo.create');

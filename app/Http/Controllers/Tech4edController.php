@@ -3,20 +3,145 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tech4ed;
+use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Tech4edController extends Controller
 {
     /**
+     * Normalize municipality name by removing "City" suffix
+     */
+    private function normalizeMunicipalityName($municipality)
+    {
+        $municipality = str_replace(' City', '', $municipality);
+        $municipality = str_replace(' CITY', '', $municipality);
+        $municipality = str_replace(' city', '', $municipality);
+        return trim($municipality);
+    }
+
+    /**
+     * Convert congressional district format from "1ST", "2ND" to "I", "II" format
+     */
+    private function convertCongressionalDistrict($congressionalDistrict)
+    {
+        $mapping = [
+            '1ST' => 'I',
+            '2ND' => 'II', 
+            '3RD' => 'III',
+            '4TH' => 'IV',
+            '5TH' => 'V',
+            '6TH' => 'VI',
+            '7TH' => 'VII',
+            '8TH' => 'VIII'
+        ];
+        
+        return $mapping[strtoupper($congressionalDistrict)] ?? $congressionalDistrict;
+    }
+
+    /**
+     * Convert district format from "I", "II" to "1ST", "2ND" format
+     */
+    private function convertDistrictToCongressional($districtName)
+    {
+        $mapping = [
+            'I' => '1ST',
+            'II' => '2ND',
+            'III' => '3RD',
+            'IV' => '4TH',
+            'V' => '5TH',
+            'VI' => '6TH',
+            'VII' => '7TH',
+            'VIII' => '8TH',
+        ];
+        
+        return $mapping[strtoupper($districtName)] ?? $districtName;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tech4eds = Tech4ed::all();
-        return view('harness.tech4ed.tech4ed', compact('tech4eds'));
+        $tech4eds = Tech4ed::query()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('congressional_district', 'like', "%$search%")
+                      ->orWhere('municipality', 'like', "%$search%")
+                      ->orWhere('specific_center_location', 'like', "%$search%")
+                      ->orWhere('center_name', 'like', "%$search%")
+                      ->orWhere('center_model', 'like', "%$search%")
+                      ->orWhere('cm_name', 'like', "%$search%")
+                      ->orWhere('cm_email', 'like', "%$search%")
+                      ->orWhere('operational', 'like', "%$search%")
+                      ->orWhere('with_donation', 'like', "%$search%");
+                });
+            })
+            ->when($request->filled('congressional_district'), function ($query) use ($request) {
+                $query->where('congressional_district', $request->congressional_district);
+            })
+            ->when($request->filled('municipality'), function ($query) use ($request) {
+                $normalizedMunicipality = $this->normalizeMunicipalityName($request->municipality);
+                $query->where(function ($q) use ($normalizedMunicipality) {
+                    $q->where('municipality', 'like', "%{$normalizedMunicipality}%")
+                      ->orWhere('municipality', 'like', "%{$normalizedMunicipality} City%")
+                      ->orWhere('municipality', 'like', "%{$normalizedMunicipality} CITY%");
+                });
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        // Get unique values for filters
+        $congressionalDistricts = Tech4ed::select('congressional_district')
+            ->groupBy('congressional_district')
+            ->orderBy('congressional_district')
+            ->pluck('congressional_district');
+
+        // Normalize municipality names to eliminate duplicates
+        $municipalities = Tech4ed::select('municipality')
+            ->groupBy('municipality')
+            ->orderBy('municipality')
+            ->get()
+            ->map(function ($item) {
+                return $this->normalizeMunicipalityName($item->municipality);
+            })
+            ->unique()
+            ->sort()
+            ->values();
+
+        // Get original municipality names for display (keeping duplicates for accurate display)
+        $originalMunicipalities = Tech4ed::select('municipality')
+            ->groupBy('municipality')
+            ->orderBy('municipality')
+            ->pluck('municipality');
+
+        $centerModels = Tech4ed::select('center_model')
+            ->groupBy('center_model')
+            ->orderBy('center_model')
+            ->pluck('center_model');
+
+        $operationalStatus = Tech4ed::select('operational')
+            ->groupBy('operational')
+            ->orderBy('operational')
+            ->pluck('operational');
+
+        $donationStatus = Tech4ed::select('with_donation')
+            ->groupBy('with_donation')
+            ->orderBy('with_donation')
+            ->pluck('with_donation');
+
+        return view('harness.tech4ed.tech4ed', compact(
+            'tech4eds', 
+            'congressionalDistricts', 
+            'municipalities', 
+            'originalMunicipalities',
+            'centerModels', 
+            'operationalStatus', 
+            'donationStatus'
+        ));
     }
 
     /**
@@ -187,5 +312,51 @@ class Tech4edController extends Controller
                           ->pluck('with_donation');
         
         return view('harness.tech4ed.visualization', compact('tech4eds', 'centerModels', 'operationalStatus', 'donationStatus'));
+    }
+
+    /**
+     * Filter Tech4ED records by district ID using mapping
+     */
+    public function filterByDistrict($districtId)
+    {
+        $district = District::find($districtId);
+        if (!$district) {
+            return response()->json([]);
+        }
+
+        $congressionalDistrict = $this->convertDistrictToCongressional($district->district_name);
+        
+        $tech4eds = Tech4ed::where('congressional_district', $congressionalDistrict)
+            ->get();
+
+        return response()->json($tech4eds);
+    }
+
+    /**
+     * Get districts for potential integration
+     */
+    public function getDistricts()
+    {
+        $districts = District::orderBy('district_name')->get();
+        return response()->json($districts);
+    }
+
+    /**
+     * Get congressional districts mapped to district IDs
+     */
+    public function getCongressionalDistricts()
+    {
+        $districts = District::orderBy('district_name')->get();
+        $congressionalDistricts = [];
+        
+        foreach ($districts as $district) {
+            $congressionalDistricts[] = [
+                'id' => $district->id,
+                'district_name' => $district->district_name,
+                'congressional_district' => $this->convertDistrictToCongressional($district->district_name)
+            ];
+        }
+        
+        return response()->json($congressionalDistricts);
     }
 }
