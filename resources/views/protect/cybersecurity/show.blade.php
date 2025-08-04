@@ -54,6 +54,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
+                        <strong>Municipality:</strong>
+                        <p>{{ $cybersecurity->municipality ?? 'N/A' }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong>District:</strong>
+                        <p>{{ $cybersecurity->district ?? 'N/A' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
                         <strong>Type of Activity:</strong>
                         <p>{{ $cybersecurity->type_of_activity }}</p>
                     </div>
