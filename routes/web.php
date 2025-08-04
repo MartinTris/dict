@@ -185,6 +185,9 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
     Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('destroy');
     Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
     Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
+    Route::post('/projects', [CalendarController::class, 'storeProject'])->name('projects.store');
+Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
+
 });
 
 Route::get('/test', function () {
