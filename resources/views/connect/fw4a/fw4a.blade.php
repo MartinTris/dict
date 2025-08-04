@@ -13,8 +13,8 @@
             <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">FW4A Sites</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-sm text-white" data-bs-toggle="modal"
-                        data-bs-target="#addSiteModal" style="background-color: #003566;">
+                    <button type="button" class="btn btn-sm text-white" data-bs-toggle="modal" data-bs-target="#addSiteModal"
+                        style="background-color: #003566;">
                         <i class="fas fa-plus"></i> Add New Site
                     </button>
 
@@ -25,41 +25,34 @@
                 <form method="GET" action="{{ route('fw4a') }}" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <!-- Search Input -->
-                        <div class="col-md-7 col-12">
+                        <div class="col-md-8 col-12">
                             <div class="input-group">
                                 <input type="text" name="search" id="searchInput" class="form-control"
                                     placeholder="Site code, name, contractor..." value="{{ request('search') }}">
-                                @if(request('search'))
+                                @if (request('search'))
                                     <a href="{{ route('fw4a') }}" class="btn btn-outline-secondary">
                                         <i class="fas fa-times"></i>
                                     </a>
                                 @endif
+                                <button class="btn text-white" type="submit" style="background-color: #003566;">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
 
                         <!-- District Filter -->
-                        <div class="col-md-2 col-12">
+                        <div class="col-md-2 col-6">
                             <select name="district_id" id="filterDistrict" class="form-select">
                                 <option value="">All Districts</option>
-                                {{-- Options loaded dynamically --}}
                             </select>
                         </div>
 
                         <!-- Locality Filter -->
-                        <div class="col-md-2 col-12">
+                        <div class="col-md-2 col-6">
                             <select name="locality_id" id="filterLocality" class="form-select">
                                 <option value="">All Localities</option>
-                                {{-- Options loaded dynamically --}}
                             </select>
                         </div>
-
-                        <!-- Search Button -->
-                        <div class="col-md-1 col-12 d-grid">
-                            <button class="btn text-white" type="submit" style="background-color: #003566;">
-                                <i class="fas fa-search me-1"></i>
-                            </button>
-                        </div>
-                    </div>
                 </form>
 
 
@@ -102,8 +95,9 @@
                                     <td class="text-center">
                                         <a href="{{ route('fw4a.show', $fw4a->id) }}" class="btn btn-sm btn-info mb-1"><i
                                                 class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn" data-bs-toggle="modal"
-                                            data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
+                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn"
+                                            data-bs-toggle="modal" data-bs-target="#editSiteModal"
+                                            data-fw4a='@json($fw4a)'>
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('fw4a.destroy', $fw4a->id) }}" method="POST"
@@ -120,7 +114,8 @@
                     </table>
                     <div class="d-flex justify-content-between align-items-center flex-wrap mt-4">
                         <div class="text-muted small">
-                            Showing {{ $fw4as->firstItem() }} to {{ $fw4as->lastItem() }} of {{ $fw4as->total() }} results
+                            Showing {{ $fw4as->firstItem() }} to {{ $fw4as->lastItem() }} of {{ $fw4as->total() }}
+                            results
                         </div>
                         <div>
                             {{ $fw4as->links('pagination::bootstrap-4') }}
@@ -146,6 +141,13 @@
             #clearSearchBtn {
                 right: 2.5rem;
             }
+        }
+
+        .custom-search-btn {
+            flex: 0 0 auto;
+            padding: 0.375rem 0.9rem;
+            background-color: #003566;
+            color: white;
         }
 
         .pagination {
@@ -212,7 +214,7 @@
 
 <script>
     //deletion
-    $(document).ready(function () {
+    $(document).ready(function() {
         const province_id = 1;
         const provinceId = 1; // fixed province ID
         const districtSelect = document.getElementById('filterDistrict');
@@ -224,7 +226,8 @@
                 .then(data => {
                     districtSelect.innerHTML = `<option value="">Filter by District</option>`;
                     data.forEach(d => {
-                        districtSelect.innerHTML += `<option value="${d.id}">${d.district_name}</option>`;
+                        districtSelect.innerHTML +=
+                            `<option value="${d.id}">${d.district_name}</option>`;
                     });
 
                     // Restore selected district if exists
@@ -239,7 +242,8 @@
                 .then(data => {
                     localitySelect.innerHTML = `<option value="">Filter by Locality</option>`;
                     data.forEach(l => {
-                        localitySelect.innerHTML += `<option value="${l.id}">${l.locality_name}</option>`;
+                        localitySelect.innerHTML +=
+                            `<option value="${l.id}">${l.locality_name}</option>`;
                     });
 
                     // Restore selected locality if exists
@@ -252,7 +256,7 @@
         fetchDistricts();
 
         // Load localities when district changes
-        districtSelect.addEventListener('change', function () {
+        districtSelect.addEventListener('change', function() {
             const districtId = this.value;
             if (districtId) {
                 fetchLocalities(districtId);
@@ -267,7 +271,7 @@
             fetchLocalities(initialDistrict);
         }
         // SweetAlert delete confirmation
-        $(document).on('click', '.delete-btn', function (e) {
+        $(document).on('click', '.delete-btn', function(e) {
             e.preventDefault();
             const form = $(this).closest('form');
             Swal.fire({
@@ -291,7 +295,7 @@
         if (typeof jQuery !== 'undefined') {
 
             // edit modal functionality
-            $(document).on('click', '.edit-btn', function () {
+            $(document).on('click', '.edit-btn', function() {
 
 
                 const raw = $(this).attr('data-fw4a');
@@ -325,7 +329,7 @@
 
                 // Load provinces for the selected region
                 if (fw4a.region_id) {
-                    $.get(`/get-provinces/${fw4a.region_id}`, function (data) {
+                    $.get(`/get-provinces/${fw4a.region_id}`, function(data) {
                         $('#edit_province').html('<option value="">Select Province</option>');
                         data.forEach(p => {
                             $('#edit_province').append(
@@ -335,7 +339,7 @@
 
                         // Load districts for the selected province
                         if (fw4a.province_id) {
-                            $.get(`/get-districts/${fw4a.province_id}`, function (data) {
+                            $.get(`/get-districts/${fw4a.province_id}`, function(data) {
                                 $('#edit_district').html(
                                     '<option value="">Select District</option>');
                                 data.forEach(d => {
@@ -347,7 +351,7 @@
 
                                 // Load localities for the selected district
                                 if (fw4a.district_id) {
-                                    $.get(`/get-localities/${fw4a.district_id}`, function (
+                                    $.get(`/get-localities/${fw4a.district_id}`, function(
                                         data) {
                                         $('#edit_locality').html(
                                             '<option value="">Select Locality</option>'
@@ -367,14 +371,14 @@
             });
 
             // dropdowns for edit modal
-            $('#edit_region').on('change', function () {
+            $('#edit_region').on('change', function() {
                 let regionId = $(this).val();
                 $('#edit_province').html('<option value="">Select Province</option>');
                 $('#edit_district').html('<option value="">Select District</option>');
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (regionId) {
-                    $.get(`/get-provinces/${regionId}`, function (data) {
+                    $.get(`/get-provinces/${regionId}`, function(data) {
                         data.forEach(p => {
                             $('#edit_province').append(
                                 `<option value="${p.id}">${p.province_name}</option>`);
@@ -383,13 +387,13 @@
                 }
             });
 
-            $('#edit_province').on('change', function () {
+            $('#edit_province').on('change', function() {
                 let provinceId = $(this).val();
                 $('#edit_district').html('<option value="">Select District</option>');
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (provinceId) {
-                    $.get(`/get-districts/${provinceId}`, function (data) {
+                    $.get(`/get-districts/${provinceId}`, function(data) {
                         data.forEach(d => {
                             $('#edit_district').append(
                                 `<option value="${d.id}">${d.district_name}</option>`);
@@ -398,12 +402,12 @@
                 }
             });
 
-            $('#edit_district').on('change', function () {
+            $('#edit_district').on('change', function() {
                 let districtId = $(this).val();
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (districtId) {
-                    $.get(`/get-localities/${districtId}`, function (data) {
+                    $.get(`/get-localities/${districtId}`, function(data) {
                         data.forEach(l => {
                             $('#edit_locality').append(
                                 `<option value="${l.id}">${l.locality_name}</option>`);
