@@ -15,6 +15,8 @@ use App\Http\Controllers\Fw4aExportController;
 use App\Http\Controllers\Tech4edExportController;
 use App\Http\Controllers\BploExportController;
 use App\Http\Controllers\HRFormController;
+use App\Http\Controllers\IbplsExportController;
+
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -83,7 +85,7 @@ Route::get('/ibpls/{ibpls}/edit', [App\Http\Controllers\IbplsController::class, 
 Route::put('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'update'])->name('ibpls.update');
 Route::delete('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'destroy'])->name('ibpls.destroy');
 Route::get('/ibpls/reset-ids', [App\Http\Controllers\IbplsController::class, 'resetIds'])->name('ibpls.resetIds');
-
+Route::get('/ibpls/export/{format?}', [IbplsExportController::class, 'export'])->name('ibpls.export');
 
 // PNP-KI Routes
 Route::get('/pnpki', [App\Http\Controllers\PnpkiController::class, 'index'])->name('pnpki');

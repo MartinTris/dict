@@ -21,7 +21,6 @@
                     <li><a class="dropdown-item" href="{{ route('ibpls.export', 'pdf') }}">Export to PDF</a></li>
                 </ul>
             </div>
-s           
         </div>
     </div>
 
