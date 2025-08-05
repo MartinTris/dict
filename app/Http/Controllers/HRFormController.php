@@ -11,10 +11,34 @@ use Symfony\Component\Process\Process;
 class HRFormController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
+        $query = HRForm::with('category');
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                  ->orWhere('original_file_path', 'like', "%$search%");
+            });
+        }
+
+        // Filter by category
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Get filtered forms
+        $forms = $query->get();
+
+        // Get all categories for filter dropdown
         $categories = HRFormsCategory::with('forms')->get();
-        return view('hrforms.index', compact('categories'));
+
+        // Group forms by category for display
+        $groupedForms = $forms->groupBy('category_id');
+
+        return view('hrforms.index', compact('categories', 'groupedForms'));
     }
     
     public function store(Request $request)
