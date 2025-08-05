@@ -13,10 +13,24 @@
             <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">FW4A Sites</h6>
                 <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-sm text-white" data-bs-toggle="modal" data-bs-target="#addSiteModal"
-                        style="background-color: #003566;">
+                    <button type="button" class="btn btn-sm text-white" data-bs-toggle="modal"
+                        data-bs-target="#addSiteModal" style="background-color: #003566;">
                         <i class="fas fa-plus"></i> Add New Site
                     </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" style="color:white; background-color: #003566;">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('fw4a.export', 'xlsx') }}">Export as Excel
+                                    (.xlsx)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('fw4a.export', 'csv') }}">Export as CSV (.csv)</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('fw4a.export', 'pdf') }}">Export as PDF (.pdf)</a>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
             </div>
@@ -95,9 +109,8 @@
                                     <td class="text-center">
                                         <a href="{{ route('fw4a.show', $fw4a->id) }}" class="btn btn-sm btn-info mb-1"><i
                                                 class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn"
-                                            data-bs-toggle="modal" data-bs-target="#editSiteModal"
-                                            data-fw4a='@json($fw4a)'>
+                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn" data-bs-toggle="modal"
+                                            data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('fw4a.destroy', $fw4a->id) }}" method="POST"
@@ -214,7 +227,7 @@
 
 <script>
     //deletion
-    $(document).ready(function() {
+    $(document).ready(function () {
         const province_id = 1;
         const provinceId = 1; // fixed province ID
         const districtSelect = document.getElementById('filterDistrict');
@@ -256,7 +269,7 @@
         fetchDistricts();
 
         // Load localities when district changes
-        districtSelect.addEventListener('change', function() {
+        districtSelect.addEventListener('change', function () {
             const districtId = this.value;
             if (districtId) {
                 fetchLocalities(districtId);
@@ -271,7 +284,7 @@
             fetchLocalities(initialDistrict);
         }
         // SweetAlert delete confirmation
-        $(document).on('click', '.delete-btn', function(e) {
+        $(document).on('click', '.delete-btn', function (e) {
             e.preventDefault();
             const form = $(this).closest('form');
             Swal.fire({
@@ -295,7 +308,7 @@
         if (typeof jQuery !== 'undefined') {
 
             // edit modal functionality
-            $(document).on('click', '.edit-btn', function() {
+            $(document).on('click', '.edit-btn', function () {
 
 
                 const raw = $(this).attr('data-fw4a');
@@ -329,7 +342,7 @@
 
                 // Load provinces for the selected region
                 if (fw4a.region_id) {
-                    $.get(`/get-provinces/${fw4a.region_id}`, function(data) {
+                    $.get(`/get-provinces/${fw4a.region_id}`, function (data) {
                         $('#edit_province').html('<option value="">Select Province</option>');
                         data.forEach(p => {
                             $('#edit_province').append(
@@ -339,7 +352,7 @@
 
                         // Load districts for the selected province
                         if (fw4a.province_id) {
-                            $.get(`/get-districts/${fw4a.province_id}`, function(data) {
+                            $.get(`/get-districts/${fw4a.province_id}`, function (data) {
                                 $('#edit_district').html(
                                     '<option value="">Select District</option>');
                                 data.forEach(d => {
@@ -351,7 +364,7 @@
 
                                 // Load localities for the selected district
                                 if (fw4a.district_id) {
-                                    $.get(`/get-localities/${fw4a.district_id}`, function(
+                                    $.get(`/get-localities/${fw4a.district_id}`, function (
                                         data) {
                                         $('#edit_locality').html(
                                             '<option value="">Select Locality</option>'
@@ -371,14 +384,14 @@
             });
 
             // dropdowns for edit modal
-            $('#edit_region').on('change', function() {
+            $('#edit_region').on('change', function () {
                 let regionId = $(this).val();
                 $('#edit_province').html('<option value="">Select Province</option>');
                 $('#edit_district').html('<option value="">Select District</option>');
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (regionId) {
-                    $.get(`/get-provinces/${regionId}`, function(data) {
+                    $.get(`/get-provinces/${regionId}`, function (data) {
                         data.forEach(p => {
                             $('#edit_province').append(
                                 `<option value="${p.id}">${p.province_name}</option>`);
@@ -387,13 +400,13 @@
                 }
             });
 
-            $('#edit_province').on('change', function() {
+            $('#edit_province').on('change', function () {
                 let provinceId = $(this).val();
                 $('#edit_district').html('<option value="">Select District</option>');
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (provinceId) {
-                    $.get(`/get-districts/${provinceId}`, function(data) {
+                    $.get(`/get-districts/${provinceId}`, function (data) {
                         data.forEach(d => {
                             $('#edit_district').append(
                                 `<option value="${d.id}">${d.district_name}</option>`);
@@ -402,12 +415,12 @@
                 }
             });
 
-            $('#edit_district').on('change', function() {
+            $('#edit_district').on('change', function () {
                 let districtId = $(this).val();
                 $('#edit_locality').html('<option value="">Select Locality</option>');
 
                 if (districtId) {
-                    $.get(`/get-localities/${districtId}`, function(data) {
+                    $.get(`/get-localities/${districtId}`, function (data) {
                         data.forEach(l => {
                             $('#edit_locality').append(
                                 `<option value="${l.id}">${l.locality_name}</option>`);
