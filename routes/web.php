@@ -13,7 +13,7 @@ use App\Http\Controllers\SparkController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\Fw4aExportController;
 use App\Http\Controllers\Tech4edExportController;
-
+use App\Http\Controllers\BploExportController;
 use App\Http\Controllers\HRFormController;
 Route::get('/', function () {
     return view('auth.admin-login');
@@ -70,6 +70,7 @@ Route::get('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'show'])
 Route::get('/bplo/{bplo}/edit', [App\Http\Controllers\BploController::class, 'edit'])->name('bplo.edit');
 Route::put('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'update'])->name('bplo.update');
 Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'destroy'])->name('bplo.destroy');
+Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
 
 // IBPLS Routes
 // Main IBPLS routes
