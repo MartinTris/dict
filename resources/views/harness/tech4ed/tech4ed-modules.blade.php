@@ -56,10 +56,14 @@
                         <!-- Sort By -->
                         <div class="col-md-2 col-6">
                             <select name="sort" id="filterSort" class="form-select">
-                                <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest First</option>
-                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
-                                <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
-                                <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
+                                <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Latest First
+                                </option>
+                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First
+                                </option>
+                                <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title A-Z
+                                </option>
+                                <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title
+                                    Z-A</option>
                             </select>
                         </div>
                     </div>
@@ -85,11 +89,11 @@
                                         <a href="{{ route('tech4ed-modules.download', $module->id) }}"
                                             class="btn btn-sm btn-success"><i class="fas fa-download"></i></a>
                                         <button class="btn btn-sm btn-primary edit-btn" data-id="{{ $module->id }}"
-                                            data-title="{{ $module->title }}"
-                                            data-bs-toggle="modal" data-bs-target="#editModuleModal">
+                                            data-title="{{ $module->title }}" data-bs-toggle="modal"
+                                            data-bs-target="#editModuleModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger delete-btn" 
+                                        <button type="button" class="btn btn-sm btn-danger delete-btn"
                                             data-id="{{ $module->id }}" data-title="{{ $module->title }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -116,7 +120,8 @@
     <div class="modal fade" id="addModuleModal" tabindex="-1" aria-labelledby="addModuleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="addModuleForm" action="{{ route('tech4ed-modules.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="addModuleForm" action="{{ route('tech4ed-modules.store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="addModuleModalLabel">Add New Module</h5>
@@ -129,8 +134,16 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Upload File</label>
-                            <input type="file" name="file" class="form-control"
-                                accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx" required>
+                            <div id="dropZone" class="drop-zone">
+
+                                <span id="dropZoneText">Drag & drop a file here or click to browse</span>
+                                <input type="file" name="file" class="form-control" id="fileInput"
+                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx" required hidden>
+                            </div>
+                            <!-- Allowed file types info -->
+                            <small class="form-text text-muted mt-2 d-block">
+                                Allowed file types: .mp4, .ppt, .pptx, .pdf, .png, .jpeg, .jpg, .xlsx
+                            </small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -143,7 +156,8 @@
     </div>
 
     <!-- Edit Module Modal -->
-    <div class="modal fade" id="editModuleModal" tabindex="-1" aria-labelledby="editModuleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModuleModal" tabindex="-1" aria-labelledby="editModuleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="editModuleForm" method="POST" enctype="multipart/form-data">
@@ -175,6 +189,34 @@
 
     <!-- Styling -->
     <style>
+        .drop-zone {
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+
+        .drop-zone:hover {
+            background-color: #f8f9fa;
+        }
+
+        .drop-zone.dragover {
+            background-color: #e9ecef;
+            border-color: #007bff;
+        }
+
+        .drop-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         #searchInput {
             padding-right: 2.5rem;
         }
@@ -245,7 +287,7 @@
 
     <script>
         // Success message handling
-        @if(session('success'))
+        @if (session('success'))
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
@@ -257,7 +299,7 @@
         @endif
 
         // Error message handling
-        @if(session('error'))
+        @if (session('error'))
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
@@ -268,7 +310,7 @@
 
         // Edit button functionality
         document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const id = this.dataset.id;
                 const title = this.dataset.title;
 
@@ -301,17 +343,17 @@
                         const form = document.createElement('form');
                         form.method = 'POST';
                         form.action = `/tech4ed-modules/${id}`;
-                        
+
                         const csrfToken = document.createElement('input');
                         csrfToken.type = 'hidden';
                         csrfToken.name = '_token';
                         csrfToken.value = '{{ csrf_token() }}';
-                        
+
                         const methodField = document.createElement('input');
                         methodField.type = 'hidden';
                         methodField.name = '_method';
                         methodField.value = 'DELETE';
-                        
+
                         form.appendChild(csrfToken);
                         form.appendChild(methodField);
                         document.body.appendChild(form);
@@ -325,7 +367,7 @@
         document.getElementById('addModuleForm').addEventListener('submit', function(e) {
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            
+
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
             submitBtn.disabled = true;
         });
@@ -333,7 +375,7 @@
         document.getElementById('editModuleForm').addEventListener('submit', function(e) {
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            
+
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
             submitBtn.disabled = true;
         });
@@ -352,7 +394,7 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const href = this.getAttribute('href');
-                
+
                 Swal.fire({
                     title: 'Download File',
                     text: 'Are you sure you want to download this file?',
@@ -368,6 +410,36 @@
                     }
                 });
             });
+        });
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const dropZoneText = document.getElementById('dropZoneText');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                dropZoneText.textContent = e.dataTransfer.files[0].name;
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                dropZoneText.textContent = fileInput.files[0].name;
+            }
         });
     </script>
 @endsection
