@@ -17,6 +17,9 @@ use App\Http\Controllers\BploExportController;
 use App\Http\Controllers\HRFormController;
 use App\Http\Controllers\IbplsExportController;
 use App\Http\Controllers\CybersecurityExportController;
+use App\Http\Controllers\PnpkiExportController;
+
+// Public routes
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -96,7 +99,7 @@ Route::get('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'show
 Route::get('/pnpki/{pnpki}/edit', [App\Http\Controllers\PnpkiController::class, 'edit'])->name('pnpki.edit');
 Route::put('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'update'])->name('pnpki.update');
 Route::delete('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'destroy'])->name('pnpki.destroy');
-
+Route::get('/pnpki/export/{format}', [PnpkiExportController::class, 'export'])->name('pnpki.export');
 
 //Cybersecurity Routes
 // routes/web.php (add these routes)
