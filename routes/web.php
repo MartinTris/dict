@@ -16,7 +16,7 @@ use App\Http\Controllers\Tech4edExportController;
 use App\Http\Controllers\BploExportController;
 use App\Http\Controllers\HRFormController;
 use App\Http\Controllers\IbplsExportController;
-
+use App\Http\Controllers\CybersecurityExportController;
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -108,7 +108,7 @@ Route::get('/cybersecurity/{cybersecurity}', [App\Http\Controllers\Cybersecurity
 Route::get('/cybersecurity/{cybersecurity}/edit', [App\Http\Controllers\CybersecurityController::class, 'edit'])->name('cybersecurity.edit');
 Route::put('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'update'])->name('cybersecurity.update');
 Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'destroy'])->name('cybersecurity.destroy');
-
+Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
 
 Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
        

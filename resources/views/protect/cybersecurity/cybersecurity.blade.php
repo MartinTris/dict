@@ -19,6 +19,17 @@
                     <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-chart-bar"></i> Data Visualization
                     </a>
+                    <div class="dropdown d-inline">
+                        <button class="btn btn-sm dropdown-toggle text-white" type="button" style="background-color: #003566;" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'xlsx') }}">Export to Excel (XLSX)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'csv') }}">Export to CSV</a></li>
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'pdf') }}">Export to PDF</a></li>
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
             <div class="card-body">
