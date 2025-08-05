@@ -164,6 +164,7 @@
         <a class="collapse-item custom-active" href="{{ route('ilcdb') }}">ILCDB</a>
         <a class="collapse-item custom-active" href="{{ route('spark') }}">SPARK</a>
         <a class="collapse-item custom-active" href="{{ route('tech4ed') }}">TECH4ED</a>
+        <a class="collapse-item custom-active" href="{{ route('tech4ed-modules.index') }}">TECH4ED Modules</a>
       </div>
     </div>
   </li>

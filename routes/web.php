@@ -12,8 +12,16 @@ use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\Fw4aExportController;
-
+use App\Http\Controllers\Tech4edExportController;
+use App\Http\Controllers\BploExportController;
 use App\Http\Controllers\HRFormController;
+use App\Http\Controllers\IbplsExportController;
+use App\Http\Controllers\CybersecurityExportController;
+use App\Http\Controllers\PnpkiExportController;
+use App\Http\Controllers\IlcdbModuleController;
+use App\Http\Controllers\Tech4edModuleController;
+
+// Public routes
 Route::get('/', function () {
     return view('auth.admin-login');
 });
@@ -53,6 +61,9 @@ Route::get('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class,
 Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::class, 'edit'])->name('tech4ed.edit');
 Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
 Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
+Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
+Route::resource('tech4ed-modules', Tech4edModuleController::class);
+Route::get('tech4ed-modules/{tech4edModule}/download', [Tech4edModuleController::class, 'download'])->name('tech4ed-modules.download');
 
 // Tech4ED API Routes for districts
 Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
@@ -68,6 +79,7 @@ Route::get('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'show'])
 Route::get('/bplo/{bplo}/edit', [App\Http\Controllers\BploController::class, 'edit'])->name('bplo.edit');
 Route::put('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'update'])->name('bplo.update');
 Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'destroy'])->name('bplo.destroy');
+Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
 
 // IBPLS Routes
 // Main IBPLS routes
@@ -80,7 +92,7 @@ Route::get('/ibpls/{ibpls}/edit', [App\Http\Controllers\IbplsController::class, 
 Route::put('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'update'])->name('ibpls.update');
 Route::delete('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'destroy'])->name('ibpls.destroy');
 Route::get('/ibpls/reset-ids', [App\Http\Controllers\IbplsController::class, 'resetIds'])->name('ibpls.resetIds');
-
+Route::get('/ibpls/export/{format?}', [IbplsExportController::class, 'export'])->name('ibpls.export');
 
 // PNP-KI Routes
 Route::get('/pnpki', [App\Http\Controllers\PnpkiController::class, 'index'])->name('pnpki');
@@ -91,7 +103,7 @@ Route::get('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'show
 Route::get('/pnpki/{pnpki}/edit', [App\Http\Controllers\PnpkiController::class, 'edit'])->name('pnpki.edit');
 Route::put('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'update'])->name('pnpki.update');
 Route::delete('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'destroy'])->name('pnpki.destroy');
-
+Route::get('/pnpki/export/{format}', [PnpkiExportController::class, 'export'])->name('pnpki.export');
 
 //Cybersecurity Routes
 // routes/web.php (add these routes)
@@ -103,7 +115,7 @@ Route::get('/cybersecurity/{cybersecurity}', [App\Http\Controllers\Cybersecurity
 Route::get('/cybersecurity/{cybersecurity}/edit', [App\Http\Controllers\CybersecurityController::class, 'edit'])->name('cybersecurity.edit');
 Route::put('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'update'])->name('cybersecurity.update');
 Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'destroy'])->name('cybersecurity.destroy');
-
+Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
 
 Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
        
@@ -148,7 +160,6 @@ Route::middleware('auth:employee')->group(function () {
 });
 
 //FW4A Routes
-
 Route::middleware('auth')->group(function () {
     Route::get('/fw4a',[Fw4aController::class, 'index'])->name('fw4a');
     Route::post('/fw4a', [Fw4aController::class, 'store'])->name('fw4a.store');
@@ -167,7 +178,7 @@ Route::post('/localities', [FormController::class, 'storeLocality'])->name('loca
 Route::get('/test', [FormController::class, 'getRegion']);
 
 //ILCDB Routes
-Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
+Route::get('/ilcdb', [IlcdbModuleController::class, 'index'])->name('ilcdb');
 
 // Spark Routes
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
@@ -189,7 +200,7 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::post('/create', [CalendarController::class, 'store'])->name('store');
     Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('destroy');
-    Route::get('/fetch', [CalendarContrsoller::class, 'fetch'])->name('fetch');
+    Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
     Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
     Route::post('/projects', [CalendarController::class, 'storeProject'])->name('projects.store');
 Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
