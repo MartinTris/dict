@@ -11,6 +11,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\Fw4aExportController;
 
 use App\Http\Controllers\HRFormController;
 Route::get('/', function () {
@@ -154,6 +155,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/fw4a/{fw4a}', [Fw4aController::class, 'show'])->name('fw4a.show');
     Route::put('/fw4a/{fw4a}', [Fw4aController::class, 'update'])->name('fw4a.update');
     Route::delete('/fw4a/{fw4a}', [Fw4aController::class, 'destroy'])->name('fw4a.destroy');
+    Route::get('/fw4a/export/{format}', [Fw4aExportController::class, 'export'])->name('fw4a.export');
 });
 
 /*endpoints for fw4a location*/
@@ -171,7 +173,6 @@ Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
 
 //HR Form Routes
-
 Route::middleware('auth')->prefix('hr-forms')->name('hrforms.')->group(function () {
     Route::get('/', [HRFormController::class, 'index'])->name('index');
     Route::post('/create', [HRFormController::class, 'store'])->name('store');
@@ -188,7 +189,7 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::post('/create', [CalendarController::class, 'store'])->name('store');
     Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('destroy');
-    Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
+    Route::get('/fetch', [CalendarContrsoller::class, 'fetch'])->name('fetch');
     Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
     Route::post('/projects', [CalendarController::class, 'storeProject'])->name('projects.store');
 Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
