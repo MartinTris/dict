@@ -18,6 +18,8 @@ use App\Http\Controllers\HRFormController;
 use App\Http\Controllers\IbplsExportController;
 use App\Http\Controllers\CybersecurityExportController;
 use App\Http\Controllers\PnpkiExportController;
+use App\Http\Controllers\IlcdbModuleController;
+use App\Http\Controllers\Tech4edModuleController;
 
 // Public routes
 Route::get('/', function () {
@@ -60,6 +62,8 @@ Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::c
 Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
 Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
 Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
+Route::resource('tech4ed-modules', Tech4edModuleController::class);
+Route::get('tech4ed-modules/{tech4edModule}/download', [Tech4edModuleController::class, 'download'])->name('tech4ed-modules.download');
 
 // Tech4ED API Routes for districts
 Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
@@ -156,7 +160,6 @@ Route::middleware('auth:employee')->group(function () {
 });
 
 //FW4A Routes
-
 Route::middleware('auth')->group(function () {
     Route::get('/fw4a',[Fw4aController::class, 'index'])->name('fw4a');
     Route::post('/fw4a', [Fw4aController::class, 'store'])->name('fw4a.store');
@@ -175,7 +178,7 @@ Route::post('/localities', [FormController::class, 'storeLocality'])->name('loca
 Route::get('/test', [FormController::class, 'getRegion']);
 
 //ILCDB Routes
-Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
+Route::get('/ilcdb', [IlcdbModuleController::class, 'index'])->name('ilcdb');
 
 // Spark Routes
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
@@ -197,7 +200,7 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
     Route::get('/', [CalendarController::class, 'index'])->name('index');
     Route::post('/create', [CalendarController::class, 'store'])->name('store');
     Route::delete('/{id}', [CalendarController::class, 'destroy'])->name('destroy');
-    Route::get('/fetch', [CalendarContrsoller::class, 'fetch'])->name('fetch');
+    Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
     Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
     Route::post('/projects', [CalendarController::class, 'storeProject'])->name('projects.store');
 Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
