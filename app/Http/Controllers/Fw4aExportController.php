@@ -11,17 +11,17 @@ class Fw4aExportController extends Controller
     //
     public function export($format)
     {
-        $fileName = 'fw4a_sites.' . $format;
+        $fileName = 'fw4a_sites_' . now()->format('Ymd_His') . '.' . $format;
 
-        switch ($format) {
-            case 'xlsx':
-                return Excel::download(new Fw4aExport, $fileName, \Maatwebsite\Excel\Excel::XLSX);
-            case 'csv':
-                return Excel::download(new Fw4aExport, $fileName, \Maatwebsite\Excel\Excel::CSV);
-            case 'pdf':
-                return Excel::download(new Fw4aExport, $fileName, \Maatwebsite\Excel\Excel::DOMPDF);
-            default:
-                return back()->with('error', 'Invalid export format selected.');
+        if (!in_array($format, ['xlsx', 'csv', 'pdf'])) {
+            abort(400, 'Invalid export format.');
         }
+
+        return Excel::download(new Fw4aExport, $fileName, match($format) {
+            'csv' => \Maatwebsite\Excel\Excel::CSV,
+            'pdf' => \Maatwebsite\Excel\Excel::DOMPDF,
+            default => \Maatwebsite\Excel\Excel::XLSX,
+        });
+
     }
 }
