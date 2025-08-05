@@ -12,6 +12,7 @@ use App\Http\Controllers\IlcdbController;
 use App\Http\Controllers\SparkController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\Fw4aExportController;
+use App\Http\Controllers\Tech4edExportController;
 
 use App\Http\Controllers\HRFormController;
 Route::get('/', function () {
@@ -53,6 +54,7 @@ Route::get('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class,
 Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::class, 'edit'])->name('tech4ed.edit');
 Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
 Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
+Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
 
 // Tech4ED API Routes for districts
 Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');

@@ -11,6 +11,17 @@
                 <a href="{{ route('tech4ed.visualization') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                     <i class="fas fa-chart-bar"></i> Data Visualization
                 </a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #003566; color: white;">
+                        <i class="fas fa-file-export"></i> Export
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('tech4ed.export', 'xlsx') }}">Export to Excel</a></li>
+                        <li><a class="dropdown-item" href="{{ route('tech4ed.export', 'csv') }}">Export to CSV</a></li>
+                        <li><a class="dropdown-item" href="{{ route('tech4ed.export', 'pdf') }}">Export to PDF</a></li>
+                    </ul>
+                </div>
+                
             </div>
         </div>
 
