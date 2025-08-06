@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Models;
-use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pnpki extends Model
 {
-    use HasFactory, BelongsToUser;
+    use HasFactory;
 
       protected $fillable = [
         'date_conducted',
@@ -30,4 +29,6 @@ class Pnpki extends Model
         'list_of_engaged_partners',
         'user_id'
     ];
+
+    public function user() { return $this->belongsTo(User::class); }
 }

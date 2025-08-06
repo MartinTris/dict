@@ -130,6 +130,7 @@ class PnpkiController extends Controller
 
         // Calculate total participants
         $validatedData['total_participants'] = $validatedData['male_participants'] + $validatedData['female_participants'];
+        $validatedData['user_id'] = auth()->id();
 
         Pnpki::create($validatedData);
         

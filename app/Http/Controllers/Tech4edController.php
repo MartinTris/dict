@@ -178,7 +178,9 @@ class Tech4edController extends Controller
             'type_of_donation' => 'nullable',
         ]);
 
-        Tech4ed::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+        Tech4ed::create($data);
         return redirect()->route('tech4ed')
             ->with('success', 'TECH4ED center added successfully.');
     }

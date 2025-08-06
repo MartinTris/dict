@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Models;
-use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Ibpls extends Model
 {
-    use HasFactory, BelongsToUser;
+    use HasFactory;
 
     /**
      * The table associated with the model.
@@ -28,4 +27,6 @@ class Ibpls extends Model
         'status',
         'user_id'
     ];
+
+    public function user() { return $this->belongsTo(User::class); }
 }
