@@ -18,7 +18,6 @@ use App\Http\Controllers\HRFormController;
 use App\Http\Controllers\IbplsExportController;
 use App\Http\Controllers\CybersecurityExportController;
 use App\Http\Controllers\PnpkiExportController;
-use App\Http\Controllers\IlcdbModuleController;
 use App\Http\Controllers\Tech4edModuleController;
 
 // Public routes
@@ -178,7 +177,7 @@ Route::post('/localities', [FormController::class, 'storeLocality'])->name('loca
 Route::get('/test', [FormController::class, 'getRegion']);
 
 //ILCDB Routes
-Route::get('/ilcdb', [IlcdbModuleController::class, 'index'])->name('ilcdb');
+Route::get('/ilcdb', [IlcdbController::class, 'index'])->name('ilcdb');
 
 // Spark Routes
 Route::get('/spark', [SparkController::class, 'index'])->name('spark');
