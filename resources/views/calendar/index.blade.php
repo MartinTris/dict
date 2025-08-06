@@ -218,13 +218,14 @@
                         <div class="mb-3 position-relative">
                             <label for="eventProject" class="form-label fw-semibold">Project</label>
                             <div class="dropdown">
-                                <button class="btn btn-light border w-100 d-flex justify-content-between align-items-center dropdown-toggle"
+                                <button
+                                    class="btn btn-light border w-100 d-flex justify-content-between align-items-center dropdown-toggle"
                                     type="button" id="dropdownProjectBtn" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span id="selectedProjectText">Select Project</span>
                                 </button>
                                 <ul class="dropdown-menu w-100" id="projectDropdown">
-                                    @if($projects && $projects->count() > 0)
-                                        @foreach($projects as $project)
+                                    @if ($projects && $projects->count() > 0)
+                                        @foreach ($projects as $project)
                                             <li class="dropdown-item project-item" data-id="{{ $project->id }}">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span class="project-option">{{ $project->name }}</span>
@@ -235,9 +236,12 @@
                                                 </div>
                                             </li>
                                         @endforeach
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                     @endif
-                                    <li><a class="dropdown-item text-primary" href="#" id="addNewProjectBtn">+ Add New Project</a></li>
+                                    <li><a class="dropdown-item text-primary" href="#" id="addNewProjectBtn">+ Add New
+                                            Project</a></li>
                                 </ul>
                             </div>
                             <input type="hidden" id="selectedProjectId" name="project">
@@ -245,8 +249,7 @@
 
                         <div class="mb-3">
                             <label for="eventDescription" class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" id="eventDescription" rows="3" draggable="true"
-                                style="resize: both;"></textarea>
+                            <textarea class="form-control" id="eventDescription" rows="3" draggable="true" style="resize: both;"></textarea>
                         </div>
 
                     </div>
@@ -269,7 +272,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="name" class="form-control" placeholder="Enter Project Name" required>
+                        <input type="text" name="name" class="form-control" placeholder="Enter Project Name"
+                            required>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
@@ -278,7 +282,7 @@
             </form>
         </div>
     </div>
-    
+
 @endsection
 
 @push('scripts')
@@ -287,8 +291,8 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function () {
-            
+        $(document).ready(function() {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -314,7 +318,7 @@
             });
 
             // Select project
-            $(document).on('click', '.project-item', function () {
+            $(document).on('click', '.project-item', function() {
                 const id = $(this).data('id');
                 const name = $(this).find('.project-option').text();
                 $('#selectedProjectId').val(id);
@@ -324,7 +328,7 @@
             });
 
             // Delete project
-            $(document).on('click', '.delete-project', function (e) {
+            $(document).on('click', '.delete-project', function(e) {
                 e.stopPropagation();
                 const id = $(this).data('id');
                 const name = $(this).siblings('.project-option').text();
@@ -343,33 +347,42 @@
                         $.ajax({
                             url: `/calendar/projects/${id}`,
                             type: 'DELETE',
-                            success: function () {
-                                $(`#projectDropdown .project-item[data-id="${id}"]`).remove();
+                            success: function() {
+                                $(`#projectDropdown .project-item[data-id="${id}"]`)
+                                    .remove();
                                 if ($('#selectedProjectId').val() == id) {
                                     $('#selectedProjectId').val('');
                                     $('#selectedProjectText').text('Select Project');
                                 }
                                 Swal.fire('Deleted!', 'Project removed.', 'success');
                             },
-                            error: function () {
-                                Swal.fire('Error', 'Failed to delete project.', 'error');
+                            error: function() {
+                                Swal.fire('Error', 'Failed to delete project.',
+                                    'error');
                             }
                         });
                     }
                 });
             });
 
-            // Show add project modal
-            $(document).on('click', '#addNewProjectBtn', function (e) {
+            // Show add project modal (properly hides the Event modal first)
+            $(document).on('click', '#addNewProjectBtn', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                $('#addProjectModal').modal('show');
+
+                // Hide Event Modal if it's open
+                $('#eventModal').modal('hide');
+
+                // Show Add Project Modal after a slight delay (wait for backdrop)
+                setTimeout(() => {
+                    $('#addProjectModal').modal('show');
+                }, 300);
             });
 
             // Submit new project
-            $('#addProjectForm').on('submit', function (e) {
+            $('#addProjectForm').on('submit', function(e) {
                 e.preventDefault();
-                $.post("{{ route('calendar.projects.store') }}", $(this).serialize(), function (res) {
+                $.post("{{ route('calendar.projects.store') }}", $(this).serialize(), function(res) {
                     // Add new project to dropdown
                     const newProjectHtml = `
                         <li class="dropdown-item project-item" data-id="${res.id}">
@@ -381,7 +394,7 @@
                             </div>
                         </li>
                     `;
-                    
+
                     // Insert before the divider or at the beginning if no divider
                     const divider = $('#projectDropdown .dropdown-divider');
                     if (divider.length > 0) {
@@ -389,7 +402,7 @@
                     } else {
                         $('#projectDropdown').prepend(newProjectHtml);
                     }
-                    
+
                     $('#selectedProjectId').val(res.id);
                     $('#selectedProjectText').text(res.name);
                     $('#addProjectModal').modal('hide');
@@ -402,7 +415,7 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
 
             const Toast = Swal.mixin({
                 toast: true,
@@ -426,18 +439,20 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                events: function (fetchInfo, successCallback, failureCallback) {
+                events: function(fetchInfo, successCallback, failureCallback) {
                     $.when(
-                        $.get('{{ route('calendar.fetch') }}'),      // user events
-                        $.get('{{ route('holidays.fetch') }}', { year: new Date().getFullYear() }) // holiday events
-                    ).done(function (userEvents, holidayEvents) {
+                        $.get('{{ route('calendar.fetch') }}'), // user events
+                        $.get('{{ route('holidays.fetch') }}', {
+                            year: new Date().getFullYear()
+                        }) // holiday events
+                    ).done(function(userEvents, holidayEvents) {
                         // $.when returns arrays: [data, status, xhr]
                         const merged = [...userEvents[0], ...holidayEvents[0]];
                         successCallback(merged);
                     }).fail(failureCallback);
                 },
 
-                select: function (info) {
+                select: function(info) {
                     resetModal();
                     const clickedDate = info.startStr + 'T08:00';
                     document.getElementById('eventStart').value = clickedDate;
@@ -446,7 +461,7 @@
                     eventModal.show();
                 },
                 nextDayThreshold: '12:00',
-                eventClick: function (info) {
+                eventClick: function(info) {
                     resetModal();
                     document.getElementById('eventId').value = info.event.id;
                     document.getElementById('eventTitle').value = info.event.title;
@@ -460,18 +475,20 @@
                         .assigned ?? '';
                     document.getElementById('eventDescription').value = info.event.extendedProps
                         .description ?? '';
-                    
+
                     // Set project if it exists
                     if (info.event.extendedProps.project_id) {
-                        document.getElementById('selectedProjectId').value = info.event.extendedProps.project_id;
-                        document.getElementById('selectedProjectText').textContent = info.event.extendedProps.project || 'Select Project';
+                        document.getElementById('selectedProjectId').value = info.event.extendedProps
+                            .project_id;
+                        document.getElementById('selectedProjectText').textContent = info.event
+                            .extendedProps.project || 'Select Project';
                     }
-                    
+
                     deleteEventBtn.classList.remove('d-none');
                     eventModal.show();
                 },
 
-                eventDidMount: function (info) {
+                eventDidMount: function(info) {
                     var tooltipText = '<b>' + info.event.title + '</b>';
                     if (info.event.extendedProps.isHoliday) {
 
@@ -505,7 +522,7 @@
                 $.ajax({
                     url: '{{ route('calendar.fetch') }}',
                     method: 'GET',
-                    success: function (events) {
+                    success: function(events) {
                         const now = new Date();
                         let start = new Date(now);
                         let end = new Date(now);
@@ -514,7 +531,8 @@
                             end.setDate(start.getDate() + 7);
                         } else if (filter === 'month') {
                             start = new Date(now.getFullYear(), now.getMonth(), 1); // start of month
-                            end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59); // end of month
+                            end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59,
+                                59); // end of month
                         } else if (filter === 'year') {
                             start = new Date(now.getFullYear(), 0, 1); // Jan 1
                             end = new Date(now.getFullYear(), 11, 31, 23, 59, 59); // Dec 31
@@ -542,52 +560,48 @@
                     events.forEach(e => {
                         list.append(
                             `<li class="list-group-item upcoming-event-item"
-                                                data-id="${e.id}"
-                                                data-title="${e.title}"
-                                                data-start="${e.start}"
-                                                data-end="${e.end || ''}"
-                                                data-location="${e.location || ''}"
-                                                data-assigned="${e.assigned || ''}"
-                                                data-project="${e.project || ''}"
-                                                data-description="${e.description || ''}">
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <strong>${e.title}</strong>
-                                                                    <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
-                                                                </div>
-                                                                <div>
-                                                                    <div>
-                                                                        <div class="text-muted">
-                                                                            <i class="bi bi-calendar-event me-1"></i>
-                                                                            ${new Date(e.start).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric'
-                            })}
-                                                                            ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric'
-                            })}` : ''}
-                                                                        </div>
-                                                                        <div class="text-muted">
-                                                                            <i class="bi bi-clock-fill me-1"></i>
-                                                                            ${new Date(e.start).toLocaleTimeString('en-US', {
-                                hour: 'numeric',
-                                minute: '2-digit'
-                            })}
-                                                                            ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', {
-                                hour: 'numeric',
-                                minute: '2-digit'
-                            })}` : ''}
-                                                                            ${e.location ? `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${e.location}</span>` : `<br><span class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>No location set.</span>`}
-                                                                        </div>
-                                                                </div>
-                                                            </li>`
+        data-id="${e.id}"
+        data-title="${e.title}"
+        data-start="${e.start}"
+        data-end="${e.end || ''}"
+        data-location="${e.location || ''}"
+        data-assigned="${e.assigned || ''}"
+        data-project="${e.project || ''}"
+        data-description="${e.description || ''}">
+        <div class="d-flex justify-content-between align-items-center">
+            <strong>${e.title}</strong>
+            <button class="btn btn-close btn-sm delete-event-btn" data-id="${e.id}" title="Delete"></button>
+        </div>
+        <div class="mt-1">
+            <div class="text-muted">
+                <i class="bi bi-calendar-event me-1"></i>
+                ${new Date(e.start).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                ${e.end ? ` - ${new Date(e.end).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}` : ''}
+            </div>
+            <div class="text-muted">
+                <i class="bi bi-clock-fill me-1"></i>
+                ${new Date(e.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                ${e.end ? ` - ${new Date(e.end).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : ''}
+            </div>
+            <div class="text-muted">
+                <i class="bi bi-geo-alt-fill me-1"></i>
+                ${e.location || 'No location set.'}
+            </div>
+            <div class="text-muted">
+                <i class="bi bi-person-fill me-1"></i>
+                ${e.assigned || 'No assignee'}
+            </div>
+            <div class="text-muted">
+                <i class="bi bi-kanban-fill me-1"></i>
+                ${e.project || 'No project'}
+            </div>
+        </div>
+    </li>`
                         );
                     });
                 }
 
-                $('.upcoming-event-item').off('click').on('click', function () {
+                $('.upcoming-event-item').off('click').on('click', function() {
                     resetModal();
 
                     // Fill modal with clicked event's data
@@ -612,7 +626,7 @@
                 });
 
                 // Attach event handlers after rendering
-                $('.delete-event-btn').off('click').on('click', function (e) {
+                $('.delete-event-btn').off('click').on('click', function(e) {
                     e.stopPropagation();
                     const eventId = $(this).data('id');
                     const formTitle = $(this).closest('.list-group-item').find('div').first().text();
@@ -635,7 +649,7 @@
                                 data: {
                                     _token: '{{ csrf_token() }}'
                                 },
-                                success: function () {
+                                success: function() {
                                     calendar.refetchEvents();
                                     loadUpcomingEvents($('#eventDateFilter').val());
                                     Toast.fire({
@@ -643,7 +657,7 @@
                                         title: 'Event deleted'
                                     });
                                 },
-                                error: function () {
+                                error: function() {
                                     Swal.fire('Error', 'Failed to delete event.',
                                         'error');
                                 }
@@ -655,7 +669,7 @@
 
             }
 
-            $('#eventDateFilter').on('change', function () {
+            $('#eventDateFilter').on('change', function() {
                 const filterValue = $(this).val();
                 loadUpcomingEvents(filterValue);
             });
@@ -667,7 +681,7 @@
             calendar.on('eventChange', loadUpcomingEvents);
             calendar.on('eventRemove', loadUpcomingEvents);
 
-            eventForm.addEventListener('submit', function (e) {
+            eventForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 const eventId = document.getElementById('eventId').value;
@@ -695,7 +709,7 @@
                         project,
                         description
                     },
-                    success: function () {
+                    success: function() {
                         calendar.refetchEvents();
                         loadUpcomingEvents($('#eventDateFilter').val());
                         eventModal.hide();
@@ -704,13 +718,13 @@
                             title: eventId ? 'Event updated' : 'Event added'
                         });
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire('Error', 'Failed to save event.', 'error');
                     }
                 });
             });
 
-            deleteEventBtn.addEventListener('click', function () {
+            deleteEventBtn.addEventListener('click', function() {
                 var eventId = document.getElementById('eventId').value;
                 if (!eventId) return;
 
@@ -729,7 +743,7 @@
                             data: {
                                 _token: '{{ csrf_token() }}'
                             },
-                            success: function () {
+                            success: function() {
                                 calendar.refetchEvents();
                                 eventModal.hide();
                                 Toast.fire({
@@ -737,7 +751,7 @@
                                     title: 'Event deleted'
                                 });
                             },
-                            error: function () {
+                            error: function() {
                                 Swal.fire('Error', 'Failed to delete event.', 'error');
                             }
                         });
