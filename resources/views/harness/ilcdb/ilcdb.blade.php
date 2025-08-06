@@ -15,7 +15,7 @@
     }
     
     .courses-table thead th {
-        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+        background: linear-gradient(135deg, #4159a2 0%, #0a2474 100%);
         color: white;
         font-weight: 600;
         text-transform: uppercase;
@@ -48,7 +48,7 @@
     
     .course-title {
         font-weight: 700;
-        color: #2e59d9;
+        color: #114474;
         font-size: 1rem;
         margin-bottom: 0.5rem;
         line-height: 1.3;
@@ -73,7 +73,7 @@
     }
     
     .module-list li strong {
-        color: #2e59d9;
+        color: #0b3c6a;
         font-weight: 600;
     }
     
@@ -83,7 +83,7 @@
     
     .duration-days {
         font-weight: 700;
-        color: #2e59d9;
+        color: #003566;
         font-size: 1.1rem;
         display: block;
         margin-bottom: 0.25rem;
@@ -184,7 +184,7 @@
     .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
         background: #eaecf4;
         border-color: #bac8f3;
-        color: #2e59d9 !important;
+        color: #003566 !important;
     }
     
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
@@ -214,7 +214,7 @@
     }
     
     .card-header {
-        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+        background: #003566;
         color: white;
         border: none;
         border-radius: 0.75rem 0.75rem 0 0;
@@ -349,6 +349,7 @@
                 "pageLength": 5,
                 "order": [[0, "asc"]],
                 "responsive": true,
+                "ordering": false,
                 "colReorder": true,
                 "language": {
                     "lengthMenu": "Show _MENU_ courses per page",
@@ -364,7 +365,7 @@
                     {
                         "targets": [1, 2, 4], // Description, Contents, Target Participants columns
                         "width": "auto",
-                        "className": "text-justify"
+                        "className": "text-left"
                     },
                     {
                         "targets": 3, // Duration column
