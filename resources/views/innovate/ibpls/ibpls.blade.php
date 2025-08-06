@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 font-weight-bold" style="color: #003566;">IBPLS Management</h1>
-        <div>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
             <a href="{{ route('ibpls.create') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                 <i class="fas fa-plus"></i> Add New Record
             </a>
