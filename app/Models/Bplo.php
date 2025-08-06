@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Bplo extends Model
 {
-    use HasFactory, BelongsToUser;
+    use HasFactory;
 
     protected $fillable = [
         'province',
@@ -20,4 +19,6 @@ class Bplo extends Model
         'user_id'
         
     ];
+
+    public function user() { return $this->belongsTo(User::class); }
 }

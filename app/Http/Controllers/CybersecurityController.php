@@ -124,6 +124,7 @@ class CybersecurityController extends Controller
             'list_of_engaged_partners' => 'nullable|string',
         ]);
 
+        $validated['user_id'] = auth()->id();
         Cybersecurity::create($validated);
 
         return redirect()->route('cybersecurity')->with('success', 'Cybersecurity record created successfully!');

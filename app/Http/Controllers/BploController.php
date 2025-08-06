@@ -113,6 +113,7 @@ class BploController extends Controller
             'income_class' => 'required|string|max:255',
         ]);
 
+        $validated['user_id'] = auth()->id();
         Bplo::create($validated);
 
         return redirect()->route('bplo')

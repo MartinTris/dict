@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Models;
-use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tech4ed extends Model
 {
-    use HasFactory, BelongsToUser;
+    use HasFactory;
 
     protected $fillable = [
         'congressional_district',
@@ -25,4 +24,6 @@ class Tech4ed extends Model
         'type_of_donation',
         'user_id'
     ];
+
+    public function user() { return $this->belongsTo(User::class); }
 }

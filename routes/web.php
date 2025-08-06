@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Fw4aController;
-use App\Http\Controllers\Users_listController; // Import your Users_listController
+// use App\Http\Controllers\Users_listController; // Import your Users_listController
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FormController;
@@ -116,18 +116,18 @@ Route::put('/cybersecurity/{cybersecurity}', [App\Http\Controllers\Cybersecurity
 Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'destroy'])->name('cybersecurity.destroy');
 Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
 
-Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
+// Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
        
-Route::get('/users_list', [Users_listController::class, 'index'])->name('indexusers');
-Route::get('/users_list/create', [Users_listController::class, 'create'])->name('users_lists.create');
-Route::post('/users_list/store', [Users_listController::class, 'store'])->name('users_lists.store');
+// Route::get('/users_list', [Users_listController::class, 'index'])->name('indexusers');
+// Route::get('/users_list/create', [Users_listController::class, 'create'])->name('users_lists.create');
+// Route::post('/users_list/store', [Users_listController::class, 'store'])->name('users_lists.store');
 
-Route::get('/users_list/{users_list}', [Users_listController::class, 'show'])->name('users_lists.show');
-Route::get('/users_list/{users_list}/edit', [Users_listController::class, 'edit'])->name('users_lists.edit');
-Route::put('/users_list/{users_list}', [Users_listController::class, 'update'])->name('users_lists.update');
+// Route::get('/users_list/{users_list}', [Users_listController::class, 'show'])->name('users_lists.show');
+// Route::get('/users_list/{users_list}/edit', [Users_listController::class, 'edit'])->name('users_lists.edit');
+// Route::put('/users_list/{users_list}', [Users_listController::class, 'update'])->name('users_lists.update');
 
-Route::delete('/users_list/{users_list}', [Users_listController::class, 'destroy'])->name('users_lists.destroy');
-    });
+// Route::delete('/users_list/{users_list}', [Users_listController::class, 'destroy'])->name('users_lists.destroy');
+//     });
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 });

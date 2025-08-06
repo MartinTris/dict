@@ -104,6 +104,7 @@ class IbplsController extends Controller
             'status' => 'nullable|string|max:255',
         ]);
 
+        $validated['user_id'] = auth()->id();
         Ibpls::create($validated);
 
         return redirect()->route('ibpls')

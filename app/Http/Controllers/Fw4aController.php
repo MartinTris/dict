@@ -63,9 +63,9 @@ class Fw4aController extends Controller
             'contractor'   => 'nullable|string',
             'latitude'        => 'nullable|string',
             'longitude'       => 'nullable|string',
-            'user_id' => 'required|exists:users,id',
         ]);
     
+        $validated['user_id'] = auth()->id();
         Fw4a::create($validated);
     
         return redirect()->back()->with('success', 'Site has been successfully added.');
@@ -109,7 +109,6 @@ class Fw4aController extends Controller
             'contractor'      => 'nullable|string',
             'latitude'        => 'nullable|string',
             'longitude'       => 'nullable|string',
-            'user_id'         => 'required|exists:users,id',
         ]);
 
         $fw4a->update($validated);
