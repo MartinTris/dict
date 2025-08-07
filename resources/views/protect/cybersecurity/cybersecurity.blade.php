@@ -138,11 +138,11 @@
                                     <td class="text-center">{{ $record->number_of_engagement ?? 'N/A' }}</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('cybersecurity.show', $record->id) }}" class="btn btn-sm btn-info mx-1" title="View">
-                                                <i class="fas fa-eye"></i>
+                                            <a href="{{ route('cybersecurity.show', $record->id) }}" class="btn btn-sm btn-info mx-1" style="background-color: #5076a8; border-color: #5076a8;" title="View">
+                                                <i class="fas fa-eye" style="color: white;"></i>
                                             </a>
-                                            <a href="{{ route('cybersecurity.edit', $record->id) }}" class="btn btn-sm btn-primary mx-1" title="Edit">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="{{ route('cybersecurity.edit', $record->id) }}" class="btn btn-sm btn-primary mx-1" style="background-color: #003566; border-color: #003566;" title="Edit">
+                                                <i class="fas fa-edit" style="color: white;"></i>
                                             </a>
                                             <form action="{{ route('cybersecurity.destroy', $record->id) }}" method="POST" class="d-inline">
                                                 @csrf
