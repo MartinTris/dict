@@ -42,7 +42,7 @@
                 <form method="GET" action="{{ route('bplo') }}" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <!-- Search Input -->
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-8 col-12">
                             <div class="input-group">
                                 <input type="text" name="search" id="searchInput" class="form-control"
                                     placeholder="Search by province, municipality, status..."
@@ -71,7 +71,7 @@
                         </div>
 
                         <!-- Congressional District Filter -->
-                        <div class="col-md-2 col-6">
+                        <div class="col-md-2 col-6 p-0">
                             <select name="congressional_district" class="form-select">
                                 <option value="">All Districts</option>
                                 @foreach($congressionalDistricts as $district)
