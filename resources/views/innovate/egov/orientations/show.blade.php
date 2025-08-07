@@ -8,11 +8,14 @@
             <div class="card-header py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Orientation Information</h6>
                 <div>
-                    <a href="#" class="btn btn-sm btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editOrientationModal" data-orientation='@json($egovOrientation)'>
-                        <i class="fas fa-edit"></i> Edit
+                    <a href="#" class="btn btn-sm btn-primary edit-btn" style="background-color:#003566; border:none"
+                        data-bs-toggle="modal" data-bs-target="#editOrientationModal"
+                        data-orientation='@json($egovOrientation)'>
+                        <i class="fas fa-edit" style="color: white;"></i> Edit
                     </a>
-                    <a href="{{ route('egov-orientation.index') }}" class="btn btn-sm btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to List
+                    <a href="{{ route('egov-orientation.index') }}" class="btn btn-sm btn-secondary"
+                        style="background-color:#6a84a0; border:none">
+                        <i class="fas fa-arrow-left" style="color: white;"></i> Back to List
                     </a>
                 </div>
             </div>
@@ -87,7 +90,7 @@
                             <tr>
                                 <th>Link:</th>
                                 <td>
-                                    @if($egovOrientation->link)
+                                    @if ($egovOrientation->link)
                                         <a href="{{ $egovOrientation->link }}" target="_blank" class="btn btn-sm btn-link">
                                             <i class="fas fa-external-link-alt"></i> View Link
                                         </a>
@@ -121,13 +124,15 @@
                                     <div class="col-md-4">
                                         <div class="text-center">
                                             <h6 class="text-muted">Male Participants</h6>
-                                            <h4 class="text-info">{{ intval($egovOrientation->male) }}</h4>
+                                            <h4 style="color: #007bff;">{{ intval($egovOrientation->male) }}</h4>
+                                            {{-- Blue --}}
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="text-center">
                                             <h6 class="text-muted">Female Participants</h6>
-                                            <h4 class="text-success">{{ intval($egovOrientation->female) }}</h4>
+                                            <h4 style="color: #e83e8c;">{{ intval($egovOrientation->female) }}</h4>
+                                            {{-- Pink --}}
                                         </div>
                                     </div>
                                 </div>
@@ -143,10 +148,16 @@
                                                     $malePercent = $total > 0 ? round(($male / $total) * 100) : 0;
                                                     $femalePercent = $total > 0 ? round(($female / $total) * 100) : 0;
                                                 @endphp
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ $malePercent }}%" aria-valuenow="{{ $malePercent }}" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" role="progressbar"
+                                                    style="width: {{ $malePercent }}%; background-color: #007bff;"
+                                                    aria-valuenow="{{ $malePercent }}" aria-valuemin="0"
+                                                    aria-valuemax="100">
                                                     Male: {{ $malePercent }}%
                                                 </div>
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $femalePercent }}%" aria-valuenow="{{ $femalePercent }}" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" role="progressbar"
+                                                    style="width: {{ $femalePercent }}%; background-color: #e83e8c;"
+                                                    aria-valuenow="{{ $femalePercent }}" aria-valuemin="0"
+                                                    aria-valuemax="100">
                                                     Female: {{ $femalePercent }}%
                                                 </div>
                                             </div>
@@ -160,18 +171,18 @@
             </div>
         </div>
     </div>
-    
+
     <style>
         .table-borderless th {
             font-weight: 600;
             color: #003566;
         }
-        
+
         .card {
             border: 1px solid #e3e6f0;
             border-radius: 0.35rem;
         }
-        
+
         .text-primary {
             color: #003566 !important;
         }
@@ -184,7 +195,7 @@
         function initScripts() {
             if (typeof jQuery !== 'undefined') {
                 // edit modal functionality
-                $(document).on('click', '.edit-btn', function () {
+                $(document).on('click', '.edit-btn', function() {
                     const raw = $(this).attr('data-orientation');
                     let orientation;
 
@@ -226,4 +237,4 @@
 
         initScripts();
     </script>
-@endsection 
+@endsection
