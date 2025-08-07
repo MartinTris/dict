@@ -118,10 +118,12 @@
                                 <td class="text-center">{{ $tech4ed->with_donation }}</td>
                                 <td class="text-center">{{ $tech4ed->type_of_donation ?? 'N/A' }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('tech4ed.show', $tech4ed->id) }}" class="btn btn-sm btn-info mb-1">
-                                        <i class="fas fa-eye"></i>
+                                    <a href="{{ route('tech4ed.show', $tech4ed->id) }}" class="btn btn-sm btn-info mb-1"
+                                        style="background-color: #5076a8; border-color: #5076a8;">
+                                        <i class="fas fa-eye" style="color: white;"></i>
                                     </a>
-                                    <a href="{{ route('tech4ed.edit', $tech4ed->id) }}" class="btn btn-sm btn-primary mb-1">
+                                    <a href="{{ route('tech4ed.edit', $tech4ed->id) }}" class="btn btn-sm btn-primary mb-1"
+                                        style="background-color: #003566;">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form action="{{ route('tech4ed.destroy', $tech4ed->id) }}" method="POST" class="d-inline delete-form">

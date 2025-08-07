@@ -86,9 +86,13 @@
                                     <td>{{ strtoupper($module->file_type) }}</td>
                                     <td>{{ $module->created_at->format('M d, Y') }}</td>
                                     <td>
+                                        <a href="#" class="btn btn-sm btn-info" 
+                                            style="background-color: #5076a8; border-color: #5076a8;"><i
+                                                class="fas fa-eye" style="color: white;"></i></a>
                                         <a href="{{ route('tech4ed-modules.download', $module->id) }}"
-                                            class="btn btn-sm btn-success"><i class="fas fa-download"></i></a>
-                                        <button class="btn btn-sm btn-primary edit-btn" data-id="{{ $module->id }}"
+                                            class="btn btn-sm btn-success" ><i class="fas fa-download"></i></a>
+                                        <button class="btn btn-sm btn-primary edit-btn" style="background-color: #003566; border-color: #003566; " 
+                                        data-id="{{ $module->id }}"
                                             data-title="{{ $module->title }}" data-bs-toggle="modal"
                                             data-bs-target="#editModuleModal">
                                             <i class="fas fa-edit"></i>
