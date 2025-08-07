@@ -19,6 +19,7 @@ use App\Http\Controllers\IbplsExportController;
 use App\Http\Controllers\CybersecurityExportController;
 use App\Http\Controllers\PnpkiExportController;
 use App\Http\Controllers\Tech4edModuleController;
+use App\Http\Controllers\eGovOrientationController;
 
 // Public routes
 Route::get('/', function () {
@@ -41,14 +42,12 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
 Route::get('/nbp', [App\Http\Controllers\NbpController::class, 'index'])->name('nbp');
-Route::get('/egov', [App\Http\Controllers\EgovController::class, 'index'])->name('egov');
 Route::get('/gecs', [App\Http\Controllers\GecsController::class, 'index'])->name('gecs');
     
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
 Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
-
 
 
 // Tech4ED Routes
@@ -69,7 +68,7 @@ Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::cl
 Route::get('/tech4ed-api/congressional-districts', [App\Http\Controllers\Tech4edController::class, 'getCongressionalDistricts'])->name('tech4ed.congressional-districts');
 Route::get('/tech4ed-api/filter-by-district/{districtId}', [App\Http\Controllers\Tech4edController::class, 'filterByDistrict'])->name('tech4ed.filter-by-district');
 
-// routes/web.php
+// BPLO Routes
 Route::get('/bplo', [App\Http\Controllers\BploController::class, 'index'])->name('bplo');
 Route::get('/bplo/create', [App\Http\Controllers\BploController::class, 'create'])->name('bplo.create');
 Route::post('/bplo', [App\Http\Controllers\BploController::class, 'store'])->name('bplo.store');
@@ -80,6 +79,11 @@ Route::put('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'update'
 Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'destroy'])->name('bplo.destroy');
 Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
 
+//eGov Routes
+
+Route::get('/egov', [App\Http\Controllers\EgovController::class, 'index'])->name('egov');
+Route::resource('egov-orientation', eGovOrientationController::class);
+Route::get('egov-orientation/export/{format}', [EgovOrientationController::class, 'export'])->name('egov-orientation.export');
 // IBPLS Routes
 // Main IBPLS routes
 Route::get('/ibpls', [App\Http\Controllers\IbplsController::class, 'index'])->name('ibpls');
