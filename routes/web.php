@@ -20,6 +20,7 @@ use App\Http\Controllers\CybersecurityExportController;
 use App\Http\Controllers\PnpkiExportController;
 use App\Http\Controllers\Tech4edModuleController;
 use App\Http\Controllers\eGovOrientationController;
+use App\Http\Controllers\eGovAssistancesController;
 
 // Public routes
 Route::get('/', function () {
@@ -80,10 +81,15 @@ Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'dest
 Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
 
 //eGov Routes
-
+//Orientations
 Route::get('/egov', [App\Http\Controllers\EgovController::class, 'index'])->name('egov');
 Route::resource('egov-orientation', eGovOrientationController::class);
 Route::get('egov-orientation/export/{format}', [EgovOrientationController::class, 'export'])->name('egov-orientation.export');
+
+//Assistances
+Route::resource('egov-assistance', eGovAssistancesController::class);
+Route::get('egov-assistance/export/{format}', [eGovAssistancesController::class, 'export'])->name('egov-assistance.export');
+
 // IBPLS Routes
 // Main IBPLS routes
 Route::get('/ibpls', [App\Http\Controllers\IbplsController::class, 'index'])->name('ibpls');

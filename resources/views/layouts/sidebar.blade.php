@@ -180,6 +180,7 @@
         <a class="collapse-item custom-active" href="{{ route('bplo') }}">BPLO</a>
         <a class="collapse-item custom-active" href="{{ route('egov') }}">eGOV</a>
         <a class="collapse-item custom-active" href="{{ route('egov-orientation.index') }}">eGOV Orientations</a>
+        <a class="collapse-item custom-active" href="{{ route('egov-assistance.index') }}">eGOV Assistances</a>
         <a class="collapse-item custom-active" href="{{ route('ibpls') }}">BPLS</a>
         <a class="collapse-item custom-active" href="#">IIDB</a>
       </div>
