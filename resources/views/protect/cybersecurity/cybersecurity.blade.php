@@ -2,7 +2,7 @@
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Cybersecurity Advocacies</h1>
-        
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -13,23 +13,29 @@
             <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Cybersecurity Records</h6>
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{{ route('cybersecurity.create') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
+                    <a href="{{ route('cybersecurity.create') }}" class="btn btn-sm"
+                        style="background-color: #003566; color: white;">
                         <i class="fas fa-plus"></i> Add New Record
                     </a>
-                    <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
+                    <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-sm"
+                        style="background-color: #003566; color: white;">
                         <i class="fas fa-chart-bar"></i> Data Visualization
                     </a>
                     <div class="dropdown d-inline">
-                        <button class="btn btn-sm dropdown-toggle text-white" type="button" style="background-color: #003566;" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-sm dropdown-toggle text-white" type="button"
+                            style="background-color: #003566;" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-file-export"></i> Export
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'xlsx') }}">Export to Excel (XLSX)</a></li>
-                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'csv') }}">Export to CSV</a></li>
-                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'pdf') }}">Export to PDF</a></li>
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'xlsx') }}">Export to Excel
+                                    (XLSX)</a></li>
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'csv') }}">Export to CSV</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('cybersecurity.export', 'pdf') }}">Export to PDF</a>
+                            </li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="card-body">
@@ -40,7 +46,8 @@
                         <div class="col-md-8 col-12">
                             <div class="input-group">
                                 <input type="text" name="search" id="searchInput" class="form-control"
-                                    placeholder="Search by activity title, organizer, province..." value="{{ request('search') }}">
+                                    placeholder="Search by activity title, organizer, province..."
+                                    value="{{ request('search') }}">
                                 @if (request('search'))
                                     <a href="{{ route('cybersecurity') }}" class="btn btn-outline-secondary">
                                         <i class="fas fa-times"></i>
@@ -56,8 +63,9 @@
                         <div class="col-md-2 col-6">
                             <select name="municipality" class="form-select">
                                 <option value="">All Municipalities</option>
-                                @foreach($municipalities as $municipality)
-                                    <option value="{{ $municipality }}" {{ request('municipality') == $municipality ? 'selected' : '' }}>
+                                @foreach ($municipalities as $municipality)
+                                    <option value="{{ $municipality }}"
+                                        {{ request('municipality') == $municipality ? 'selected' : '' }}>
                                         {{ $municipality }}
                                     </option>
                                 @endforeach
@@ -68,8 +76,9 @@
                         <div class="col-md-2 col-6">
                             <select name="district" class="form-select">
                                 <option value="">All Districts</option>
-                                @foreach($districts as $district)
-                                    <option value="{{ $district }}" {{ request('district') == $district ? 'selected' : '' }}>
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district }}"
+                                        {{ request('district') == $district ? 'selected' : '' }}>
                                         {{ $district }}
                                     </option>
                                 @endforeach
@@ -114,8 +123,9 @@
                                     <td>{{ $record->type_of_activity }}</td>
                                     <td>{{ $record->mode_of_implementation }}</td>
                                     <td class="text-center">
-                                        @if($record->zoom_link)
-                                            <a href="{{ $record->zoom_link }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        @if ($record->zoom_link)
+                                            <a href="{{ $record->zoom_link }}" target="_blank"
+                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-link"></i> Link
                                             </a>
                                         @else
@@ -124,11 +134,13 @@
                                     </td>
                                     <td class="text-center">{{ $record->male_participants }}</td>
                                     <td class="text-center">{{ $record->female_participants }}</td>
-                                    <td class="text-center font-weight-bold">{{ $record->male_participants + $record->female_participants }}</td>
+                                    <td class="text-center font-weight-bold">
+                                        {{ $record->male_participants + $record->female_participants }}</td>
                                     <td>{{ $record->resource_person }}</td>
                                     <td class="text-center">
-                                        @if($record->fb_posting)
-                                            <a href="{{ $record->fb_posting }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                        @if ($record->fb_posting)
+                                            <a href="{{ $record->fb_posting }}" target="_blank"
+                                                class="btn btn-sm btn-outline-info">
                                                 <i class="fab fa-facebook"></i> View
                                             </a>
                                         @else
@@ -138,17 +150,22 @@
                                     <td class="text-center">{{ $record->number_of_engagement ?? 'N/A' }}</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('cybersecurity.show', $record->id) }}" class="btn btn-sm btn-info mx-1" style="background-color: #5076a8; border-color: #5076a8;" title="View">
+                                            <a href="{{ route('cybersecurity.show', $record->id) }}"
+                                                class="btn btn-sm btn-info mx-1 rounded mb-1"
+                                                style="background-color: #5076a8; border-color: #5076a8;" title="View">
                                                 <i class="fas fa-eye" style="color: white;"></i>
                                             </a>
-                                            <a href="{{ route('cybersecurity.edit', $record->id) }}" class="btn btn-sm btn-primary mx-1" style="background-color: #003566; border-color: #003566;" title="Edit">
+                                            <a href="{{ route('cybersecurity.edit', $record->id) }}"
+                                                class="btn btn-sm btn-primary mb-1 rounded mb-1"
+                                                style="background-color: #003566; border-color: #003566;" title="Edit">
                                                 <i class="fas fa-edit" style="color: white;"></i>
                                             </a>
-                                            <form action="{{ route('cybersecurity.destroy', $record->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('cybersecurity.destroy', $record->id) }}"
+                                                method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger mx-1" 
-                                                    onclick="return confirm('Are you sure you want to delete this record?')" 
+                                                <button type="submit" class="btn btn-sm btn-danger mx-1 rounded mb-1"
+                                                    onclick="return confirm('Are you sure you want to delete this record?')"
                                                     title="Delete">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -163,11 +180,12 @@
                             @endforelse
                         </tbody>
                     </table>
-                    
+
                     <!-- Pagination -->
                     <div class="d-flex justify-content-between align-items-center flex-wrap mt-4">
                         <div class="text-muted small">
-                            Showing {{ $cybersecurityRecords->firstItem() }} to {{ $cybersecurityRecords->lastItem() }} of {{ $cybersecurityRecords->total() }}
+                            Showing {{ $cybersecurityRecords->firstItem() }} to {{ $cybersecurityRecords->lastItem() }} of
+                            {{ $cybersecurityRecords->total() }}
                             results
                         </div>
                         <div>
@@ -178,7 +196,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Styling -->
     <style>
         #searchInput {
@@ -267,9 +285,10 @@
     <script>
         $(document).ready(function() {
             // Auto-submit form when filters change
-            $('select[name="province"], select[name="municipality"], select[name="district"], select[name="type_of_activity"]').on('change', function() {
-                $(this).closest('form').submit();
-            });
+            $('select[name="province"], select[name="municipality"], select[name="district"], select[name="type_of_activity"]')
+                .on('change', function() {
+                    $(this).closest('form').submit();
+                });
 
             // Clear search functionality
             $('#searchInput').on('keyup', function(e) {
@@ -299,7 +318,8 @@
 
             // Show loading state when form is submitted
             $('form').on('submit', function() {
-                $('button[type="submit"]').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+                $('button[type="submit"]').prop('disabled', true).html(
+                    '<i class="fas fa-spinner fa-spin"></i>');
             });
         });
     </script>
