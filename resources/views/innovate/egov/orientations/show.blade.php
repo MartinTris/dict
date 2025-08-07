@@ -35,6 +35,10 @@
                                 <td>{{ $egovOrientation->event_name }}</td>
                             </tr>
                             <tr>
+                                <th>Event Type:</th>
+                                <td>{{ $egovOrientation->event_type ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <th>Venue:</th>
                                 <td>{{ $egovOrientation->venue }}</td>
                             </tr>
@@ -196,9 +200,13 @@
                     $('#edit_orientation_id').val(orientation.id);
 
                     // Set fields
-                    $('#edit_date').val(orientation.date);
+                    // Format date for HTML date input (YYYY-MM-DD)
+                    const date = new Date(orientation.date);
+                    const formattedDate = date.toISOString().split('T')[0];
+                    $('#edit_date').val(formattedDate);
                     $('#edit_training_control_no').val(orientation.training_control_no);
                     $('#edit_event_name').val(orientation.event_name);
+                    $('#edit_event_type').val(orientation.event_type);
                     $('#edit_venue').val(orientation.venue);
                     $('#edit_participants').val(orientation.participants);
                     $('#edit_province').val(orientation.province);

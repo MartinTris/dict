@@ -41,7 +41,7 @@
                         <div class="col-md-8 col-12">
                             <div class="input-group">
                                 <input type="text" name="search" id="searchInput" class="form-control"
-                                    placeholder="Training control no, event name, venue, participants..." value="{{ request('search') }}">
+                                    placeholder="Training control no, event name, event type, venue, participants..." value="{{ request('search') }}">
                                 @if (request('search'))
                                     <a href="{{ route('egov-orientation.index') }}" class="btn btn-outline-secondary">
                                         <i class="fas fa-times"></i>
@@ -86,6 +86,7 @@
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Training Control No.</th>
                                 <th class="text-center">Event Name</th>
+                                <th class="text-center">Event Type</th>
                                 <th class="text-center">Venue</th>
                                 <th class="text-center">Participants</th>
                                 <th class="text-center">Province</th>
@@ -106,6 +107,7 @@
                                     <td class="text-center">{{ $orientation->date->format('M d, Y') }}</td>
                                     <td class="text-center">{{ $orientation->training_control_no }}</td>
                                     <td class="text-center">{{ $orientation->event_name }}</td>
+                                    <td class="text-center">{{ $orientation->event_type }}</td>
                                     <td class="text-center">{{ $orientation->venue }}</td>
                                     <td class="text-center">{{ $orientation->participants }}</td>
                                     <td class="text-center">{{ $orientation->province }}</td>
@@ -295,6 +297,7 @@
                 $('#edit_date').val(formattedDate);
                 $('#edit_training_control_no').val(orientation.training_control_no);
                 $('#edit_event_name').val(orientation.event_name);
+                $('#edit_event_type').val(orientation.event_type);
                 $('#edit_venue').val(orientation.venue);
                 $('#edit_participants').val(orientation.participants);
                 $('#edit_province').val(orientation.province);

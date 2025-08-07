@@ -36,6 +36,7 @@ class eGovOrientationController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('training_control_no', 'like', "%{$search}%")
                   ->orWhere('event_name', 'like', "%{$search}%")
+                  ->orWhere('event_type', 'like', "%{$search}%")
                   ->orWhere('venue', 'like', "%{$search}%")
                   ->orWhere('participants', 'like', "%{$search}%")
                   ->orWhere('province', 'like', "%{$search}%")
@@ -102,8 +103,9 @@ class eGovOrientationController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'training_control_no' => 'required|string|max:255',
+            'training_control_no' => 'nullable|string|max:255',
             'event_name' => 'required|string|max:255',
+            'event_type' => 'nullable|string|max:255',
             'venue' => 'required|string|max:255',
             'participants' => 'required|string|max:255',
             'province' => 'required|string|max:255',
@@ -145,8 +147,9 @@ class eGovOrientationController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'training_control_no' => 'required|string|max:255',
+            'training_control_no' => 'nullable|string|max:255',
             'event_name' => 'required|string|max:255',
+            'event_type' => 'nullable|string|max:255',
             'venue' => 'required|string|max:255',
             'participants' => 'required|string|max:255',
             'province' => 'required|string|max:255',

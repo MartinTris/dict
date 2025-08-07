@@ -13,6 +13,7 @@ class EgovOrientation extends Model
         'date',
         'training_control_no',
         'event_name',
+        'event_type',
         'venue',
         'participants',
         'province',

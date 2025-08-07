@@ -20,8 +20,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="edit_training_control_no" class="form-label">Training Control No. <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('training_control_no') is-invalid @enderror" id="edit_training_control_no" name="training_control_no" required>
+                            <label for="edit_training_control_no" class="form-label">Training Control No.</label>
+                            <input type="text" class="form-control @error('training_control_no') is-invalid @enderror" id="edit_training_control_no" name="training_control_no">
                             @error('training_control_no')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -37,15 +37,22 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="edit_venue" class="form-label">Venue <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('venue') is-invalid @enderror" id="edit_venue" name="venue" required>
-                            @error('venue')
+                            <label for="edit_event_type" class="form-label">Event Type</label>
+                            <input type="text" class="form-control @error('event_type') is-invalid @enderror" id="edit_event_type" name="event_type" placeholder="e.g., Training, Workshop, Seminar">
+                            @error('event_type')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
                     <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_venue" class="form-label">Venue <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('venue') is-invalid @enderror" id="edit_venue" name="venue" required>
+                            @error('venue')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-6 mb-3">
                             <label for="edit_participants" class="form-label">Participants <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('participants') is-invalid @enderror" id="edit_participants" name="participants" required>
@@ -53,6 +60,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_province" class="form-label">Province <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('province') is-invalid @enderror" id="edit_province" name="province" required>
@@ -60,9 +70,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_municipality" class="form-label">Municipality <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('municipality') is-invalid @enderror" id="edit_municipality" name="municipality" required>
@@ -70,6 +77,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_mode" class="form-label">Mode <span class="text-danger">*</span></label>
                             <select class="form-select @error('mode') is-invalid @enderror" id="edit_mode" name="mode" required>
@@ -81,9 +91,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_status" class="form-label">Status <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('status') is-invalid @enderror" id="edit_status" name="status" required>
@@ -91,6 +98,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_no_of_attendees" class="form-label">No. of Attendees <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('no_of_attendees') is-invalid @enderror" id="edit_no_of_attendees" name="no_of_attendees" required>
@@ -98,9 +108,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="edit_no_of_downloaded_and_verified" name="no_of_downloaded_and_verified" required>
@@ -108,6 +115,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_male" class="form-label">Male <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('male') is-invalid @enderror" id="edit_male" name="male" required>
@@ -115,9 +125,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_female" class="form-label">Female <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('female') is-invalid @enderror" id="edit_female" name="female" required>
@@ -125,6 +132,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="edit_link" class="form-label">Link</label>
                             <input type="url" class="form-control @error('link') is-invalid @enderror" id="edit_link" name="link" placeholder="https://example.com">
