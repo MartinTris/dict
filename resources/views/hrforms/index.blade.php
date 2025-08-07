@@ -83,6 +83,36 @@
                 width: 100% !important;
             }
         }
+
+        /* Pagination Styling */
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .pagination .page-link {
+            color: #003566;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #003566;
+            border-color: #003566;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        /* Accordion badge styling */
+        .accordion-button .badge {
+            font-size: 0.75rem;
+        }
     </style>
 @endpush
 @section('contents')
@@ -117,7 +147,7 @@
                 <form method="GET" action="{{ route('hrforms.index') }}" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <!-- Search Input -->
-                        <div class="col-md-8 col-12">
+                        <div class="col-md-6 col-12">
                             <div class="input-group">
                                 <input type="text" name="search" id="searchInput" class="form-control"
                                     placeholder="Search by file name..." value="{{ request('search') }}">
@@ -133,7 +163,7 @@
                         </div>
 
                         <!-- Category Filter -->
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-3 col-12">
                             <select name="category_id" class="form-select">
                                 <option value="">All Categories</option>
                                 @foreach($categories as $category)
@@ -143,15 +173,25 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <!-- Per Page Selector -->
+                        <div class="col-md-3 col-12">
+                            <select name="per_page" class="form-select">
+                                <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5 per page</option>
+                                <option value="10" {{ request('per_page') == 10 || !request('per_page') ? 'selected' : '' }}>10 per page</option>
+                                <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20 per page</option>
+                                <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50 per page</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
 
                 <div class="accordion" id="hrFormsAccordion">
-                    @foreach ($categories as $category)
+                    @foreach ($filteredCategories as $category)
                         @php
-                            $categoryForms = $groupedForms->get($category->id, collect());
+                            $categoryForms = $paginatedForms[$category->id] ?? null;
                         @endphp
-                        @if($categoryForms->count() > 0)
+                        @if($categoryForms && $categoryForms->count() > 0)
                             <div class="accordion-item mb-3 border">
                                 <h2 class="accordion-header" id="heading{{ $category->id }}">
                                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
@@ -201,6 +241,40 @@
                                                 </li>
                                             @endforeach
                                         </ul>
+                                        
+                                        <!-- Pagination for this category -->
+                                        @if($categoryForms->hasPages())
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <div class="pagination-info">
+                                                    Showing {{ $categoryForms->firstItem() ?? 0 }} to {{ $categoryForms->lastItem() ?? 0 }} of {{ $categoryForms->total() }} results
+                                                </div>
+                                                <nav aria-label="Pagination for {{ $category->name }}">
+                                                    {{ $categoryForms->appends(request()->query())->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif($categoryForms && $categoryForms->total() == 0)
+                            <div class="accordion-item mb-3 border">
+                                <h2 class="accordion-header" id="heading{{ $category->id }}">
+                                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $category->id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $category->id }}" class="accordion-collapse collapse"
+                                    aria-labelledby="heading{{ $category->id }}" data-bs-parent="#hrFormsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="text-center text-muted py-4">
+                                            <i class="fas fa-folder-open fa-2x mb-2"></i>
+                                            <p class="mb-0">No forms found in this category.</p>
+                                            @if(request('search'))
+                                                <small>Try adjusting your search terms.</small>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -219,6 +293,11 @@
     $(document).ready(function () {
         // Auto-submit form when category filter changes
         $('select[name="category_id"]').on('change', function() {
+            $(this).closest('form').submit();
+        });
+
+        // Auto-submit form when per-page selector changes
+        $('select[name="per_page"]').on('change', function() {
             $(this).closest('form').submit();
         });
 

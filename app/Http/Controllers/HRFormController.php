@@ -13,32 +13,40 @@ class HRFormController extends Controller
     //
     public function index(Request $request)
     {
-        $query = HRForm::with('category');
-
-        // Search functionality
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%$search%")
-                  ->orWhere('original_file_path', 'like', "%$search%");
-            });
-        }
-
-        // Filter by category
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        // Get filtered forms
-        $forms = $query->get();
-
         // Get all categories for filter dropdown
         $categories = HRFormsCategory::with('forms')->get();
 
-        // Group forms by category for display
-        $groupedForms = $forms->groupBy('category_id');
+        // Initialize paginated forms for each category
+        $paginatedForms = [];
+        $perPage = $request->get('per_page', 10); // Default 10 items per page
 
-        return view('hrforms.index', compact('categories', 'groupedForms'));
+        foreach ($categories as $category) {
+            $query = HRForm::where('category_id', $category->id);
+
+            // Search functionality within category
+            if ($request->filled('search')) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%$search%")
+                      ->orWhere('original_file_path', 'like', "%$search%");
+                });
+            }
+
+            // Paginate forms for this category
+            $paginatedForms[$category->id] = $query->paginate($perPage);
+            
+            // Add category info to pagination
+            $paginatedForms[$category->id]->category = $category;
+        }
+
+        // If category filter is applied, only show that category
+        if ($request->filled('category_id')) {
+            $filteredCategories = $categories->where('id', $request->category_id);
+        } else {
+            $filteredCategories = $categories;
+        }
+
+        return view('hrforms.index', compact('categories', 'paginatedForms', 'filteredCategories'));
     }
     
     public function store(Request $request)
