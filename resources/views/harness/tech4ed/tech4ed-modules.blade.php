@@ -86,9 +86,15 @@
                                     <td>{{ strtoupper($module->file_type) }}</td>
                                     <td>{{ $module->created_at->format('M d, Y') }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-info" 
-                                            style="background-color: #5076a8; border-color: #5076a8;"><i
-                                                class="fas fa-eye" style="color: white;"></i></a>
+                                        <button type="button" class="btn btn-sm btn-info preview-btn" 
+                                            style="background-color: #5076a8; border-color: #5076a8;" 
+                                            data-id="{{ $module->id }}"
+                                            data-title="{{ $module->title }}"
+                                            data-file-type="{{ $module->file_type }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#previewModal">
+                                            <i class="fas fa-eye" style="color: white;"></i>
+                                        </button>
                                         <a href="{{ route('tech4ed-modules.download', $module->id) }}"
                                             class="btn btn-sm btn-success" ><i class="fas fa-download"></i></a>
                                         <button class="btn btn-sm btn-primary edit-btn" style="background-color: #003566; border-color: #003566; " 
@@ -191,6 +197,29 @@
         </div>
     </div>
 
+    <!-- Preview Module Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Preview Module</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="previewContent" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading preview...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Styling -->
     <style>
         .drop-zone {
@@ -283,6 +312,53 @@
             .table-responsive {
                 overflow-x: auto;
             }
+        }
+
+        /* Preview Modal Styling */
+        #previewModal .modal-dialog {
+            max-width: 90%;
+            height: 90vh;
+        }
+
+        #previewModal .modal-content {
+            height: 100%;
+        }
+
+        #previewModal .modal-body {
+            height: calc(100% - 120px);
+            overflow: hidden;
+        }
+
+        #previewContent {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #previewContent iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        #previewContent img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .alert {
+            margin: 0;
+        }
+
+        /* Compact PDF badge styling */
+        #previewModal .modal-title .badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.4rem;
+            vertical-align: middle;
+            background-color: #17a2b8 !important;
+            border: none;
         }
     </style>
 
@@ -391,6 +467,83 @@
 
         document.getElementById('filterSort').addEventListener('change', function() {
             this.closest('form').submit();
+        });
+
+        // Preview button functionality
+        document.querySelectorAll('.preview-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const title = this.dataset.title;
+                const fileType = this.dataset.fileType;
+                
+                // Update modal title with compact badge for converted files
+                const modalTitle = document.getElementById('previewModalLabel');
+                if (['ppt', 'pptx', 'xlsx'].includes(fileType.toLowerCase())) {
+                    modalTitle.innerHTML = `Preview: ${title} <span class="badge bg-info ms-2" style="font-size: 0.7rem;">PDF</span>`;
+                } else {
+                    modalTitle.textContent = `Preview: ${title}`;
+                }
+                
+                // Show loading state
+                const previewContent = document.getElementById('previewContent');
+                previewContent.innerHTML = `
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading preview...</p>
+                `;
+
+                // Handle different file types
+                if (fileType.toLowerCase() === 'mp4') {
+                    previewContent.innerHTML = `
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Video Preview Not Available</strong><br>
+                            Video files cannot be previewed in the browser. Please download the file to view it.
+                        </div>
+                    `;
+                    return;
+                }
+
+                // For other file types, fetch the preview
+                fetch(`/tech4ed-modules/${id}/preview`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to load preview');
+                            });
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        
+                        if (fileType.toLowerCase() === 'pdf') {
+                            previewContent.innerHTML = `
+                                <iframe src="${url}" frameborder="0" style="width: 100%; height: 70vh;"></iframe>
+                            `;
+                        } else if (['png', 'jpeg', 'jpg'].includes(fileType.toLowerCase())) {
+                            previewContent.innerHTML = `
+                                <img src="${url}" class="img-fluid d-block mx-auto" alt="${title}" style="max-height: 70vh;" />
+                            `;
+                        } else {
+                            // For converted files (PPTX, PPT, XLSX) - no extra text needed
+                            previewContent.innerHTML = `
+                                <iframe src="${url}" frameborder="0" style="width: 100%; height: 70vh;"></iframe>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Preview error:', error);
+                        previewContent.innerHTML = `
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Preview Error</strong><br>
+                                ${error.message}
+                            </div>
+                        `;
+                    });
+            });
         });
 
         // Download confirmation
