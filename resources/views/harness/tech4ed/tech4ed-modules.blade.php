@@ -86,6 +86,9 @@
                                     <td>{{ strtoupper($module->file_type) }}</td>
                                     <td>{{ $module->created_at->format('M d, Y') }}</td>
                                     <td>
+                                        <button type="button" class="btn btn-sm btn-info" disabled style="margin-left:2px;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                         <a href="{{ route('tech4ed-modules.download', $module->id) }}"
                                             class="btn btn-sm btn-success"><i class="fas fa-download"></i></a>
                                         <button class="btn btn-sm btn-primary edit-btn" data-id="{{ $module->id }}"
