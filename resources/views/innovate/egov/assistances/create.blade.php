@@ -10,30 +10,30 @@
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
                             <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}" required>
                             @error('date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="province" class="form-label">Province <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('province') is-invalid @enderror" id="province" name="province" value="{{ old('province') }}" required>
                             @error('province')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="lgu" class="form-label">LGU <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('lgu') is-invalid @enderror" id="lgu" name="lgu" value="{{ old('lgu') }}" required>
                             @error('lgu')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name_of_requestee" class="form-label">Name of Requestee <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('name_of_requestee') is-invalid @enderror" id="name_of_requestee" name="name_of_requestee" value="{{ old('name_of_requestee') }}" required>
@@ -41,9 +41,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="email_address" class="form-label">Email Address <span class="text-danger">*</span></label>
                             <input type="email" class="form-control @error('email_address') is-invalid @enderror" id="email_address" name="email_address" value="{{ old('email_address') }}" required>
@@ -51,6 +48,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="contact_no" class="form-label">Contact No.</label>
                             <input type="text" class="form-control @error('contact_no') is-invalid @enderror" id="contact_no" name="contact_no" value="{{ old('contact_no') }}">
@@ -58,9 +58,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="system" class="form-label">System <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('system') is-invalid @enderror" id="system" name="system" value="{{ old('system') }}" required>
@@ -68,6 +65,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="received_by" class="form-label">Received by <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('received_by') is-invalid @enderror" id="received_by" name="received_by" value="{{ old('received_by') }}" required>
@@ -75,9 +75,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                             <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
