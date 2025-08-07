@@ -8,10 +8,11 @@
             <div class="card-header py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Site Information</h6>
                 <div>
-                    <a href="#" class="btn btn-sm btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
+                    <a href="#" class="btn btn-sm btn-primary edit-btn" style="background-color:#003566; border:none"
+                    data-bs-toggle="modal" data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a href="{{ route('fw4a') }}" class="btn btn-sm btn-secondary">
+                    <a href="{{ route('fw4a') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
                         <i class="fas fa-arrow-left"></i> Back to List
                     </a>
                 </div>
