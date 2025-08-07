@@ -88,7 +88,7 @@ class eGovOrientationController extends Controller
      */
     public function show(EgovOrientation $egovOrientation)
     {
-        return view('innovate.egov.egov-orientation-show', compact('egovOrientation'));
+        return view('innovate.egov.orientations.show', compact('egovOrientation'));
     }
 
     /**
