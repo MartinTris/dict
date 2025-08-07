@@ -12,7 +12,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Cybersecurity Records</h6>
-                <div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
                     <a href="{{ route('cybersecurity.create') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
                         <i class="fas fa-plus"></i> Add New Record
                     </a>
