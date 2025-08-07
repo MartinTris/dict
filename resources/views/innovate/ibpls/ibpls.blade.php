@@ -39,7 +39,7 @@
             <form method="GET" action="{{ route('ibpls') }}" class="mb-3">
                 <div class="row g-2 align-items-end">
                     <!-- Search Input -->
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-8 col-12">
                         <div class="input-group">
                             <input type="text" name="search" id="searchInput" class="form-control"
                                 placeholder="Search by location, district, operation..." value="{{ request('search') }}">
