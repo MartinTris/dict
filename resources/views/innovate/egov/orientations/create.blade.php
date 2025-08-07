@@ -18,8 +18,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="training_control_no" class="form-label">Training Control No. <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('training_control_no') is-invalid @enderror" id="training_control_no" name="training_control_no" value="{{ old('training_control_no') }}" required>
+                            <label for="training_control_no" class="form-label">Training Control No.</label>
+                            <input type="text" class="form-control @error('training_control_no') is-invalid @enderror" id="training_control_no" name="training_control_no" value="{{ old('training_control_no') }}">
                             @error('training_control_no')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -35,15 +35,22 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue" value="{{ old('venue') }}" required>
-                            @error('venue')
+                            <label for="event_type" class="form-label">Event Type</label>
+                            <input type="text" class="form-control @error('event_type') is-invalid @enderror" id="event_type" name="event_type" value="{{ old('event_type') }}" placeholder="e.g., Training, Workshop, Seminar">
+                            @error('event_type')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
                     <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('venue') is-invalid @enderror" id="venue" name="venue" value="{{ old('venue') }}" required>
+                            @error('venue')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-6 mb-3">
                             <label for="participants" class="form-label">Participants <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('participants') is-invalid @enderror" id="participants" name="participants" value="{{ old('participants') }}" required>
@@ -51,6 +58,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="province" class="form-label">Province <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('province') is-invalid @enderror" id="province" name="province" value="{{ old('province') }}" required>
@@ -58,9 +68,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="municipality" class="form-label">Municipality <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('municipality') is-invalid @enderror" id="municipality" name="municipality" value="{{ old('municipality') }}" required>
@@ -68,6 +75,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="mode" class="form-label">Mode <span class="text-danger">*</span></label>
                             <select class="form-select @error('mode') is-invalid @enderror" id="mode" name="mode" required>
@@ -79,9 +89,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('status') is-invalid @enderror" id="status" name="status" value="{{ old('status') }}" required>
@@ -89,6 +96,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="no_of_attendees" class="form-label">No. of Attendees <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('no_of_attendees') is-invalid @enderror" id="no_of_attendees" name="no_of_attendees" value="{{ old('no_of_attendees') }}" required>
@@ -96,9 +106,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="no_of_downloaded_and_verified" name="no_of_downloaded_and_verified" value="{{ old('no_of_downloaded_and_verified') }}" required>
@@ -106,6 +113,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="male" class="form-label">Male <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('male') is-invalid @enderror" id="male" name="male" value="{{ old('male') }}" required>
@@ -113,9 +123,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="female" class="form-label">Female <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('female') is-invalid @enderror" id="female" name="female" value="{{ old('female') }}" required>
@@ -123,6 +130,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="link" class="form-label">Link</label>
                             <input type="url" class="form-control @error('link') is-invalid @enderror" id="link" name="link" value="{{ old('link') }}" placeholder="https://example.com">

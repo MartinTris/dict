@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('egov_orientations', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('training_control_no');
+            $table->string('training_control_no')->nullable();
             $table->string('event_name');
+            $table->string('event_type')->nullable();
             $table->string('venue');
             $table->string('participants');
             $table->string('province');
