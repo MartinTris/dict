@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@include('innovate.egov.create')
-@include('innovate.egov.edit')
+@include('innovate.egov.orientations.create')
+@include('innovate.egov.orientations.edit')
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">eGov Orientation Management</h1>
@@ -287,7 +287,10 @@
                 $('#edit_orientation_id').val(orientation.id);
 
                 // Set fields
-                $('#edit_date').val(orientation.date);
+                // Format date for HTML date input (YYYY-MM-DD)
+                const date = new Date(orientation.date);
+                const formattedDate = date.toISOString().split('T')[0];
+                $('#edit_date').val(formattedDate);
                 $('#edit_training_control_no').val(orientation.training_control_no);
                 $('#edit_event_name').val(orientation.event_name);
                 $('#edit_venue').val(orientation.venue);

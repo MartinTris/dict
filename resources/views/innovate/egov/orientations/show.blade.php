@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@include('innovate.egov.edit')
+@include('innovate.egov.orientations.edit')
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">eGov Orientation Details</h1>

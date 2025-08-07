@@ -84,7 +84,7 @@ class eGovAssistancesController extends Controller
      */
     public function show(EgovAssistances $egovAssistance)
     {
-        return view('innovate.egov.egov-assistances-show', compact('egovAssistance'));
+        return view('innovate.egov.assistances.show', compact('egovAssistance'));
     }
 
     /**
