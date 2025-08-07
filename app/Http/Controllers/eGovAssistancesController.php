@@ -10,6 +10,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class eGovAssistancesController extends Controller
 {
     /**
+     * Normalize municipality name by removing "City" suffix
+     */
+    private function normalizeMunicipalityName($municipality)
+    {
+        $municipality = str_replace(' City', '', $municipality);
+        $municipality = str_replace(' CITY', '', $municipality);
+        $municipality = str_replace(' city', '', $municipality);
+        $municipality = str_replace('City of ', '', $municipality);
+        $municipality = str_replace('CITY OF ', '', $municipality);
+        $municipality = str_replace('city of ', '', $municipality);
+        return trim($municipality);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -34,16 +48,41 @@ class eGovAssistancesController extends Controller
             $query->where('province', $request->province);
         }
 
-        // Filter by lgu
+        // Filter by lgu with normalization (LGU is essentially municipality)
         if ($request->filled('lgu')) {
-            $query->where('lgu', $request->lgu);
+            $normalizedLgu = $this->normalizeMunicipalityName($request->lgu);
+            $query->where(function ($q) use ($normalizedLgu) {
+                $q->where('lgu', 'like', "%{$normalizedLgu}%")
+                  ->orWhere('lgu', 'like', "%{$normalizedLgu} City%")
+                  ->orWhere('lgu', 'like', "%{$normalizedLgu} CITY%")
+                  ->orWhere('lgu', 'like', "City of {$normalizedLgu}%")
+                  ->orWhere('lgu', 'like', "CITY OF {$normalizedLgu}%");
+            });
         }
 
         $egovAssistances = $query->orderBy('date', 'desc')->paginate(10);
 
         // Get unique provinces and lgus for filters
-        $provinces = EgovAssistances::distinct()->pluck('province')->filter()->sort()->values();
-        $lgus = EgovAssistances::distinct()->pluck('lgu')->filter()->sort()->values();
+        $provinces = EgovAssistances::select('province')
+            ->whereNotNull('province')
+            ->where('province', '!=', '')
+            ->groupBy('province')
+            ->orderBy('province')
+            ->pluck('province');
+
+        // Normalize LGU names to eliminate duplicates
+        $lgus = EgovAssistances::select('lgu')
+            ->whereNotNull('lgu')
+            ->where('lgu', '!=', '')
+            ->groupBy('lgu')
+            ->orderBy('lgu')
+            ->get()
+            ->map(function ($item) {
+                return $this->normalizeMunicipalityName($item->lgu);
+            })
+            ->unique()
+            ->sort()
+            ->values();
 
         return view('innovate.egov.egov-assistances', compact('egovAssistances', 'provinces', 'lgus'));
     }

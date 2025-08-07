@@ -10,6 +10,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class eGovOrientationController extends Controller
 {
     /**
+     * Normalize municipality name by removing "City" suffix
+     */
+    private function normalizeMunicipalityName($municipality)
+    {
+        $municipality = str_replace(' City', '', $municipality);
+        $municipality = str_replace(' CITY', '', $municipality);
+        $municipality = str_replace(' city', '', $municipality);
+        $municipality = str_replace('City of ', '', $municipality);
+        $municipality = str_replace('CITY OF ', '', $municipality);
+        $municipality = str_replace('city of ', '', $municipality);
+        return trim($municipality);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -34,16 +48,41 @@ class eGovOrientationController extends Controller
             $query->where('province', $request->province);
         }
 
-        // Filter by municipality
+        // Filter by municipality with normalization
         if ($request->filled('municipality')) {
-            $query->where('municipality', $request->municipality);
+            $normalizedMunicipality = $this->normalizeMunicipalityName($request->municipality);
+            $query->where(function ($q) use ($normalizedMunicipality) {
+                $q->where('municipality', 'like', "%{$normalizedMunicipality}%")
+                  ->orWhere('municipality', 'like', "%{$normalizedMunicipality} City%")
+                  ->orWhere('municipality', 'like', "%{$normalizedMunicipality} CITY%")
+                  ->orWhere('municipality', 'like', "City of {$normalizedMunicipality}%")
+                  ->orWhere('municipality', 'like', "CITY OF {$normalizedMunicipality}%");
+            });
         }
 
         $egovOrientations = $query->orderBy('date', 'desc')->paginate(10);
 
         // Get unique provinces and municipalities for filters
-        $provinces = EgovOrientation::distinct()->pluck('province')->filter()->sort()->values();
-        $municipalities = EgovOrientation::distinct()->pluck('municipality')->filter()->sort()->values();
+        $provinces = EgovOrientation::select('province')
+            ->whereNotNull('province')
+            ->where('province', '!=', '')
+            ->groupBy('province')
+            ->orderBy('province')
+            ->pluck('province');
+
+        // Normalize municipality names to eliminate duplicates
+        $municipalities = EgovOrientation::select('municipality')
+            ->whereNotNull('municipality')
+            ->where('municipality', '!=', '')
+            ->groupBy('municipality')
+            ->orderBy('municipality')
+            ->get()
+            ->map(function ($item) {
+                return $this->normalizeMunicipalityName($item->municipality);
+            })
+            ->unique()
+            ->sort()
+            ->values();
 
         return view('innovate.egov.egov-orientation', compact('egovOrientations', 'provinces', 'municipalities'));
     }
