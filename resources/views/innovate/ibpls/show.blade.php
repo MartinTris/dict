@@ -8,8 +8,7 @@
             <div class="py-3 d-flex justify-content-end align-items-center flex-wrap gap-2">
                 <div>
                     <a href="{{ url('/ibpls/' . $ibpls->id . '/edit') }}" class="btn btn-sm btn-primary edit-btn mx-1"
-                        style="background-color:#003566; border:none" data-bs-toggle="modal" data-bs-target="#editSiteModal"
-                        data-ibpls='@json($ibpls)'>
+                        style="background-color:#003566; border:none">
                         <i class="fas fa-edit"></i> Edit
                     </a>
                     <a href="{{ url('/ibpls') }}" class="btn btn-sm btn-secondary mx-1"
@@ -27,11 +26,11 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <!-- Remove this row to hide ID
-                                    <tr>
-                                        <th style="width: 200px; background-color: #e9ecef;">ID</th>
-                                        <td>{{ $ibpls->id }}</td>
-                                    </tr>
-                                    -->
+                                                <tr>
+                                                    <th style="width: 200px; background-color: #e9ecef;">ID</th>
+                                                    <td>{{ $ibpls->id }}</td>
+                                                </tr>
+                                                -->
 
                             <tr>
                                 <th style="background-color: #e9ecef;">Location</th>
