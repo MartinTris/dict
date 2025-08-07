@@ -363,18 +363,23 @@
                 },
                 "columnDefs": [
                     {
-                        "targets": [1, 2, 4], // Description, Contents, Target Participants columns
+                        "targets": [1, 4], // Description, Target Participants columns
                         "width": "auto",
+                        "className": "text-left"
+                    },
+                    {
+                        "targets": 2, // Contents
+                        "width": "180px",
                         "className": "text-left"
                     },
                     {
                         "targets": 3, // Duration column
                         "width": "120px",
-                        "className": "text-center"
+                        "className": "text-left"
                     },
                     {
                         "targets": 5, // Additional Remarks column
-                        "width": "150px",
+                        "width": "120px",
                         "className": "text-center"
                     }
                 ],

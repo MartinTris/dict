@@ -217,7 +217,8 @@
                                                         <button type="button" data-tooltip="Preview form"
                                                             class="btn btn-sm btn-primary preview-btn" data-title="{{ $form->title }}"
                                                             data-file="{{ asset('storage/' . $form->file_path) }}"
-                                                            data-bs-toggle="modal" data-bs-target="#previewModal">
+                                                            data-bs-toggle="modal" data-bs-target="#previewModal"
+                                                            style="background-color: #5076a8; border-color: #5076a8;">
                                                             <i class="fas fa-eye"></i>
                                                         </button>
 
