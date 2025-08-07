@@ -99,10 +99,10 @@
                             <td class="text-center">{{ $record->operation }}</td>
                             <td class="text-center">{{ $record->status ?? 'N/A' }}</td>
                             <td class="text-center">
-                                <a href="{{ route('ibpls.show', $record->id) }}" class="btn btn-sm btn-info mb-1">
-                                    <i class="fas fa-eye"></i>
+                                <a href="{{ route('ibpls.show', $record->id) }}" class="btn btn-sm btn-info mb-1" style="background-color: #5076a8; border-color: #5076a8;">
+                                    <i class="fas fa-eye" style="color: white;"></i>
                                 </a>
-                                <a href="{{ route('ibpls.edit', $record->id) }}" class="btn btn-sm btn-primary mb-1">
+                                <a href="{{ route('ibpls.edit', $record->id) }}" class="btn btn-sm btn-primary mb-1" style="background-color: #003566; border-color: #003566;">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('ibpls.destroy', $record->id) }}" method="POST" class="d-inline delete-form">
