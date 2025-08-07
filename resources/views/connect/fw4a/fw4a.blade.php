@@ -107,9 +107,11 @@
                                     <td class="text-center">{{ $fw4a->latitude }}</td>
                                     <td class="text-center">{{ $fw4a->longitude }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('fw4a.show', $fw4a->id) }}" class="btn btn-sm btn-info mb-1"><i
-                                                class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn" data-bs-toggle="modal"
+                                        <a href="{{ route('fw4a.show', $fw4a->id) }}" class="btn btn-sm btn-info mb-1" 
+                                            style="background-color: #5076a8; border-color: #5076a8;"><i
+                                                class="fas fa-eye" style="color: white;"></i></a>
+                                        <a href="#" class="btn btn-sm btn-primary mb-1 edit-btn"
+                                            style="background-color: #003566;" data-bs-toggle="modal"
                                             data-bs-target="#editSiteModal" data-fw4a='@json($fw4a)'>
                                             <i class="fas fa-edit"></i>
                                         </a>
