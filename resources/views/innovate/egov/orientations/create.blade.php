@@ -116,24 +116,21 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="male" class="form-label">Male <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('male') is-invalid @enderror" id="male" name="male" value="{{ old('male') }}" required>
                             @error('male')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="female" class="form-label">Female <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('female') is-invalid @enderror" id="female" name="female" value="{{ old('female') }}" required>
                             @error('female')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="link" class="form-label">Link</label>
                             <input type="url" class="form-control @error('link') is-invalid @enderror" id="link" name="link" value="{{ old('link') }}" placeholder="https://example.com">
                             @error('link')
