@@ -107,11 +107,13 @@
                                     <td class="text-center">{{ $bplo->income_class }}</td>
                                     <td class="text-center">{{ $bplo->remarks ?? 'N/A' }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('bplo.show', $bplo->id) }}" class="btn btn-sm btn-info mb-1">
-                                            <i class="fas fa-eye"></i>
+                                        <a href="{{ route('bplo.show', $bplo->id) }}" class="btn btn-sm btn-info mb-1" 
+                                            style="background-color: #5076a8; border-color: #5076a8;">
+                                            <i class="fas fa-eye" style="color: white;"></i>
                                         </a>
-                                        <a href="{{ route('bplo.edit', $bplo->id) }}" class="btn btn-sm btn-primary mb-1">
-                                            <i class="fas fa-edit"></i>
+                                        <a href="{{ route('bplo.edit', $bplo->id) }}" class="btn btn-sm btn-primary mb-1" 
+                                            style="background-color: #003566; border-color: #003566;">
+                                            <i class="fas fa-edit" style="color: white;"></i>
                                         </a>
                                         <form action="{{ route('bplo.destroy', $bplo->id) }}" method="POST"
                                             class="d-inline delete-form">
