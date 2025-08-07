@@ -148,7 +148,7 @@
 
                 <div class="form-group text-right mt-4">
                     <a href="{{ route('cybersecurity.visualization') }}" class="btn btn-info"
-                        style="background-color: #375d81; border: none; color: white;">
+                        style="background-color: #2c5275; border: none; color: white;">
                         <i class="fas fa-chart-bar" style="color: white;"></i> View Data Visualization
                     </a>
 
