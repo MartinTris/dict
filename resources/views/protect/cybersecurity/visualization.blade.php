@@ -2,7 +2,11 @@
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Cybersecurity Data Visualization</h1>
-        
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
         <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -145,12 +149,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-        
-        <div class="text-center mt-4 mb-5">
-            <a href="{{ route('cybersecurity') }}" class="btn" style="background-color: #003566; color: white;">
-                <i class="fas fa-arrow-left"></i> Back to Cybersecurity Records
-            </a>
         </div>
     </div>
     
