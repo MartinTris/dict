@@ -142,8 +142,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn text-white" style="background-color: #003566;">Update Orientation</button>
+                    <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Update
+                        </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Cancel</button>
                 </div>
             </form>
         </div>
