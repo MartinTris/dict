@@ -1,8 +1,13 @@
 @extends('layouts.app')
 @section('contents')
     <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Edit PNPKI Record</h1>
-        
+        <h1 class="h3 mb-2 text-gray-800">Edit PNPKI Record</h1>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('pnpki') }}" class="btn btn-sm btn-secondary"
+                    style="background-color:#6a84a0; border:none">
+                    <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+            </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Edit PNPKI Record</h6>
@@ -218,11 +223,13 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
-                    <div class="d-flex mt-4">
-                        <button type="submit" class="btn mr-2" style="background-color: #003566; color: white;">Update Record</button>
+                    <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Update
+                        </button>
                         <a href="{{ route('pnpki') }}" class="btn btn-secondary">Cancel</a>
                     </div>
+                    
                 </form>
             </div>
         </div>
