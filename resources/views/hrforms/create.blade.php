@@ -22,30 +22,40 @@
                                 <i class="fas fa-chevron-down ms-auto"></i>
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryBtn" id="categoryDropdown">
-                                @foreach($categories as $category)
+                                @foreach ($categories as $category)
                                     <li class="d-flex justify-content-between align-items-center px-3">
-                                        <span class="category-option" data-id="{{ $category->id }}">{{ $category->name }}</span>
-                                        <button type="button" class="btn btn-sm text-danger delete-category" data-id="{{ $category->id }}">
+                                        <span class="category-option"
+                                            data-id="{{ $category->id }}">{{ $category->name }}</span>
+                                        <button type="button" class="btn btn-sm text-danger delete-category"
+                                            data-id="{{ $category->id }}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </li>
                                 @endforeach
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-primary" href="#" id="addNewCategoryBtn">+ Add New Category</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-primary" href="#" id="addNewCategoryBtn">+ Add
+                                        New Category</a></li>
                             </ul>
                         </div>
                         <input type="hidden" name="category_id" id="selectedCategoryId">
                     </div>
-
                     <div class="col-md-6">
                         <label>Upload Form File</label>
-                        <input type="file" name="file_path" class="form-control" required
-                            accept=".doc,.docx,.jpeg,.xls,.xlsx,.pdf,.png">
-                        <small class="form-text text-muted">Allowed file types: .doc, .docx, .jpeg, .pdf, .png, .xls, .xlsx</small>
+                        <div id="dropZone" class="drop-zone">
+                            <span id="dropZoneText">Drag & drop a file here or click to browse</span>
+                            <input type="file" name="file" class="form-control" id="fileInput"
+                                accept=".doc,.docx,.jpeg,.xls,.xlsx,.pdf,.png" required hidden>
+                        </div>
+                        <!-- Allowed file types info -->
+                        <small class="form-text text-muted">Allowed file types: .doc, .docx, .jpeg, .pdf, .png, .xls,
+                            .xlsx</small>
                     </div>
                 </div>
                 <div class="modal-footer px-4">
-                    <button type="submit" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
+                    <button type="submit" class="btn btn-primary"
+                        style="background-color: #003566; border-color: #003566;">
                         Save Form
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -65,7 +75,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="name" class="form-control" placeholder="Enter Category Name" required>
+                    <input type="text" name="name" class="form-control" placeholder="Enter Category Name"
+                        required>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -77,7 +88,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -85,7 +96,7 @@
         });
 
         // Select category
-        $(document).on('click', '.category-option', function () {
+        $(document).on('click', '.category-option', function() {
             const id = $(this).data('id');
             const name = $(this).text();
             $('#selectedCategoryId').val(id);
@@ -93,7 +104,7 @@
         });
 
         // Delete category
-        $(document).on('click', '.delete-category', function (e) {
+        $(document).on('click', '.delete-category', function(e) {
             e.stopPropagation();
             const id = $(this).data('id');
             const name = $(this).siblings('.category-option').text();
@@ -112,16 +123,18 @@
                     $.ajax({
                         url: `/hr-forms/categories/${id}`,
                         type: 'DELETE',
-                        success: function () {
-                            $(`#categoryDropdown .category-option[data-id="${id}"]`).closest('li').remove();
+                        success: function() {
+                            $(`#categoryDropdown .category-option[data-id="${id}"]`)
+                                .closest('li').remove();
                             if ($('#selectedCategoryId').val() == id) {
                                 $('#selectedCategoryId').val('');
                                 $('#selectedCategoryText').text('Select Category');
                             }
                             Swal.fire('Deleted!', 'Category removed.', 'success');
                         },
-                        error: function () {
-                            Swal.fire('Error', 'Failed to delete category.', 'error');
+                        error: function() {
+                            Swal.fire('Error', 'Failed to delete category.',
+                                'error');
                         }
                     });
                 }
@@ -129,15 +142,15 @@
         });
 
         // Open modal
-        $('#addNewCategoryBtn').on('click', function (e) {
+        $('#addNewCategoryBtn').on('click', function(e) {
             e.preventDefault();
             $('#addCategoryModal').modal('show');
         });
 
         // Submit new category
-        $('#addCategoryForm').on('submit', function (e) {
+        $('#addCategoryForm').on('submit', function(e) {
             e.preventDefault();
-            $.post("{{ route('hrforms.categories.store') }}", $(this).serialize(), function (res) {
+            $.post("{{ route('hrforms.categories.store') }}", $(this).serialize(), function(res) {
                 $('#categoryDropdown').prepend(`
                     <li class="d-flex justify-content-between align-items-center px-3">
                         <span class="category-option" data-id="${res.id}">${res.name}</span>
@@ -150,9 +163,75 @@
                 $('#selectedCategoryText').text(res.name);
                 $('#addCategoryModal').modal('hide');
                 $('#addCategoryForm')[0].reset();
-            }).fail(function () {
+            }).fail(function() {
                 alert('Error adding category.');
+            });
+        });
+
+        // Drag & Drop functionality for file upload
+        $(function() {
+            const dropZone = $('#dropZone');
+            const fileInput = $('#fileInput');
+            const dropZoneText = $('#dropZoneText');
+
+            // Highlight drop zone on drag over
+            dropZone.on('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.addClass('drop-zone--active');
+                dropZoneText.text('Release to upload file');
+            });
+
+            // Remove highlight on drag leave
+            dropZone.on('dragleave dragend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.removeClass('drop-zone--active');
+                dropZoneText.text('Drag & drop a file here or click to browse');
+            });
+
+            // Handle file drop
+            dropZone.on('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.removeClass('drop-zone--active');
+                const files = e.originalEvent.dataTransfer.files;
+                if (files.length) {
+                    fileInput[0].files = files;
+                    dropZoneText.text(files[0].name);
+                }
+            });
+
+            // Open file dialog on click
+            dropZone.on('click', function() {
+                fileInput.trigger('click');
+            });
+
+            // Show file name when selected via dialog
+            fileInput.on('change', function() {
+                if (fileInput[0].files.length) {
+                    dropZoneText.text(fileInput[0].files[0].name);
+                } else {
+                    dropZoneText.text('Drag & drop a file here or click to browse');
+                }
             });
         });
     });
 </script>
+
+<style>
+    .drop-zone {
+        border: 2px dashed #87939e;
+        border-radius: 8px;
+        padding: 30px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.2s;
+        background: #f8f9fa;
+    }
+
+    .drop-zone--active {
+        border-color: #0d6efd;
+        background: #e9f5ff;
+    }
+</style>
