@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">TECH4ED Data Visualization</h1>
         <div class="d-flex justify-content-end mb-4">
-            <a href="{{ route('tech4ed') }}" class="btn btn-sm btn-secondary" style="background-color:#6a70a0; border:none">
+            <a href="{{ route('tech4ed') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
                 <i class="fas fa-arrow-left"></i> Back to List
             </a>
         </div>
