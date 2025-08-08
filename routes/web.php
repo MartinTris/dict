@@ -63,6 +63,7 @@ Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::cla
 Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
 Route::resource('tech4ed-modules', Tech4edModuleController::class);
 Route::get('tech4ed-modules/{tech4edModule}/download', [Tech4edModuleController::class, 'download'])->name('tech4ed-modules.download');
+Route::get('tech4ed-modules/{tech4edModule}/preview', [Tech4edModuleController::class, 'preview'])->name('tech4ed-modules.preview');
 
 // Tech4ED API Routes for districts
 Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
