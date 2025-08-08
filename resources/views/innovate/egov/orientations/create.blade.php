@@ -107,8 +107,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="no_of_downloaded_and_verified" name="no_of_downloaded_and_verified" value="{{ old('no_of_downloaded_and_verified') }}" required>
+                            <label for="no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified</label>
+                            <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="no_of_downloaded_and_verified" name="no_of_downloaded_and_verified" value="{{ old('no_of_downloaded_and_verified') }}">
                             @error('no_of_downloaded_and_verified')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -117,15 +117,15 @@
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="male" class="form-label">Male <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('male') is-invalid @enderror" id="male" name="male" value="{{ old('male') }}" required>
+                            <label for="male" class="form-label">Male </label>
+                            <input type="text" class="form-control @error('male') is-invalid @enderror" id="male" name="male" value="{{ old('male') }}" >
                             @error('male')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="female" class="form-label">Female <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('female') is-invalid @enderror" id="female" name="female" value="{{ old('female') }}" required>
+                            <label for="female" class="form-label">Female </label>
+                            <input type="text" class="form-control @error('female') is-invalid @enderror" id="female" name="female" value="{{ old('female') }}" >
                             @error('female')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

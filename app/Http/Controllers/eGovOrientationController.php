@@ -113,9 +113,9 @@ class eGovOrientationController extends Controller
             'mode' => 'required|in:Online,Face to Face',
             'status' => 'required|string|max:255',
             'no_of_attendees' => 'required|string|max:255',
-            'no_of_downloaded_and_verified' => 'required|string|max:255',
-            'male' => 'required|string|max:255',
-            'female' => 'required|string|max:255',
+            'no_of_downloaded_and_verified' => 'nullable|string|max:255',
+            'male' => 'nullable|string|max:255',
+            'female' => 'nullable|string|max:255',
             'link' => 'nullable|string|max:500',
         ]);
 
@@ -157,9 +157,9 @@ class eGovOrientationController extends Controller
             'mode' => 'required|in:Online,Face to Face',
             'status' => 'required|string|max:255',
             'no_of_attendees' => 'required|string|max:255',
-            'no_of_downloaded_and_verified' => 'required|string|max:255',
-            'male' => 'required|string|max:255',
-            'female' => 'required|string|max:255',
+            'no_of_downloaded_and_verified' => 'nullable|string|max:255',
+            'male' => 'nullable|string|max:255',
+            'female' => 'nullable|string|max:255',
             'link' => 'nullable|string|max:500',
         ]);
 

@@ -24,9 +24,9 @@ return new class extends Migration
             $table->enum('mode', ['Online', 'Face to Face']);
             $table->string('status');
             $table->string('no_of_attendees');
-            $table->string('no_of_downloaded_and_verified');
-            $table->string('male');
-            $table->string('female');
+            $table->string('no_of_downloaded_and_verified')->nullable();
+            $table->string('male')->nullable();
+            $table->string('female')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();
         });

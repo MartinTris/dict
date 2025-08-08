@@ -50,6 +50,7 @@
                                 <option value="jpeg" {{ request('file_type') == 'jpeg' ? 'selected' : '' }}>JPEG</option>
                                 <option value="jpg" {{ request('file_type') == 'jpg' ? 'selected' : '' }}>JPG</option>
                                 <option value="xlsx" {{ request('file_type') == 'xlsx' ? 'selected' : '' }}>XLSX</option>
+                                <option value="docx" {{ request('file_type') == 'docx' ? 'selected' : '' }}>DOCX</option>
                             </select>
                         </div>
 
@@ -146,11 +147,11 @@
 
                                 <span id="dropZoneText">Drag & drop a file here or click to browse</span>
                                 <input type="file" name="file" class="form-control" id="fileInput"
-                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx" required hidden>
+                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx,.docx" required hidden>
                             </div>
                             <!-- Allowed file types info -->
                             <small class="form-text text-muted mt-2 d-block">
-                                Allowed file types: .mp4, .ppt, .pptx, .pdf, .png, .jpeg, .jpg, .xlsx
+                                Allowed file types: .mp4, .ppt, .pptx, .pdf, .png, .jpeg, .jpg, .xlsx, .docx
                             </small>
                         </div>
                     </div>
@@ -187,7 +188,7 @@
                             <div id="dropZone" class="drop-zone">
                                 <span id="dropZoneText">Drag & drop a file here or click to browse</span>
                                 <input type="file" name="file" class="form-control"
-                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx">
+                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx,.docx">
                             </div>
 
                         </div>
@@ -485,7 +486,7 @@
 
                 // Update modal title with compact badge for converted files
                 const modalTitle = document.getElementById('previewModalLabel');
-                if (['ppt', 'pptx', 'xlsx'].includes(fileType.toLowerCase())) {
+                if (['ppt', 'pptx', 'xlsx', 'docx'].includes(fileType.toLowerCase())) {
                     modalTitle.innerHTML =
                         `Preview: ${title} <span class="badge bg-info ms-2" style="font-size: 0.7rem;">PDF</span>`;
                 } else {
