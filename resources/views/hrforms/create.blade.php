@@ -54,11 +54,9 @@
                     </div>
                 </div>
                 <div class="modal-footer px-4">
-                    <button type="submit" class="btn btn-primary"
-                        style="background-color: #003566; border-color: #003566;">
-                        Save Form
+                    <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                        <i class="fas fa-save mx-1"></i> Save Form
                     </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </form>
