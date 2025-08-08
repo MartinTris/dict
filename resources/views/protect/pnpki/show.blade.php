@@ -7,10 +7,11 @@
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">PNPKI Activity Details</h6>
                 <div>
-                    <a href="{{ route('pnpki.edit', $pnpki->id) }}" class="btn btn-sm btn-primary">
+                    <a href="{{ route('pnpki.edit', $pnpki->id) }}" class="btn btn-sm btn-primary" 
+                        style="background-color:#003566; border:none">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a href="{{ route('pnpki') }}" class="btn btn-sm btn-secondary">
+                    <a href="{{ route('pnpki') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
                         <i class="fas fa-arrow-left"></i> Back to List
                     </a>
                 </div>
@@ -34,6 +35,14 @@
                             <tr>
                                 <th>Province:</th>
                                 <td>{{ $pnpki->province }}</td>
+                            </tr>
+                            <tr>
+                                <th>Municipality:</th>
+                                <td>{{ $pnpki->municipality ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>District:</th>
+                                <td>{{ $pnpki->district ?? 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <th>Activity Title:</th>

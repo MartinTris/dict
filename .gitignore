@@ -1,0 +1,5 @@
+.env.docker
+.env.local
+.env
+docker/mysql/
+vendor/*

@@ -3,7 +3,7 @@
 
 @section('contents')
   <div class="header">
-    <img src="/images/dict.png" alt="DICT Logo">
+    <img src="/images/DICT_Logo.png" alt="DICT Logo">
     <h2 class="m-1">DICT Cavite Main Page</h2>
   </div>
 
@@ -778,6 +778,17 @@
       
       .dict-card {
         margin-bottom: 30px;
+      }
+
+      /* Scale down the animated card list carousel for mobile */
+      .carousel-container {
+        padding: 10px 0 30px;
+        max-height: 400px;
+      }
+      .void {
+        transform: scale(0.6);
+        transform-origin: top center;
+        max-width: 100vw;
       }
     }
   </style>

@@ -2,7 +2,12 @@
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">TECH4ED Data Visualization</h1>
-        
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('tech4ed') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+
         <!-- Summary Cards Row -->
         <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
@@ -21,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
@@ -29,7 +34,8 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Operational Centers</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $tech4eds->where('operational', 'Yes')->count() }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $tech4eds->where('operational', 'Yes')->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-check-circle fa-2x text-gray-300"></i>
@@ -38,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
@@ -46,7 +52,8 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Centers with Donations</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $tech4eds->where('with_donation', 'Yes')->count() }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $tech4eds->where('with_donation', 'Yes')->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-gift fa-2x text-gray-300"></i>
@@ -55,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
@@ -63,7 +70,8 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Center Managers</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $tech4eds->whereNotNull('cm_sex')->count() }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $tech4eds->whereNotNull('cm_sex')->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -73,7 +81,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Main Charts Row -->
         <div class="row">
             <!-- Center Model Distribution (Left) -->
@@ -89,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Gender Distribution (Right) -->
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
@@ -115,7 +123,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Secondary Charts Row -->
         <div class="row">
             <!-- Centers by Municipality (Left) -->
@@ -131,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Operational Status (Right) -->
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
@@ -157,7 +165,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Table -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -176,17 +184,17 @@
                         <tbody>
                             @php
                                 $centerModelCounts = [];
-                                foreach($centerModels as $model) {
+                                foreach ($centerModels as $model) {
                                     $count = $tech4eds->where('center_model', $model)->count();
                                     $centerModelCounts[] = [
                                         'model' => $model,
-                                        'count' => $count
+                                        'count' => $count,
                                     ];
                                 }
                                 $total = $tech4eds->count();
                             @endphp
-                            
-                            @foreach($centerModelCounts as $item)
+
+                            @foreach ($centerModelCounts as $item)
                                 <tr>
                                     <td>{{ $item['model'] }}</td>
                                     <td class="text-center">{{ $item['count'] }}</td>
@@ -198,7 +206,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Timeline Chart -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -210,36 +218,30 @@
                 </div>
             </div>
         </div>
-        
-        <div class="text-center mt-4 mb-5">
-            <a href="{{ route('tech4ed') }}" class="btn" style="background-color: #003566; color: white;">
-                <i class="fas fa-arrow-left"></i> Back to TECH4ED Records
-            </a>
-        </div>
     </div>
-    
+
     <!-- Include Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Process data for charts
             const tech4edData = @json($tech4eds);
-            
+
             // Center Model Chart
             var centerModelData = {};
-            @foreach($centerModels as $model)
+            @foreach ($centerModels as $model)
                 centerModelData['{{ $model }}'] = {{ $tech4eds->where('center_model', $model)->count() }};
             @endforeach
-            
+
             // Sort by count (descending) and limit to top 10
             const sortedModels = Object.entries(centerModelData)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
-            
+
             const modelLabels = sortedModels.map(item => item[0]);
             const modelCounts = sortedModels.map(item => item[1]);
-            
+
             var ctx = document.getElementById('centerModelChart').getContext('2d');
             var centerModelChart = new Chart(ctx, {
                 type: 'bar',
@@ -285,14 +287,14 @@
                     }
                 }
             });
-            
+
             // Gender Distribution Chart
             var genderData = [
                 {{ $tech4eds->where('cm_sex', 'Male')->count() }},
                 {{ $tech4eds->where('cm_sex', 'Female')->count() }},
                 {{ $tech4eds->where('cm_sex', 'N/A')->count() }}
             ];
-            
+
             var ctxPie = document.getElementById('genderChart').getContext('2d');
             var genderChart = new Chart(ctxPie, {
                 type: 'pie',
@@ -330,7 +332,7 @@
                                     }
                                     if (context.parsed !== undefined) {
                                         const total = genderData.reduce((a, b) => a + b, 0);
-                                        label += context.parsed + ' (' + 
+                                        label += context.parsed + ' (' +
                                             Math.round(context.parsed * 100 / total * 10) / 10 + '%)';
                                     }
                                     return label;
@@ -340,7 +342,7 @@
                     }
                 }
             });
-            
+
             // Municipality Chart
             var municipalityData = {};
             tech4edData.forEach(item => {
@@ -349,14 +351,14 @@
                 }
                 municipalityData[item.municipality]++;
             });
-            
+
             const sortedMunicipalities = Object.entries(municipalityData)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
-            
+
             const municipalityLabels = sortedMunicipalities.map(item => item[0]);
             const municipalityCounts = sortedMunicipalities.map(item => item[1]);
-            
+
             var ctxMuni = document.getElementById('municipalityChart').getContext('2d');
             var municipalityChart = new Chart(ctxMuni, {
                 type: 'bar',
@@ -396,14 +398,14 @@
                     }
                 }
             });
-            
+
             // Operational Status Chart
             var operationalData = [
                 {{ $tech4eds->where('operational', 'Yes')->count() }},
                 {{ $tech4eds->where('operational', 'No')->count() }},
                 {{ $tech4eds->whereNotIn('operational', ['Yes', 'No'])->count() }}
             ];
-            
+
             var ctxOp = document.getElementById('operationalChart').getContext('2d');
             var operationalChart = new Chart(ctxOp, {
                 type: 'doughnut',
@@ -441,7 +443,7 @@
                                     }
                                     if (context.parsed !== undefined) {
                                         const total = operationalData.reduce((a, b) => a + b, 0);
-                                        label += context.parsed + ' (' + 
+                                        label += context.parsed + ' (' +
                                             Math.round(context.parsed * 100 / total * 10) / 10 + '%)';
                                     }
                                     return label;
@@ -451,7 +453,7 @@
                     }
                 }
             });
-            
+
             // Timeline Chart
             var timelineData = {};
             tech4edData.forEach(item => {
@@ -463,10 +465,10 @@
                     timelineData[year]++;
                 }
             });
-            
+
             const years = Object.keys(timelineData).sort();
             const yearCounts = years.map(year => timelineData[year]);
-            
+
             var ctxTimeline = document.getElementById('timelineChart').getContext('2d');
             var timelineChart = new Chart(ctxTimeline, {
                 type: 'line',
@@ -502,37 +504,39 @@
             });
         });
     </script>
-    
+
     <style>
         /* Fix for chart containers */
-        .chart-area, .chart-pie {
+        .chart-area,
+        .chart-pie {
             position: relative;
             height: 100%;
             width: 100%;
         }
-        
+
         /* Add some padding to table cells */
-        .table td, .table th {
+        .table td,
+        .table th {
             padding: 0.75rem;
             vertical-align: middle;
         }
-        
+
         /* Improve summary table */
         #dataTable {
             border-collapse: collapse;
             width: 100%;
         }
-        
+
         #dataTable thead th {
             font-weight: bold;
             text-align: center;
         }
-        
+
         /* Add hover effect to table rows */
         #dataTable tbody tr:hover {
             background-color: rgba(0, 53, 102, 0.05);
         }
-        
+
         /* Ensure charts are responsive */
         @media (max-width: 768px) {
             .chart-area {

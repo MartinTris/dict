@@ -5,9 +5,11 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Edit Cybersecurity Activity</h1>
-        <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to List
-        </a>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
     </div>
 
     <!-- Form Card -->
@@ -60,6 +62,39 @@
                             <input type="text" class="form-control @error('province') is-invalid @enderror" 
                                 id="province" name="province" value="{{ old('province', $cybersecurity->province) }}" required>
                             @error('province')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="municipality">Municipality</label>
+                            <input type="text" class="form-control @error('municipality') is-invalid @enderror" 
+                                id="municipality" name="municipality" value="{{ old('municipality', $cybersecurity->municipality) }}" required>
+                            @error('municipality')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <select class="form-control @error('district') is-invalid @enderror" 
+                                id="district" name="district" required>
+                                <option value="">Select District</option>
+                                <option value="1ST" {{ old('district', $cybersecurity->district) == '1ST' ? 'selected' : '' }}>1ST DISTRICT</option>
+                                <option value="2ND" {{ old('district', $cybersecurity->district) == '2ND' ? 'selected' : '' }}>2ND DISTRICT</option>
+                                <option value="3RD" {{ old('district', $cybersecurity->district) == '3RD' ? 'selected' : '' }}>3RD DISTRICT</option>
+                                <option value="4TH" {{ old('district', $cybersecurity->district) == '4TH' ? 'selected' : '' }}>4TH DISTRICT</option>
+                                <option value="5TH" {{ old('district', $cybersecurity->district) == '5TH' ? 'selected' : '' }}>5TH DISTRICT</option>
+                                <option value="6TH" {{ old('district', $cybersecurity->district) == '6TH' ? 'selected' : '' }}>6TH DISTRICT</option>
+                                <option value="7TH" {{ old('district', $cybersecurity->district) == '7TH' ? 'selected' : '' }}>7TH DISTRICT</option>
+                                <option value="8TH" {{ old('district', $cybersecurity->district) == '8TH' ? 'selected' : '' }}>8TH DISTRICT</option>
+                            </select>
+                            @error('district')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -187,14 +222,14 @@
                     @enderror
                 </div>
 
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
-                        <i class="fas fa-save"></i> Update Record
-                    </button>
-                    <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </div>
+                <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Update
+                        </button>
+                        <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+                    </div>
             </form>
         </div>
     </div>

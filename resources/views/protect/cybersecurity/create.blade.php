@@ -2,7 +2,11 @@
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Add New Cybersecurity Record</h1>
-        
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Create Cybersecurity Record</h6>
@@ -52,6 +56,39 @@
                                 <input type="text" class="form-control @error('province') is-invalid @enderror" 
                                     id="province" name="province" value="{{ old('province') }}" required>
                                 @error('province')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="municipality">Municipality</label>
+                                <input type="text" class="form-control @error('municipality') is-invalid @enderror" 
+                                    id="municipality" name="municipality" value="{{ old('municipality') }}" required>
+                                @error('municipality')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="district">District</label>
+                                <select class="form-control @error('district') is-invalid @enderror" 
+                                    id="district" name="district" required>
+                                    <option value="">Select District</option>
+                                    <option value="1ST" {{ old('district') == '1ST' ? 'selected' : '' }}>1ST DISTRICT</option>
+                                    <option value="2ND" {{ old('district') == '2ND' ? 'selected' : '' }}>2ND DISTRICT</option>
+                                    <option value="3RD" {{ old('district') == '3RD' ? 'selected' : '' }}>3RD DISTRICT</option>
+                                    <option value="4TH" {{ old('district') == '4TH' ? 'selected' : '' }}>4TH DISTRICT</option>
+                                    <option value="5TH" {{ old('district') == '5TH' ? 'selected' : '' }}>5TH DISTRICT</option>
+                                    <option value="6TH" {{ old('district') == '6TH' ? 'selected' : '' }}>6TH DISTRICT</option>
+                                    <option value="7TH" {{ old('district') == '7TH' ? 'selected' : '' }}>7TH DISTRICT</option>
+                                    <option value="8TH" {{ old('district') == '8TH' ? 'selected' : '' }}>8TH DISTRICT</option>
+                                </select>
+                                @error('district')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -184,9 +221,14 @@
                         @enderror
                     </div>
                     
-                    <div class="d-flex mt-4">
-                        <button type="submit" class="btn mr-2" style="background-color: #003566; color: white;">Save Record</button>
-                        <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">Cancel</a>
+                    <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Save Record
+                        </button>
+                        <a href="{{ route('pnpki') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+
                     </div>
                 </form>
             </div>

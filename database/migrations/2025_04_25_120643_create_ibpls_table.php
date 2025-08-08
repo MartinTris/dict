@@ -16,6 +16,7 @@ class CreateIbplsTable extends Migration
         Schema::create('ibpls', function (Blueprint $table) {
             $table->id();
             $table->string('location');
+            $table->string('district');
             $table->string('operation');
             $table->string('status')->nullable();
             $table->timestamps();

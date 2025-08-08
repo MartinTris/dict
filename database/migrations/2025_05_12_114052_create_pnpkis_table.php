@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('time_conducted'); // Changed to string type
             $table->string('organizer');
             $table->string('province');
+            $table->string('municipality');
+            $table->string('district');
             $table->string('activity_title');
             $table->string('type_of_activity');
             $table->string('mode_of_implementation');

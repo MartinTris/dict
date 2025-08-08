@@ -15,6 +15,8 @@ class CreateCybersecuritiesTable extends Migration
             $table->string('time_conducted');
             $table->string('organizer');
             $table->string('province');
+            $table->string('municipality')->nullable();
+            $table->string('district')->nullable();
             $table->string('activity_title');
             $table->enum('type_of_activity', ['Cyber Advocacies', 'CERT Trainings']);
             $table->string('mode_of_implementation');

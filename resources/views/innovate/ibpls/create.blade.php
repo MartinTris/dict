@@ -4,6 +4,11 @@
 
 @section('contents')
 <div class="container-fluid">
+    <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('ibpls') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
     <div class="card shadow">
         <div class="card-header" style="background-color: #003566; color: white;">
             <h5 class="m-0 font-weight-bold">Create New IBPLS Record</h5>
@@ -19,7 +24,14 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <input type="text" class="form-control @error('district') is-invalid @enderror" 
+                        id="district" name="district" value="{{ old('district') }}" required>
+                    @error('district')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
                 <div class="form-group">
                     <label for="operation">Operation</label>
                     <select class="form-control @error('operation') is-invalid @enderror" 
@@ -47,12 +59,14 @@
                     @enderror
                 </div>
                 
-                <div class="mt-4">
-                    <a href="{{ route('ibpls') }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
-                        Save Record
-                    </button>
-                </div>
+                <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Save Record
+                        </button>
+                        <a href="{{ route('ibpls') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+                    </div>
             </form>
         </div>
     </div>
