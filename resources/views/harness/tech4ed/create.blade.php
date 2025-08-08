@@ -119,7 +119,7 @@
                         <button type="submit" class="btn" style="background-color: #003566; color: white;">
                             <i class="fas fa-save mx-1"></i> Save Record
                         </button>
-                        <a href="{{ route('pnpki') }}" class="btn btn-secondary">
+                        <a href="{{ route('tech4ed') }}" class="btn btn-secondary">
                             <i class="fas fa-times me-1"></i> Cancel
                         </a>
                     </div>
