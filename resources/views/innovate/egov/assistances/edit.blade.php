@@ -44,8 +44,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="edit_email_address" class="form-label">Email Address <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control @error('email_address') is-invalid @enderror" id="edit_email_address" name="email_address" required>
+                            <label for="edit_email_address" class="form-label">Email Address</label>
+                            <input type="email" class="form-control @error('email_address') is-invalid @enderror" id="edit_email_address" name="email_address">
                             @error('email_address')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -94,8 +94,8 @@
 
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="edit_concern" class="form-label">Concern <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('concern') is-invalid @enderror" id="edit_concern" name="concern" rows="4" required></textarea>
+                            <label for="edit_concern" class="form-label">Concern</label>
+                            <textarea class="form-control @error('concern') is-invalid @enderror" id="edit_concern" name="concern" rows="4"></textarea>
                             @error('concern')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('province');
             $table->string('lgu');
             $table->string('name_of_requestee');
-            $table->string('email_address');
+            $table->string('email_address')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('system');
-            $table->text('concern');
+            $table->text('concern')->nullable();
             $table->string('received_by');
             $table->string('status');
             $table->timestamps();

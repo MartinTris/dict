@@ -103,12 +103,12 @@
                                     <td class="text-center">{{ $assistance->province }}</td>
                                     <td class="text-center">{{ $assistance->lgu }}</td>
                                     <td class="text-center">{{ $assistance->name_of_requestee }}</td>
-                                    <td class="text-center">{{ $assistance->email_address }}</td>
+                                    <td class="text-center">{{ $assistance->email_address ?? 'N/A' }}</td>
                                     <td class="text-center">{{ $assistance->contact_no ?? 'N/A' }}</td>
                                     <td class="text-center">{{ $assistance->system }}</td>
                                     <td class="text-center">
-                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ $assistance->concern }}">
-                                            {{ Str::limit($assistance->concern, 50) }}
+                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ $assistance->concern ?? 'N/A' }}">
+                                            {{ Str::limit($assistance->concern ?? 'N/A', 50) }}
                                         </span>
                                     </td>
                                     <td class="text-center">{{ $assistance->received_by }}</td>
