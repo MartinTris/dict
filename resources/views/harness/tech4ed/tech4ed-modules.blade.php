@@ -87,21 +87,19 @@
                                     <td>{{ strtoupper($module->file_type) }}</td>
                                     <td>{{ $module->created_at->format('M d, Y') }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-info preview-btn" 
-                                            style="background-color: #5076a8; border-color: #5076a8;" 
-                                            data-id="{{ $module->id }}"
-                                            data-title="{{ $module->title }}"
-                                            data-file-type="{{ $module->file_type }}"
-                                            data-bs-toggle="modal"
+                                        <button type="button" class="btn btn-sm btn-info preview-btn"
+                                            style="background-color: #5076a8; border-color: #5076a8;"
+                                            data-id="{{ $module->id }}" data-title="{{ $module->title }}"
+                                            data-file-type="{{ $module->file_type }}" data-bs-toggle="modal"
                                             data-bs-target="#previewModal">
                                             <i class="fas fa-eye" style="color: white;"></i>
                                         </button>
                                         <a href="{{ route('tech4ed-modules.download', $module->id) }}"
-                                            class="btn btn-sm btn-success" ><i class="fas fa-download"></i></a>
-                                        <button class="btn btn-sm btn-primary edit-btn" style="background-color: #003566; border-color: #003566; " 
-                                        data-id="{{ $module->id }}"
-                                            data-title="{{ $module->title }}" data-bs-toggle="modal"
-                                            data-bs-target="#editModuleModal">
+                                            class="btn btn-sm btn-success"><i class="fas fa-download"></i></a>
+                                        <button class="btn btn-sm btn-primary edit-btn"
+                                            style="background-color: #003566; border-color: #003566; "
+                                            data-id="{{ $module->id }}" data-title="{{ $module->title }}"
+                                            data-bs-toggle="modal" data-bs-target="#editModuleModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-sm btn-danger delete-btn"
@@ -158,8 +156,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #003566; border:none">
+                            <i class="fas fa-save me-1"></i> Save
+                        </button>
+                        
                     </div>
                 </form>
             </div>
@@ -185,14 +185,21 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Replace File (optional)</label>
-                            <input type="file" name="file" class="form-control"
-                                accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx,.docx">
+                            <div id="dropZone" class="drop-zone">
+                                <span id="dropZoneText">Drag & drop a file here or click to browse</span>
+                                <input type="file" name="file" class="form-control"
+                                    accept=".mp4,.ppt,.pptx,.pdf,.png,.jpeg,.jpg,.xlsx,.docx">
+                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #003566; border:none">
+                            <i class="fas fa-save me-1"></i> Update
+                        </button>
+
                     </div>
+
                 </form>
             </div>
         </div>
@@ -476,15 +483,16 @@
                 const id = this.dataset.id;
                 const title = this.dataset.title;
                 const fileType = this.dataset.fileType;
-                
+
                 // Update modal title with compact badge for converted files
                 const modalTitle = document.getElementById('previewModalLabel');
                 if (['ppt', 'pptx', 'xlsx', 'docx'].includes(fileType.toLowerCase())) {
-                    modalTitle.innerHTML = `Preview: ${title} <span class="badge bg-info ms-2" style="font-size: 0.7rem;">PDF</span>`;
+                    modalTitle.innerHTML =
+                        `Preview: ${title} <span class="badge bg-info ms-2" style="font-size: 0.7rem;">PDF</span>`;
                 } else {
                     modalTitle.textContent = `Preview: ${title}`;
                 }
-                
+
                 // Show loading state
                 const previewContent = document.getElementById('previewContent');
                 previewContent.innerHTML = `
@@ -518,7 +526,7 @@
                     })
                     .then(blob => {
                         const url = URL.createObjectURL(blob);
-                        
+
                         if (fileType.toLowerCase() === 'pdf') {
                             previewContent.innerHTML = `
                                 <iframe src="${url}" frameborder="0" style="width: 100%; height: 70vh;"></iframe>
