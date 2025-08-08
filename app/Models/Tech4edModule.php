@@ -12,5 +12,6 @@ class Tech4edModule extends Model
         'title',
         'file_path',
         'file_type',
+        'original_filename',
     ];
 }

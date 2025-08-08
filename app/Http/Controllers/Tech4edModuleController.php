@@ -64,6 +64,7 @@ class Tech4edModuleController extends Controller
                 'title' => $request->title,
                 'file_path' => $path,
                 'file_type' => $file->getClientOriginalExtension(),
+                'original_filename' => $file->getClientOriginalName(),
             ]);
 
             return redirect()->route('tech4ed-modules.index')->with('success', 'Module uploaded successfully!');
@@ -93,6 +94,7 @@ class Tech4edModuleController extends Controller
                 $path = $file->store('tech4ed_modules', 'public');
                 $data['file_path'] = $path;
                 $data['file_type'] = $file->getClientOriginalExtension();
+                $data['original_filename'] = $file->getClientOriginalName();
             }
 
             $tech4edModule->update($data);
@@ -125,7 +127,10 @@ class Tech4edModuleController extends Controller
                 return redirect()->back()->with('error', 'File not found. It may have been deleted.');
             }
             
-            return Storage::disk('public')->download($tech4edModule->file_path);
+            // Use original filename if available, otherwise use the stored filename
+            $filename = $tech4edModule->original_filename ?: basename($tech4edModule->file_path);
+            
+            return Storage::disk('public')->download($tech4edModule->file_path, $filename);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to download file. Please try again.');
         }
