@@ -155,8 +155,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #003566; border:none">
+                            <i class="fas fa-save me-1"></i> Save
+                        </button>
+                        
                     </div>
                 </form>
             </div>
@@ -194,7 +196,7 @@
                         <button type="submit" class="btn btn-primary" style="background-color: #003566; border:none">
                             <i class="fas fa-save me-1"></i> Update
                         </button>
-                        
+
                     </div>
 
                 </form>
