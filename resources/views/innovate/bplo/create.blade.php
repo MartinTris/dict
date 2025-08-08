@@ -3,9 +3,9 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 font-weight-bold" style="color: #003566;">Add New BPLO Record</h1>
-        <a href="{{ route('bplo') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
-            <i class="fas fa-arrow-left"></i> Back to List
-        </a>
+        <a href="{{ route('bplo') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
     </div>
 
     @if ($errors->any())
