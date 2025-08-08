@@ -2,7 +2,11 @@
 @section('contents')
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Add New Cybersecurity Record</h1>
-        
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold" style="color: #003566;">Create Cybersecurity Record</h6>
@@ -217,9 +221,14 @@
                         @enderror
                     </div>
                     
-                    <div class="d-flex mt-4">
-                        <button type="submit" class="btn mr-2" style="background-color: #003566; color: white;">Save Record</button>
-                        <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">Cancel</a>
+                    <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Save Record
+                        </button>
+                        <a href="{{ route('pnpki') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+
                     </div>
                 </form>
             </div>
