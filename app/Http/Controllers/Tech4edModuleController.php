@@ -53,7 +53,7 @@ class Tech4edModuleController extends Controller
         try {
             $request->validate([
                 'title' => 'required|string|max:255',
-                'file' => 'required|file|mimes:mp4,pdf,ppt,pptx,png,jpeg,jpg,xlsx|max:20480',
+                'file' => 'required|file|mimes:mp4,pdf,ppt,pptx,png,jpeg,jpg,xlsx,docx|max:20480',
             ]);
 
             $file = $request->file('file');
@@ -77,7 +77,7 @@ class Tech4edModuleController extends Controller
         try {
             $request->validate([
                 'title' => 'required|string|max:255',
-                'file' => 'nullable|file|mimes:mp4,pdf,ppt,pptx,png,jpeg,jpg,xlsx|max:20480',
+                'file' => 'nullable|file|mimes:mp4,pdf,ppt,pptx,png,jpeg,jpg,xlsx,docx|max:20480',
             ]);
 
             $data = $request->only('title');
@@ -151,18 +151,8 @@ class Tech4edModuleController extends Controller
                 return response()->file($filePath);
             }
 
-            // For PPTX and PPT files, convert to PDF for preview
-            if (in_array($extension, ['ppt', 'pptx'])) {
-                $pdfPath = $this->convertToPdf($filePath, $extension);
-                if ($pdfPath && file_exists($pdfPath)) {
-                    return response()->file($pdfPath);
-                } else {
-                    return response()->json(['error' => 'Failed to convert file to PDF for preview'], 500);
-                }
-            }
-
-            // For XLSX files, convert to PDF for preview
-            if ($extension === 'xlsx') {
+            // For PPTX, PPT, XLSX, and DOCX files, convert to PDF for preview
+            if (in_array($extension, ['ppt', 'pptx', 'xlsx', 'docx'])) {
                 $pdfPath = $this->convertToPdf($filePath, $extension);
                 if ($pdfPath && file_exists($pdfPath)) {
                     return response()->file($pdfPath);
