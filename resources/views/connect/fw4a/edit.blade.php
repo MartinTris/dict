@@ -85,8 +85,8 @@
                     </div>
                 </div>
                 <div class="modal-footer px-4">
-                    <button type="submit" class="btn btn-primary">Update Site</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #245b95; border:none;">Update Site</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #697885; border:none;">Cancel</button>
                 </div>
             </div>
         </form>
