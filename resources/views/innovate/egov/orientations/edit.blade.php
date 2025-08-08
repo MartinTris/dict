@@ -109,8 +109,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="edit_no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="edit_no_of_downloaded_and_verified" name="no_of_downloaded_and_verified" required>
+                            <label for="edit_no_of_downloaded_and_verified" class="form-label">No. of Downloaded & Verified</label>
+                            <input type="text" class="form-control @error('no_of_downloaded_and_verified') is-invalid @enderror" id="edit_no_of_downloaded_and_verified" name="no_of_downloaded_and_verified">
                             @error('no_of_downloaded_and_verified')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -119,15 +119,15 @@
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="edit_male" class="form-label">Male <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('male') is-invalid @enderror" id="edit_male" name="male" required>
+                            <label for="edit_male" class="form-label">Male </label>
+                            <input type="text" class="form-control @error('male') is-invalid @enderror" id="edit_male" name="male" >
                             @error('male')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="edit_female" class="form-label">Female <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('female') is-invalid @enderror" id="edit_female" name="female" required>
+                            <label for="edit_female" class="form-label">Female </label>
+                            <input type="text" class="form-control @error('female') is-invalid @enderror" id="edit_female" name="female" >
                             @error('female')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
