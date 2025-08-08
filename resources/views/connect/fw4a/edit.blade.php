@@ -17,7 +17,8 @@
                     </div>
                     <div class="col-md-4">
                         <label>AP MAC Address</label>
-                        <input type="text" name="ap_mac_address" id="edit_ap_mac_address" class="form-control" required>
+                        <input type="text" name="ap_mac_address" id="edit_ap_mac_address" class="form-control"
+                            required>
                     </div>
                     <div class="col-md-5">
                         <label>Site Name</label>
@@ -29,7 +30,7 @@
                         <label>Region</label>
                         <select name="region_id" id="edit_region" class="form-select" required>
                             <option value="">Select Region</option>
-                            @foreach($regions as $region)
+                            @foreach ($regions as $region)
                                 <option value="{{ $region->id }}">{{ $region->region_code }}</option>
                             @endforeach
                         </select>
@@ -85,8 +86,9 @@
                     </div>
                 </div>
                 <div class="modal-footer px-4">
-                    <button type="submit" class="btn btn-primary" style="background-color: #245b95; border:none;">Update Site</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #697885; border:none;">Cancel</button>
+                    <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                        <i class="fas fa-save mx-1"></i> Update Site
+                    </button>
                 </div>
             </div>
         </form>
