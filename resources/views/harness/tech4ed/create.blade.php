@@ -4,8 +4,8 @@
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Add TECH4ED Center</h1>
-            <a href="{{ route('tech4ed') }}" class="btn btn-sm" style="background-color: #003566; color: white;">
-                <i class="fas fa-arrow-left"></i> Back
+            <a href="{{ route('tech4ed') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
             </a>
         </div>
 
@@ -115,8 +115,13 @@
                         </div>
                     </div>
                     
-                    <div class="text-center">
-                        <button type="submit" class="btn" style="background-color: #003566; color: white;">Submit</button>
+                    <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Save Record
+                        </button>
+                        <a href="{{ route('pnpki') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
                     </div>
                 </form>
             </div>
