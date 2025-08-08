@@ -5,9 +5,11 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Edit Cybersecurity Activity</h1>
-        <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to List
-        </a>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('cybersecurity') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
     </div>
 
     <!-- Form Card -->
@@ -220,14 +222,14 @@
                     @enderror
                 </div>
 
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
-                        <i class="fas fa-save"></i> Update Record
-                    </button>
-                    <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </div>
+                <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Update
+                        </button>
+                        <a href="{{ route('cybersecurity') }}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> Cancel
+                        </a>
+                    </div>
             </form>
         </div>
     </div>

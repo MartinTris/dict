@@ -3,10 +3,12 @@
 @section('contents')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="font-weight-bold">IBPLS Data Visualization</h2>
-        <a href="{{ route('ibpls') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Records
-        </a>
+        <h1 class="h3 mb-4 text-gray-800">IBPLS Data Visualization</h2>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('ibpls') }}" class="btn btn-sm btn-secondary" style="background-color:#6a84a0; border:none">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
     </div>
 
     <div class="row">
