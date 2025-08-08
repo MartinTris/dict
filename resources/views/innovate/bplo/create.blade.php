@@ -96,9 +96,11 @@
                     </div>
                 </div>
                 
-                <div class="text-center">
-                    <button type="submit" class="btn" style="background-color: #003566; color: white;">Submit</button>
-                </div>
+                <div class="text-right">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Submit
+                        </button>
+                    </div>
             </form>
         </div>
     </div>
