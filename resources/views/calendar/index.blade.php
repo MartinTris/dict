@@ -254,8 +254,10 @@
 
                     </div>
                     <div class="modal-footer justify-content-between px-4 pb-4">
+                        <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                            <i class="fas fa-save mx-1"></i> Save Event
+                        </button>
                         <button type="button" id="deleteEventBtn" class="btn btn-danger d-none">Delete</button>
-                        <button type="submit" class="btn btn-primary">Save Event</button>
                     </div>
                 </div>
             </form>
