@@ -170,25 +170,25 @@
                         <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
                     </div>
                 @endif
-                
+
                 <div class="card profile-card">
                     <div class="profile-header navy-gradient">
-                     
+
                         <h4 class="mt-3">{{ auth()->user()->name }}</h4>
                         <p>{{ auth()->user()->email }}</p>
                     </div>
-                    
+
                     <div class="profile-body">
                         <h5 class="section-title">
                             <i class="fas fa-user-circle me-2"></i> Profile Information
                         </h5>
-                        
+
                         <form method="POST" action="{{ route('profile.update') }}">
                             @csrf
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <label for="name" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" value="{{ auth()->user()->name }}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -198,18 +198,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" 
+                                    <input type="email" class="form-control" id="email"
                                         value="{{ auth()->user()->email }}" disabled>
                                 </div>
                             </div>
-                            
+
                             <div class="text-end">
                                 <button type="submit" class="btn btn-primary update-btn">
-                                    <i class="fas fa-save me-2"></i> Update Profile
+                                    <i class="fas fa-save me-2"></i> Update Profiles
                                 </button>
                             </div>
                         </form>
-                        
+
                         <div class="security-card">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

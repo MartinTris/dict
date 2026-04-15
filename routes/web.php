@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/nbp', [App\Http\Controllers\NbpController::class, 'index'])->name('nbp');
 Route::get('/gecs', [App\Http\Controllers\GecsController::class, 'index'])->name('gecs');
-    
+
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
@@ -128,7 +128,7 @@ Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\Cybersecur
 Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
 
 // Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
-       
+
 // Route::get('/users_list', [Users_listController::class, 'index'])->name('indexusers');
 // Route::get('/users_list/create', [Users_listController::class, 'create'])->name('users_lists.create');
 // Route::post('/users_list/store', [Users_listController::class, 'store'])->name('users_lists.store');

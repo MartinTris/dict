@@ -61,12 +61,12 @@
       overflow: hidden;
       transition: all 0.3s ease;
     }
-    
+
     .card:hover {
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
       transform: translateY(-2px);
     }
-    
+
     .form-control-user:focus {
       border-color: #0d6efd;
       box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
@@ -78,7 +78,7 @@
       font-weight: 600;
       box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
     }
-    
+
     .text-primary {
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
@@ -86,7 +86,7 @@
     .card-body .text-center h1 {
       font-weight: 700;
     }
-    
+
     .password-container {
       position: relative;
     }
@@ -117,7 +117,7 @@
     .password-toggle i {
       margin-right: 4px;
     }
-    
+
     /* Modern password meter styles */
     .password-strength-meter {
       height: 4px;
@@ -127,20 +127,20 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .password-strength-meter-fill {
       height: 100%;
       border-radius: 2px;
       transition: width 0.3s ease, background-color 0.3s ease;
       width: 0%;
     }
-    
+
     .strength-very-weak { background-color: #e63946; width: 20%; }
     .strength-weak { background-color: #ff9e00; width: 40%; }
     .strength-medium { background-color: #ffb700; width: 60%; }
     .strength-strong { background-color: #7cb518; width: 80%; }
     .strength-very-strong { background-color: #38b000; width: 100%; }
-    
+
     .password-strength-text {
       font-size: 12px;
       font-weight: 600;
@@ -148,7 +148,7 @@
       display: flex;
       justify-content: space-between;
     }
-    
+
     /* Compressed password requirements */
     .password-requirements {
       background-color: rgba(0, 53, 102, 0.05);
@@ -158,7 +158,7 @@
       font-size: 12px;
       border-left: 3px solid #003566;
     }
-    
+
     .password-requirements .title {
       font-weight: 600;
       color: #003566;
@@ -166,17 +166,17 @@
       display: flex;
       align-items: center;
     }
-    
+
     .password-requirements .title i {
       margin-right: 5px;
     }
-    
+
     .requirements-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5px;
     }
-    
+
     .requirement-item {
       display: flex;
       align-items: center;
@@ -184,21 +184,21 @@
       margin-bottom: 0;
       white-space: nowrap;
     }
-    
+
     .requirement-item i {
       margin-right: 4px;
       font-size: 10px;
       min-width: 12px;
     }
-    
+
     .requirement-met {
       color: #38b000;
     }
-    
+
     .requirement-not-met {
       color: #6c757d;
     }
-    
+
     .password-match {
       padding: 6px 10px;
       border-radius: 6px;
@@ -209,17 +209,17 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .match-success {
       background-color: rgba(56, 176, 0, 0.1);
       color: #38b000;
     }
-    
+
     .match-error {
       background-color: rgba(230, 57, 70, 0.1);
       color: #e63946;
     }
-    
+
     .password-match i {
       margin-right: 5px;
     }
@@ -232,7 +232,7 @@
       .header h2 {
         font-size: 18px;
       }
-      
+
       .requirements-grid {
         grid-template-columns: 1fr;
       }
@@ -275,7 +275,7 @@
                     <span class="invalid-feedback">{{ $message }}</span>
                   @enderror
                 </div>
-                
+
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <div class="password-container">
@@ -310,7 +310,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Horizontally compressed password requirements -->
                 <div class="password-requirements">
                   <div class="title">
@@ -334,7 +334,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary btn-user btn-block mt-4">Register Account</button>
               </form>
               <hr>
@@ -353,12 +353,12 @@
   <script src="{{ asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('admin_assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
   <script src="{{ asset('admin_assets/js/sb-admin-2.min.js') }}"></script>
-  
+
   <script>
     function togglePassword(fieldId) {
       const passwordField = document.getElementById(fieldId);
       const icon = document.getElementById(fieldId + '-icon');
-      
+
       if (passwordField.type === 'password') {
         passwordField.type = 'text';
         icon.classList.remove('fa-eye');
@@ -369,25 +369,25 @@
         icon.classList.add('fa-eye');
       }
     }
-    
+
     // Live password validation and strength meter
     document.getElementById('password-field').addEventListener('input', function() {
       const password = this.value;
-      
+
       // Check for criteria
       const hasLength = password.length >= 8;
       const hasUppercase = /[A-Z]/.test(password);
       const hasLowercase = /[a-z]/.test(password);
       const hasNumber = /\d/.test(password);
       const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-      
+
       // Update requirement indicators
       updateRequirement('length', hasLength);
       updateRequirement('uppercase', hasUppercase);
       updateRequirement('lowercase', hasLowercase);
       updateRequirement('number', hasNumber);
       updateRequirement('special', hasSpecial);
-      
+
       // Calculate password strength
       let strength = 0;
       if (hasLength) strength += 1;
@@ -395,18 +395,18 @@
       if (hasLowercase) strength += 1;
       if (hasNumber) strength += 1;
       if (hasSpecial) strength += 1;
-      
+
       // Update strength meter
       updateStrengthMeter(strength);
-      
+
       // Check if passwords match
       checkPasswordsMatch();
     });
-    
+
     function updateRequirement(id, isMet) {
       const element = document.getElementById(id);
       const icon = element.querySelector('i');
-      
+
       if (isMet) {
         element.classList.remove('requirement-not-met');
         element.classList.add('requirement-met');
@@ -419,14 +419,14 @@
         icon.classList.add('far', 'fa-circle');
       }
     }
-    
+
     function updateStrengthMeter(strength) {
       const meter = document.getElementById('strength-meter');
       const text = document.getElementById('strength-text');
-      
+
       // Remove all strength classes
       meter.className = 'password-strength-meter-fill';
-      
+
       // Add appropriate class and update text based on strength
       if (strength === 0) {
         text.textContent = 'None';
@@ -447,22 +447,22 @@
         text.textContent = 'Very Strong';
       }
     }
-    
+
     // Check if passwords match
     document.getElementById('confirm-password-field').addEventListener('input', checkPasswordsMatch);
-    
+
     function checkPasswordsMatch() {
       const password = document.getElementById('password-field').value;
       const confirmPassword = document.getElementById('confirm-password-field').value;
       const matchContainer = document.getElementById('password-match-container');
-      
+
       if (confirmPassword === '') {
         matchContainer.classList.add('d-none');
         return;
       }
-      
+
       matchContainer.classList.remove('d-none');
-      
+
       if (password === confirmPassword) {
         matchContainer.classList.remove('match-error');
         matchContainer.classList.add('match-success');
@@ -473,18 +473,18 @@
         matchContainer.innerHTML = '<i class="fas fa-times-circle"></i> Passwords do not match';
       }
     }
-    
+
     // Form submission validation
     document.getElementById('registrationForm').addEventListener('submit', function(event) {
       const password = document.getElementById('password-field').value;
       const confirmPassword = document.getElementById('confirm-password-field').value;
-      
+
       // Password regex: at least 8 characters, one uppercase, one lowercase, one number, one special character
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-      
+
       if (!passwordRegex.test(password)) {
         event.preventDefault();
-        
+
         // Create detailed alert
         const requirements = [];
         if (password.length < 8) requirements.push("at least 8 characters");
@@ -492,17 +492,17 @@
         if (!/[a-z]/.test(password)) requirements.push("at least one lowercase letter");
         if (!/\d/.test(password)) requirements.push("at least one number");
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) requirements.push("at least one special character");
-        
+
         alert('Password must contain ' + requirements.join(', ') + '.');
         return false;
       }
-      
+
       if (password !== confirmPassword) {
         event.preventDefault();
         alert('Passwords do not match.');
         return false;
       }
-      
+
       return true;
     });
   </script>
