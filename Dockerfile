@@ -24,8 +24,8 @@ WORKDIR /var/www
 # Copy source code
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Install PHP dependencies (ignore platform requirements)
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-req=php
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
