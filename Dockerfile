@@ -1,7 +1,7 @@
 # Build stage
 FROM php:8.2-fpm as build
 
-# Install dependencies
+# Install dependencies (added: mysql-client, ca-certificates, git for SSL support)
 RUN apt-get update && apt-get install -y \
     bash \
     libpng-dev \
@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     git \
     npm \
     curl \
+    mysql-client \
+    ca-certificates \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
@@ -32,13 +34,15 @@ RUN npm install && npm run build && rm -rf node_modules
 # Production stage
 FROM php:8.2-fpm
 
-# Install only necessary system dependencies
+# Install only necessary system dependencies (added: mysql-client, ca-certificates)
 RUN apt-get update && apt-get install -y \
     bash \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
+    mysql-client \
+    ca-certificates \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*

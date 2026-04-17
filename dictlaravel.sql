@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `bplos`
 --
 
-CREATE TABLE `bplos` (
+CREATE TABLE IF NOT EXISTS `bplos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `province` varchar(255) NOT NULL,
   `municipality_city` varchar(255) NOT NULL,
@@ -75,7 +75,7 @@ INSERT INTO `bplos` (`id`, `province`, `municipality_city`, `bpco_status`, `rema
 -- Table structure for table `cybersecurities`
 --
 
-CREATE TABLE `cybersecurities` (
+CREATE TABLE IF NOT EXISTS `cybersecurities` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `date_conducted` date NOT NULL,
   `time_conducted` varchar(255) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `cybersecurities` (
 -- Dumping data for table `cybersecurities`
 --
 
-INSERT INTO `cybersecurities` (`id`, `date_conducted`, `time_conducted`, `organizer`, `province`, `activity_title`, `type_of_activity`, `mode_of_implementation`, `zoom_link`, `male_participants`, `female_participants`, `participant_details`, `resource_person`, `fb_posting`, `number_of_engagement`, `list_of_engaged_partners`, `created_at`, `updated_at`, `user_id`) VALUES
+INSERT INTO IF NOT EXISTS `cybersecurities` (`id`, `date_conducted`, `time_conducted`, `organizer`, `province`, `activity_title`, `type_of_activity`, `mode_of_implementation`, `zoom_link`, `male_participants`, `female_participants`, `participant_details`, `resource_person`, `fb_posting`, `number_of_engagement`, `list_of_engaged_partners`, `created_at`, `updated_at`, `user_id`) VALUES
 (1, '2025-01-16', '10:00 AM - 12:00 PM', 'Cavite', 'Cavite', 'Cybersecurity Awareness for BJMP Trece Martires City Jail Personnel', 'Cyber Advocacies', 'Onsite: BJMP Trece Martires Tech4Ed Center/function hall', NULL, 35, 28, 'NGA - 35 (28M,7F)', 'John Vandrick Diaz', 'https://www.facebook.com/share/p/14e2zwjGY7/', 1, 'BJMP Trece Martires', '2025-05-16 00:52:49', '2025-05-16 00:59:00', 1),
 (2, '2025-01-17', '1:00 PM - 4:00 PM', 'Cavite', 'Cavite', 'Cybersecurity Awareness at Eulogio \"Amang\" Rodriguez Institute of Science and Technology (EARIST) Cavite Campus', 'Cyber Advocacies', 'Onsite: EARIST Cavite Function Hall', NULL, 148, 54, '202 (148M, 54F)', 'John Vandrick Diaz', 'https://www.facebook.com/share/p/1DE1H66NBM/', 1, 'EARIST CAVITE', '2025-05-16 00:58:19', '2025-05-16 00:58:19', 1),
 (3, '2025-02-13', '9:00 AM - 12:00 NN', 'Cavite', 'Cavite', 'Cyber-Safe Love: Protecting Yourself from Online Scams & Digital Threats', 'Cyber Advocacies', 'Onsite: AVR, Lyceum of Southern Luzon - Balayan, Balayan, Batangas', 'https://us06web.zoom.us/j/87806142732?pwd=Z58oJUewltEFwxOOhgteuaVa6ZDDxI.1', 52, 53, 'Others -105 (52M.53F)', 'John Vandrick Diaz and John Philip Tan', 'https://www.facebook.com/share/p/17EYcapeQS/', NULL, NULL, '2025-05-16 01:01:57', '2025-05-16 01:01:57', 1),
@@ -119,7 +119,7 @@ INSERT INTO `cybersecurities` (`id`, `date_conducted`, `time_conducted`, `organi
 -- Table structure for table `failed_jobs`
 --
 
-CREATE TABLE `failed_jobs` (
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` varchar(255) NOT NULL,
   `connection` text NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `fw4as`
 --
 
-CREATE TABLE `fw4as` (
+CREATE TABLE IF NOT EXISTS `fw4as` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE `fw4as` (
 -- Table structure for table `ibpls`
 --
 
-CREATE TABLE `ibpls` (
+CREATE TABLE IF NOT EXISTS `ibpls` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `location` varchar(255) NOT NULL,
   `operation` varchar(255) NOT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE `ibpls` (
 -- Dumping data for table `ibpls`
 --
 
-INSERT INTO `ibpls` (`id`, `location`, `operation`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
+INSERT INTO IF NOT EXISTS `ibpls` (`id`, `location`, `operation`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
 (1, 'Alfonso', 'Operational', 'Integrated', '2025-04-25 05:41:26', '2025-04-25 05:41:26', 1),
 (2, 'Amadeo', 'Operational', 'Integrated', '2025-04-25 05:45:26', '2025-04-25 05:45:26', 1),
 (3, 'Bacoor', 'ETRACS/Others', 'Pending', '2025-04-25 05:45:52', '2025-04-25 05:45:52', 1),
@@ -184,7 +184,7 @@ INSERT INTO `ibpls` (`id`, `location`, `operation`, `status`, `created_at`, `upd
 -- Table structure for table `ilcdbs`
 --
 
-CREATE TABLE `ilcdbs` (
+CREATE TABLE IF NOT EXISTS `ilcdbs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -197,7 +197,7 @@ CREATE TABLE `ilcdbs` (
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
+CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
@@ -207,7 +207,7 @@ CREATE TABLE `migrations` (
 -- Dumping data for table `migrations`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+INSERT INTO IF NOT EXISTS `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
@@ -229,7 +229,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `password_reset_tokens`
 --
 
-CREATE TABLE `password_reset_tokens` (
+CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
@@ -241,7 +241,7 @@ CREATE TABLE `password_reset_tokens` (
 -- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
@@ -260,7 +260,7 @@ CREATE TABLE `personal_access_tokens` (
 -- Table structure for table `pnpkis`
 --
 
-CREATE TABLE `pnpkis` (
+CREATE TABLE IF NOT EXISTS `pnpkis` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `date_conducted` date NOT NULL,
   `time_conducted` varchar(255) NOT NULL,
@@ -287,7 +287,7 @@ CREATE TABLE `pnpkis` (
 -- Dumping data for table `pnpkis`
 --
 
-INSERT INTO `pnpkis` (`id`, `date_conducted`, `time_conducted`, `organizer`, `province`, `activity_title`, `type_of_activity`, `mode_of_implementation`, `zoom_link`, `male_participants`, `female_participants`, `total_participants`, `participant_details`, `resource_person`, `fb_posting`, `number_of_engagement`, `list_of_engaged_partners`, `created_at`, `updated_at`, `user_id`) VALUES
+INSERT INTO IF NOT EXISTS `pnpkis` (`id`, `date_conducted`, `time_conducted`, `organizer`, `province`, `activity_title`, `type_of_activity`, `mode_of_implementation`, `zoom_link`, `male_participants`, `female_participants`, `total_participants`, `participant_details`, `resource_person`, `fb_posting`, `number_of_engagement`, `list_of_engaged_partners`, `created_at`, `updated_at`, `user_id`) VALUES
 (1, '2024-01-15', '10:00 am - 1:00 pm', 'Cavite', 'Cavite', 'PNPKI Orientation for Eulogio \"Amang\" Rodriguez Institute of Science and Technology (EARIST) General Mariano Alvarez, Cavite', 'PNPKI Orientation', 'Onsite: EARIST, GMA Cavite', 'N/A', 148, 54, 202, '202(148M, 54F)', 'John Vandrick Diaz', 'https://www.facebook.com/share/p/1DE1H66NBM/', 1, 'EARIST Cavite, General Mariano ALvarez, Cavite', '2025-05-12 06:22:39', '2025-05-12 06:22:39', 1),
 (2, '2025-02-10', '1:00 pm - 4:00 pm', 'Cavite', 'Cavite', 'PNPKI Orientation for BJMP Dasmariñas City Jail Female Dorm Personnel', 'PNPKI Orientation', 'Onsite: DICT Tech4ED Center Dasmariñas City Jail', 'N/A', 4, 10, 14, '14 (4M, 10F)', 'John Vandrick Diaz', 'https://www.facebook.com/share/p/15e7qVjtbn/', 1, 'BJMP Dasmariñas City Jail, Female Dorm', '2025-05-12 06:26:19', '2025-05-12 06:26:19', 1),
 (3, '2025-03-03', '10:00 AM - 12:00 NN', 'Cavite', 'Cavite', 'PNPKI Orientation for BJMP Dasmariñas City Jail Male Dorm Personnel', 'PNPKI Orientation', 'Onsite: BJMP Dasmariñas City', 'N/A', 39, 12, 51, '51(39M, 12F)', 'John Vandrick Diaz', 'https://www.facebook.com/share/p/15w5MFwBV2/', 1, 'BJMP Dasmariñas City Jail, Male Dorm', '2025-05-12 06:30:15', '2025-05-12 06:30:15', 1);
@@ -298,7 +298,7 @@ INSERT INTO `pnpkis` (`id`, `date_conducted`, `time_conducted`, `organizer`, `pr
 -- Table structure for table `sparks`
 --
 
-CREATE TABLE `sparks` (
+CREATE TABLE IF NOT EXISTS `sparks` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -311,7 +311,7 @@ CREATE TABLE `sparks` (
 -- Table structure for table `tech4eds`
 --
 
-CREATE TABLE `tech4eds` (
+CREATE TABLE IF NOT EXISTS `tech4eds` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `congressional_district` varchar(255) NOT NULL,
   `municipality` varchar(255) NOT NULL,
@@ -466,7 +466,7 @@ INSERT INTO `tech4eds` (`id`, `congressional_district`, `municipality`, `specifi
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,

@@ -207,7 +207,7 @@
                                             @foreach ($categoryForms as $form)
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     @php
-                                                        $extension = pathinfo($form->original_file_path, PATHINFO_EXTENSION);
+                                                        $extension = pathinfo($form->file_path, PATHINFO_EXTENSION);
                                                     @endphp
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span>{{ $form->title }}</span>
@@ -242,7 +242,7 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-                                        
+
                                         <!-- Pagination for this category -->
                                         @if($categoryForms->hasPages())
                                             <div class="d-flex justify-content-between align-items-center mt-3">
@@ -335,7 +335,7 @@
             });
         });
     });
-    
+
     $(document).on('click', '.preview-btn', function () {
         const title = $(this).data('title');
         const fileUrl = $(this).data('file');

@@ -7,10 +7,9 @@ use App\Models\HRFormsCategory;
 use App\Models\HRForm;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\Process\Process;
+
 class HRFormController extends Controller
 {
-    //
     public function index(Request $request)
     {
         // Get all categories for filter dropdown
@@ -28,13 +27,13 @@ class HRFormController extends Controller
                 $search = $request->search;
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%$search%")
-                      ->orWhere('original_file_path', 'like', "%$search%");
+                        ->orWhere('file_path', 'like', "%$search%");
                 });
             }
 
             // Paginate forms for this category
             $paginatedForms[$category->id] = $query->paginate($perPage);
-            
+
             // Add category info to pagination
             $paginatedForms[$category->id]->category = $category;
         }
@@ -48,51 +47,30 @@ class HRFormController extends Controller
 
         return view('hrforms.index', compact('categories', 'paginatedForms', 'filteredCategories'));
     }
-    
+
     public function store(Request $request)
     {
+        // Validate file upload
         $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:hr_forms_categories,id',
-            'file_path' => 'required|file|mimes:pdf,doc,docx,jpeg,png,xls,xlsx',
+            'file_path' => 'required|file|mimes:pdf,doc,docx,jpeg,png,xls,xlsx|max:50000', // 50MB
         ]);
 
+        // Store the file
         $file = $request->file('file_path');
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $fileName = time() . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
 
+        // Store in storage/app/public/hrforms
         $path = $file->storeAs('hrforms', $fileName, 'public');
 
-        $pdfPath = null;
-
-        // Convert office files to PDF
-        if (in_array($extension, ['doc', 'docx', 'xls', 'xlsx'])) {
-            $inputPath = storage_path("app/public/hrforms/{$fileName}");
-            $outputDir = storage_path("app/public/hrforms");
-
-            // Command to convert using LibreOffice
-            $process = new Process([
-                'soffice',
-                '--headless',
-                '--convert-to',
-                'pdf',
-                '--outdir',
-                $outputDir,
-                $inputPath
-            ]);
-            $process->run();
-
-            if ($process->isSuccessful()) {
-                $pdfPath = 'hrforms/' . pathinfo($fileName, PATHINFO_FILENAME) . '.pdf';
-            }
-        }
-
+        // Create HR Form record (no PDF conversion)
         HRForm::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
-            'file_path' => $pdfPath ?? $path, // fallback to original if no conversion
-            'original_file_path' => $path,
+            'file_path' => $path,
         ]);
 
         return redirect()->back()->with('success', 'HR Form added successfully!');
@@ -106,6 +84,8 @@ class HRFormController extends Controller
         if (Storage::disk('public')->exists($form->file_path)) {
             Storage::disk('public')->delete($form->file_path);
         }
+
+        // Delete the database record
         $form->delete();
 
         return redirect()->back()->with('success', 'Form deleted successfully.');
@@ -114,7 +94,14 @@ class HRFormController extends Controller
     public function download($id)
     {
         $form = HRForm::findOrFail($id);
-        return response()->download(storage_path('app/public/' . $form->original_file_path));
+
+        // Check if file exists
+        if (!Storage::disk('public')->exists($form->file_path)) {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+
+        // Download the file
+        return Storage::disk('public')->download($form->file_path, $form->title);
     }
 
     public function storeCategory(Request $request)
@@ -141,5 +128,4 @@ class HRFormController extends Controller
         $category->delete();
         return response()->json(['success' => 'Category deleted successfully.']);
     }
-
 }

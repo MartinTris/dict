@@ -17,7 +17,7 @@
                         <label>Category</label>
                         <div class="dropdown">
                             <button class="btn btn-light border w-100 d-flex justify-content-between align-items-center"
-                                type="button" id="dropdownCategoryBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                    type="button" id="dropdownCategoryBtn" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span id="selectedCategoryText">Select Category</span>
                                 <i class="fas fa-chevron-down ms-auto"></i>
                             </button>
@@ -25,9 +25,9 @@
                                 @foreach ($categories as $category)
                                     <li class="d-flex justify-content-between align-items-center px-3">
                                         <span class="category-option"
-                                            data-id="{{ $category->id }}">{{ $category->name }}</span>
+                                              data-id="{{ $category->id }}">{{ $category->name }}</span>
                                         <button type="button" class="btn btn-sm text-danger delete-category"
-                                            data-id="{{ $category->id }}">
+                                                data-id="{{ $category->id }}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </li>
@@ -39,14 +39,14 @@
                                         New Category</a></li>
                             </ul>
                         </div>
-                        <input type="hidden" name="category_id" id="selectedCategoryId">
+                        <input type="hidden" name="category_id" id="selectedCategoryId" required>
                     </div>
                     <div class="col-md-6">
                         <label>Upload Form File</label>
                         <div id="dropZone" class="drop-zone position-relative">
                             <span id="dropZoneText">Drag & drop a file here or click to browse</span>
                             <input type="file" name="file_path" class="form-control file-input" id="fileInput"
-                                accept=".doc,.docx,.jpeg,.xls,.xlsx,.pdf,.png" required>
+                                   accept=".doc,.docx,.jpeg,.xls,.xlsx,.pdf,.png" required>
                         </div>
                         <!-- Allowed file types info -->
                         <small class="form-text text-muted">Allowed file types: .doc, .docx, .jpeg, .pdf, .png, .xls,
@@ -54,7 +54,8 @@
                     </div>
                 </div>
                 <div class="modal-footer px-4">
-                    <button type="submit" class="btn" style="background-color: #003566; color: white;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn" id="submitFormBtn" style="background-color: #003566; color: white;">
                         <i class="fas fa-save mx-1"></i> Save Form
                     </button>
                 </div>
@@ -76,7 +77,8 @@
                     <input type="text" name="name" class="form-control" placeholder="Enter Category Name" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
                 </div>
             </div>
         </form>
@@ -138,31 +140,62 @@
             });
         });
 
-        // Open modal
+        // Open modal for new category
         $('#addNewCategoryBtn').on('click', function (e) {
             e.preventDefault();
             $('#addCategoryModal').modal('show');
         });
 
-        // Submit new category
+        // Submit new category AJAX (without page reload)
         $('#addCategoryForm').on('submit', function (e) {
             e.preventDefault();
-            $.post("{{ route('hrforms.categories.store') }}", $(this).serialize(), function (res) {
-                $('#categoryDropdown').prepend(`
-                    <li class="d-flex justify-content-between align-items-center px-3">
-                        <span class="category-option" data-id="${res.id}">${res.name}</span>
-                        <button type="button" class="btn btn-sm text-danger delete-category" data-id="${res.id}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </li>
-                `);
-                $('#selectedCategoryId').val(res.id);
-                $('#selectedCategoryText').text(res.name);
-                $('#addCategoryModal').modal('hide');
-                $('#addCategoryForm')[0].reset();
-            }).fail(function () {
-                alert('Error adding category.');
+            const categoryName = $('input[name="name"]', this).val();
+
+            $.ajax({
+                url: "{{ route('hrforms.categories.store') }}",
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    name: categoryName
+                },
+                success: function (res) {
+                    // Add new category to dropdown
+                    const newItem = `
+                        <li class="d-flex justify-content-between align-items-center px-3">
+                            <span class="category-option" data-id="${res.id}">${res.name}</span>
+                            <button type="button" class="btn btn-sm text-danger delete-category" data-id="${res.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </li>
+                    `;
+                    $('#categoryDropdown').prepend(newItem);
+
+                    // Auto-select the new category
+                    $('#selectedCategoryId').val(res.id);
+                    $('#selectedCategoryText').text(res.name);
+
+                    // Close modal and reset form
+                    $('#addCategoryModal').modal('hide');
+                    $('#addCategoryForm')[0].reset();
+
+                    // Show success message
+                    Swal.fire('Success!', 'Category added successfully.', 'success');
+                },
+                error: function (xhr) {
+                    Swal.fire('Error', 'Failed to add category.', 'error');
+                    console.log(xhr.responseText);
+                }
             });
+        });
+
+        // Prevent form submission if category not selected
+        $('#addFormForm').on('submit', function (e) {
+            const categoryId = $('#selectedCategoryId').val();
+            if (!categoryId) {
+                e.preventDefault();
+                Swal.fire('Warning', 'Please select a category before uploading.', 'warning');
+                return false;
+            }
         });
 
         // Drag & Drop functionality for file upload
@@ -227,5 +260,13 @@
         opacity: 0;
         cursor: pointer;
         z-index: 10;
+    }
+
+    #categoryDropdown li {
+        cursor: pointer;
+    }
+
+    #categoryDropdown li:hover {
+        background-color: #f1f1f1;
     }
 </style>
