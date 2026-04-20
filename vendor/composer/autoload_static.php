@@ -738,6 +738,7 @@ class ComposerStaticInit7622ca70eacce73383b0012eba4406a9
         'App\\Http\\Middleware\\UserDataScope' => __DIR__ . '/../..' . '/app/Http/Middleware/UserDataScope.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Jobs\\ConvertHRFormToPdf' => __DIR__ . '/../..' . '/app/Jobs/ConvertHRFormToPdf.php',
         'App\\Models\\Bplo' => __DIR__ . '/../..' . '/app/Models/Bplo.php',
         'App\\Models\\CalendarEvent' => __DIR__ . '/../..' . '/app/Models/CalendarEvent.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',

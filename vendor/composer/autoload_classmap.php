@@ -56,6 +56,7 @@ return array(
     'App\\Http\\Middleware\\UserDataScope' => $baseDir . '/app/Http/Middleware/UserDataScope.php',
     'App\\Http\\Middleware\\ValidateSignature' => $baseDir . '/app/Http/Middleware/ValidateSignature.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Jobs\\ConvertHRFormToPdf' => $baseDir . '/app/Jobs/ConvertHRFormToPdf.php',
     'App\\Models\\Bplo' => $baseDir . '/app/Models/Bplo.php',
     'App\\Models\\CalendarEvent' => $baseDir . '/app/Models/CalendarEvent.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
