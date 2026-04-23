@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip \
+    && docker-php-ext-install pdo pdo_mysql zip gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -34,11 +34,17 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
 # Final stage with Nginx and PHP-FPM
 FROM php:8.3-fpm
 
-# Install Nginx
+# Install Nginx and MySQL extensions in final stage
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     curl \
     ca-certificates \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql zip gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
