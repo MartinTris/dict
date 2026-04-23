@@ -164,6 +164,34 @@ Route::get('/test-db', function () {
     }
 });
 
+Route::get('/debug-login', function () {
+    try {
+        // Test database connection
+        $users = \DB::table('users')->limit(1)->get();
+        return 'Users found: ' . count($users);
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
+Route::get('/check-users-table', function () {
+    try {
+        $schema = \Illuminate\Support\Facades\Schema::hasTable('users');
+        return $schema ? 'Users table exists' : 'Users table does NOT exist';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
+Route::get('/run-migrations', function () {
+    try {
+        \Artisan::call('migrate', ['--force' => true]);
+        return 'Migrations completed!';
+    } catch (\Exception $e) {
+        return 'Migration error: ' . $e->getMessage();
+    }
+});
+
 //Auth Routes
 Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('employee.login');
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
