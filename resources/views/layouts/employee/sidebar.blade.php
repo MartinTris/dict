@@ -132,7 +132,7 @@
 
   <!-- Nav Item - Daily Time Record -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+    <a class="nav-link custom-active" href="{{ route('dtr.index')}}">
       <i class="fa-solid fa-business-time"></i>
       <span>DTR</span>
     </a>

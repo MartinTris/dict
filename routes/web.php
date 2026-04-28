@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Fw4aController;
+
 // use App\Http\Controllers\Users_listController; // Import your Users_listController
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\PnpkiExportController;
 use App\Http\Controllers\Tech4edModuleController;
 use App\Http\Controllers\eGovOrientationController;
 use App\Http\Controllers\eGovAssistancesController;
+use App\Http\Controllers\DailyTimeRecordController;
 
 // Public routes
 Route::get('/', function () {
@@ -42,90 +44,90 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-Route::get('/nbp', [App\Http\Controllers\NbpController::class, 'index'])->name('nbp');
-Route::get('/gecs', [App\Http\Controllers\GecsController::class, 'index'])->name('gecs');
+    Route::get('/nbp', [App\Http\Controllers\NbpController::class, 'index'])->name('nbp');
+    Route::get('/gecs', [App\Http\Controllers\GecsController::class, 'index'])->name('gecs');
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
-Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 
 
 // Tech4ED Routes
-Route::get('/tech4ed', [App\Http\Controllers\Tech4edController::class, 'index'])->name('tech4ed');
-Route::get('/tech4ed/create', [App\Http\Controllers\Tech4edController::class, 'create'])->name('tech4ed.create');
-Route::post('/tech4ed', [App\Http\Controllers\Tech4edController::class, 'store'])->name('tech4ed.store');
-Route::get('/tech4ed/visualization', [App\Http\Controllers\Tech4edController::class, 'visualization'])->name('tech4ed.visualization');
-Route::get('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'show'])->name('tech4ed.show');
-Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::class, 'edit'])->name('tech4ed.edit');
-Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
-Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
-Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
-Route::resource('tech4ed-modules', Tech4edModuleController::class);
-Route::get('tech4ed-modules/{tech4edModule}/download', [Tech4edModuleController::class, 'download'])->name('tech4ed-modules.download');
-Route::get('tech4ed-modules/{tech4edModule}/preview', [Tech4edModuleController::class, 'preview'])->name('tech4ed-modules.preview');
+    Route::get('/tech4ed', [App\Http\Controllers\Tech4edController::class, 'index'])->name('tech4ed');
+    Route::get('/tech4ed/create', [App\Http\Controllers\Tech4edController::class, 'create'])->name('tech4ed.create');
+    Route::post('/tech4ed', [App\Http\Controllers\Tech4edController::class, 'store'])->name('tech4ed.store');
+    Route::get('/tech4ed/visualization', [App\Http\Controllers\Tech4edController::class, 'visualization'])->name('tech4ed.visualization');
+    Route::get('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'show'])->name('tech4ed.show');
+    Route::get('/tech4ed/{tech4ed}/edit', [App\Http\Controllers\Tech4edController::class, 'edit'])->name('tech4ed.edit');
+    Route::put('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'update'])->name('tech4ed.update');
+    Route::delete('/tech4ed/{tech4ed}', [App\Http\Controllers\Tech4edController::class, 'destroy'])->name('tech4ed.destroy');
+    Route::get('/tech4ed/export/{format}', [Tech4edExportController::class, 'export'])->name('tech4ed.export');
+    Route::resource('tech4ed-modules', Tech4edModuleController::class);
+    Route::get('tech4ed-modules/{tech4edModule}/download', [Tech4edModuleController::class, 'download'])->name('tech4ed-modules.download');
+    Route::get('tech4ed-modules/{tech4edModule}/preview', [Tech4edModuleController::class, 'preview'])->name('tech4ed-modules.preview');
 
 // Tech4ED API Routes for districts
-Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
-Route::get('/tech4ed-api/congressional-districts', [App\Http\Controllers\Tech4edController::class, 'getCongressionalDistricts'])->name('tech4ed.congressional-districts');
-Route::get('/tech4ed-api/filter-by-district/{districtId}', [App\Http\Controllers\Tech4edController::class, 'filterByDistrict'])->name('tech4ed.filter-by-district');
+    Route::get('/tech4ed-api/districts', [App\Http\Controllers\Tech4edController::class, 'getDistricts'])->name('tech4ed.districts');
+    Route::get('/tech4ed-api/congressional-districts', [App\Http\Controllers\Tech4edController::class, 'getCongressionalDistricts'])->name('tech4ed.congressional-districts');
+    Route::get('/tech4ed-api/filter-by-district/{districtId}', [App\Http\Controllers\Tech4edController::class, 'filterByDistrict'])->name('tech4ed.filter-by-district');
 
 // BPLO Routes
-Route::get('/bplo', [App\Http\Controllers\BploController::class, 'index'])->name('bplo');
-Route::get('/bplo/create', [App\Http\Controllers\BploController::class, 'create'])->name('bplo.create');
-Route::post('/bplo', [App\Http\Controllers\BploController::class, 'store'])->name('bplo.store');
-Route::get('/bplo/visualization', [App\Http\Controllers\BploController::class, 'visualization'])->name('bplo.visualization');
-Route::get('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'show'])->name('bplo.show');
-Route::get('/bplo/{bplo}/edit', [App\Http\Controllers\BploController::class, 'edit'])->name('bplo.edit');
-Route::put('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'update'])->name('bplo.update');
-Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'destroy'])->name('bplo.destroy');
-Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
+    Route::get('/bplo', [App\Http\Controllers\BploController::class, 'index'])->name('bplo');
+    Route::get('/bplo/create', [App\Http\Controllers\BploController::class, 'create'])->name('bplo.create');
+    Route::post('/bplo', [App\Http\Controllers\BploController::class, 'store'])->name('bplo.store');
+    Route::get('/bplo/visualization', [App\Http\Controllers\BploController::class, 'visualization'])->name('bplo.visualization');
+    Route::get('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'show'])->name('bplo.show');
+    Route::get('/bplo/{bplo}/edit', [App\Http\Controllers\BploController::class, 'edit'])->name('bplo.edit');
+    Route::put('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'update'])->name('bplo.update');
+    Route::delete('/bplo/{bplo}', [App\Http\Controllers\BploController::class, 'destroy'])->name('bplo.destroy');
+    Route::get('/bplo/export/{format?}', [BploExportController::class, 'export'])->name('bplo.export');
 
 //eGov Routes
 //Orientations
-Route::get('/egov', [App\Http\Controllers\EgovController::class, 'index'])->name('egov');
-Route::resource('egov-orientation', eGovOrientationController::class);
-Route::get('egov-orientation/export/{format}', [EgovOrientationController::class, 'export'])->name('egov-orientation.export');
+    Route::get('/egov', [App\Http\Controllers\EgovController::class, 'index'])->name('egov');
+    Route::resource('egov-orientation', eGovOrientationController::class);
+    Route::get('egov-orientation/export/{format}', [EgovOrientationController::class, 'export'])->name('egov-orientation.export');
 
 //Assistances
-Route::resource('egov-assistance', eGovAssistancesController::class);
-Route::get('egov-assistance/export/{format}', [eGovAssistancesController::class, 'export'])->name('egov-assistance.export');
+    Route::resource('egov-assistance', eGovAssistancesController::class);
+    Route::get('egov-assistance/export/{format}', [eGovAssistancesController::class, 'export'])->name('egov-assistance.export');
 
 // IBPLS Routes
 // Main IBPLS routes
-Route::get('/ibpls', [App\Http\Controllers\IbplsController::class, 'index'])->name('ibpls');
-Route::get('/ibpls/create', [App\Http\Controllers\IbplsController::class, 'create'])->name('ibpls.create');
-Route::post('/ibpls', [App\Http\Controllers\IbplsController::class, 'store'])->name('ibpls.store');
-Route::get('/ibpls/visualization', [App\Http\Controllers\IbplsController::class, 'visualization'])->name('ibpls.visualization');
-Route::get('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'show'])->name('ibpls.show');
-Route::get('/ibpls/{ibpls}/edit', [App\Http\Controllers\IbplsController::class, 'edit'])->name('ibpls.edit');
-Route::put('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'update'])->name('ibpls.update');
-Route::delete('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'destroy'])->name('ibpls.destroy');
-Route::get('/ibpls/reset-ids', [App\Http\Controllers\IbplsController::class, 'resetIds'])->name('ibpls.resetIds');
-Route::get('/ibpls/export/{format?}', [IbplsExportController::class, 'export'])->name('ibpls.export');
+    Route::get('/ibpls', [App\Http\Controllers\IbplsController::class, 'index'])->name('ibpls');
+    Route::get('/ibpls/create', [App\Http\Controllers\IbplsController::class, 'create'])->name('ibpls.create');
+    Route::post('/ibpls', [App\Http\Controllers\IbplsController::class, 'store'])->name('ibpls.store');
+    Route::get('/ibpls/visualization', [App\Http\Controllers\IbplsController::class, 'visualization'])->name('ibpls.visualization');
+    Route::get('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'show'])->name('ibpls.show');
+    Route::get('/ibpls/{ibpls}/edit', [App\Http\Controllers\IbplsController::class, 'edit'])->name('ibpls.edit');
+    Route::put('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'update'])->name('ibpls.update');
+    Route::delete('/ibpls/{ibpls}', [App\Http\Controllers\IbplsController::class, 'destroy'])->name('ibpls.destroy');
+    Route::get('/ibpls/reset-ids', [App\Http\Controllers\IbplsController::class, 'resetIds'])->name('ibpls.resetIds');
+    Route::get('/ibpls/export/{format?}', [IbplsExportController::class, 'export'])->name('ibpls.export');
 
 // PNP-KI Routes
-Route::get('/pnpki', [App\Http\Controllers\PnpkiController::class, 'index'])->name('pnpki');
-Route::get('/pnpki/create', [App\Http\Controllers\PnpkiController::class, 'create'])->name('pnpki.create');
-Route::post('/pnpki', [App\Http\Controllers\PnpkiController::class, 'store'])->name('pnpki.store');
-Route::get('/pnpki/visualization', [App\Http\Controllers\PnpkiController::class, 'visualization'])->name('pnpki.visualization');
-Route::get('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'show'])->name('pnpki.show');
-Route::get('/pnpki/{pnpki}/edit', [App\Http\Controllers\PnpkiController::class, 'edit'])->name('pnpki.edit');
-Route::put('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'update'])->name('pnpki.update');
-Route::delete('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'destroy'])->name('pnpki.destroy');
-Route::get('/pnpki/export/{format}', [PnpkiExportController::class, 'export'])->name('pnpki.export');
+    Route::get('/pnpki', [App\Http\Controllers\PnpkiController::class, 'index'])->name('pnpki');
+    Route::get('/pnpki/create', [App\Http\Controllers\PnpkiController::class, 'create'])->name('pnpki.create');
+    Route::post('/pnpki', [App\Http\Controllers\PnpkiController::class, 'store'])->name('pnpki.store');
+    Route::get('/pnpki/visualization', [App\Http\Controllers\PnpkiController::class, 'visualization'])->name('pnpki.visualization');
+    Route::get('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'show'])->name('pnpki.show');
+    Route::get('/pnpki/{pnpki}/edit', [App\Http\Controllers\PnpkiController::class, 'edit'])->name('pnpki.edit');
+    Route::put('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'update'])->name('pnpki.update');
+    Route::delete('/pnpki/{pnpki}', [App\Http\Controllers\PnpkiController::class, 'destroy'])->name('pnpki.destroy');
+    Route::get('/pnpki/export/{format}', [PnpkiExportController::class, 'export'])->name('pnpki.export');
 
 //Cybersecurity Routes
 // routes/web.php (add these routes)
-Route::get('/cybersecurity', [App\Http\Controllers\CybersecurityController::class, 'index'])->name('cybersecurity');
-Route::get('/cybersecurity/create', [App\Http\Controllers\CybersecurityController::class, 'create'])->name('cybersecurity.create');
-Route::post('/cybersecurity', [App\Http\Controllers\CybersecurityController::class, 'store'])->name('cybersecurity.store');
-Route::get('/cybersecurity/visualization', [App\Http\Controllers\CybersecurityController::class, 'visualization'])->name('cybersecurity.visualization');
-Route::get('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'show'])->name('cybersecurity.show');
-Route::get('/cybersecurity/{cybersecurity}/edit', [App\Http\Controllers\CybersecurityController::class, 'edit'])->name('cybersecurity.edit');
-Route::put('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'update'])->name('cybersecurity.update');
-Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'destroy'])->name('cybersecurity.destroy');
-Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
+    Route::get('/cybersecurity', [App\Http\Controllers\CybersecurityController::class, 'index'])->name('cybersecurity');
+    Route::get('/cybersecurity/create', [App\Http\Controllers\CybersecurityController::class, 'create'])->name('cybersecurity.create');
+    Route::post('/cybersecurity', [App\Http\Controllers\CybersecurityController::class, 'store'])->name('cybersecurity.store');
+    Route::get('/cybersecurity/visualization', [App\Http\Controllers\CybersecurityController::class, 'visualization'])->name('cybersecurity.visualization');
+    Route::get('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'show'])->name('cybersecurity.show');
+    Route::get('/cybersecurity/{cybersecurity}/edit', [App\Http\Controllers\CybersecurityController::class, 'edit'])->name('cybersecurity.edit');
+    Route::put('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'update'])->name('cybersecurity.update');
+    Route::delete('/cybersecurity/{cybersecurity}', [App\Http\Controllers\CybersecurityController::class, 'destroy'])->name('cybersecurity.destroy');
+    Route::get('/cybersecurity/export/{format}', [CybersecurityExportController::class, 'export'])->name('cybersecurity.export');
 
 // Route::controller(Users_listController::class)->prefix('users_lists')->group(function () {
 
@@ -154,6 +156,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
     Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });
+
 //Test
 Route::get('/test-db', function () {
     try {
@@ -208,7 +211,7 @@ Route::middleware('auth:employee')->group(function () {
 
 //FW4A Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/fw4a',[Fw4aController::class, 'index'])->name('fw4a');
+    Route::get('/fw4a', [Fw4aController::class, 'index'])->name('fw4a');
     Route::post('/fw4a', [Fw4aController::class, 'store'])->name('fw4a.store');
     Route::get('/fw4a/{fw4a}', [Fw4aController::class, 'show'])->name('fw4a.show');
     Route::put('/fw4a/{fw4a}', [Fw4aController::class, 'update'])->name('fw4a.update');
@@ -250,10 +253,18 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
     Route::get('/fetch', [CalendarController::class, 'fetch'])->name('fetch');
     Route::put('/{id}', [CalendarController::class, 'update'])->name('update');
     Route::post('/projects', [CalendarController::class, 'storeProject'])->name('projects.store');
-Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
+    Route::delete('/projects/{id}', [CalendarController::class, 'destroyProject'])->name('projects.destroy');
 
+});
+
+//DTR Routes
+Route::middleware(['auth:employee'])->group(function () {
+    Route::get('/dtr', [DailyTimeRecordController::class, 'index'])->name('dtr.index');
+    Route::post('/dtr/clock-in', [DailyTimeRecordController::class, 'clockIn'])->name('dtr.clock-in');
+    Route::post('/dtr/clock-out', [DailyTimeRecordController::class, 'clockOut'])->name('dtr.clock-out');
 });
 
 Route::get('/test', function () {
     return view('calendar.test');
 });
+
