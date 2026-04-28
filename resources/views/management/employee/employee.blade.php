@@ -1,14 +1,14 @@
 @extends('layouts.app')
+
+@section('title', 'Employee Management')
+
 @section('contents')
     <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="font-weight-bold">Employee Management</h2>
-            <div>
+        <div class="d-flex justify-content-end mb-3">
                 {{-- route('employee.create') --}}
                 <a href="#" class="btn btn-primary" style="background-color: #003566; border-color: #003566;">
                     <i class="fas fa-plus-circle"></i> ADD RECORD
                 </a>
-            </div>
         </div>
         <div class="card shadow">
             <div class="card-body">
@@ -20,7 +20,7 @@
                         </button>
                     </div>
                 </div>
-    
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead style="background-color: #003566; color: white;">
@@ -42,7 +42,7 @@
                                 <td class="text-center">
                                     <a href="{{ route('ibpls.show', $record->id)}} " class="btn btn-sm btn-dark">Detail</a>
                                     <a href="{{ route('ibpls.edit', $record->id)}}" class="btn btn-sm btn-warning">Edit</a>
-                                    <button type="button" class="btn btn-sm btn-danger" 
+                                    <button type="button" class="btn btn-sm btn-danger"
                                         onclick="confirmDelete('{{ $record->id }}')">Delete</button>
                                 </td>
                             </tr>

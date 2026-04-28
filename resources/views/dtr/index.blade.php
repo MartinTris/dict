@@ -5,7 +5,6 @@
 @section('contents')
     <div class="row">
         <div class="col-12">
-            {{-- Flash messages --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
@@ -19,10 +18,9 @@
                 </div>
             @endif
 
-            {{-- Current Day Section --}}
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Today ({{ $nowManila->format('F d, Y') }})</h5>
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold" style="color: #003566;">Today ({{ $nowManila->format('F d, Y') }})</h6>
                 </div>
                 <div class="card-body">
                     <div class="row g-3 mb-4">
@@ -86,10 +84,9 @@
                 </div>
             </div>
 
-            {{-- Historical Records Section --}}
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">History</h5>
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold" style="color: #003566;">History</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
