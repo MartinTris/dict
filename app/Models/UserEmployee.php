@@ -19,14 +19,4 @@ class UserEmployee extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function leaves()
-    {
-        return $this->hasMany(Leave::class, 'employee_id');
-    }
-
-    public function leaveBalances()
-    {
-        return $this->hasMany(LeaveBalance::class, 'employee_id');
-    }
 }
