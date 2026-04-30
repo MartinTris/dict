@@ -121,6 +121,14 @@
     </a>
   </li>
 
+  <!-- Nav Item - Leave Management -->
+  <li class="nav-item">
+  <a class="nav-link custom-active" href="{{ route('leave-management.index') }}">
+    <i class="fas fa-fw fa-clipboard-list"></i>
+    <span>Leave Management</span>
+  </a>
+</li>
+
   <!-- Nav Item - Calendar of Activities -->
   <li class="nav-item">
     <a class="nav-link custom-active" href="{{ route('calendar.index') }}">

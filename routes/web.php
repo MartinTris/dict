@@ -157,44 +157,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });
 
-//Test
-Route::get('/test-db', function () {
-    try {
-        \Illuminate\Support\Facades\DB::connection()->getPdo();
-        return 'Database connection successful!';
-    } catch (\Exception $e) {
-        return 'Database connection failed: ' . $e->getMessage();
-    }
-});
-
-Route::get('/debug-login', function () {
-    try {
-        // Test database connection
-        $users = \DB::table('users')->limit(1)->get();
-        return 'Users found: ' . count($users);
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
-});
-
-Route::get('/check-users-table', function () {
-    try {
-        $schema = \Illuminate\Support\Facades\Schema::hasTable('users');
-        return $schema ? 'Users table exists' : 'Users table does NOT exist';
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
-});
-
-Route::get('/run-migrations', function () {
-    try {
-        \Artisan::call('migrate', ['--force' => true]);
-        return 'Migrations completed!';
-    } catch (\Exception $e) {
-        return 'Migration error: ' . $e->getMessage();
-    }
-});
-
 //Auth Routes
 Route::get('/employee/login', [AuthController::class, 'employeeLogin'])->name('employee.login');
 Route::post('/employee/login', [AuthController::class, 'employeeLoginAction'])->name('employee.login.action');
@@ -217,6 +179,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/fw4a/{fw4a}', [Fw4aController::class, 'update'])->name('fw4a.update');
     Route::delete('/fw4a/{fw4a}', [Fw4aController::class, 'destroy'])->name('fw4a.destroy');
     Route::get('/fw4a/export/{format}', [Fw4aExportController::class, 'export'])->name('fw4a.export');
+});
+
+// Leave Management Route
+Route::middleware('auth')->group(function () {
+    Route::resource('leave-types', App\Http\Controllers\LeaveTypeController::class)->except(['show']);
+    Route::get('/leave-management', [App\Http\Controllers\AdminLeaveController::class, 'index'])->name('leave-management.index');
+    Route::post('/leave-management/{leave}/approve', [App\Http\Controllers\AdminLeaveController::class, 'approve'])->name('leave-management.approve');
+    Route::post('/leave-management/{leave}/reject', [App\Http\Controllers\AdminLeaveController::class, 'reject'])->name('leave-management.reject');
 });
 
 /*endpoints for fw4a location*/
@@ -257,12 +227,31 @@ Route::middleware('auth')->prefix('calendar')->name('calendar.')->group(function
 
 });
 
-//DTR Routes
+// EMPLOYEE ROUTES
+//DTR
 Route::middleware(['auth:employee'])->group(function () {
     Route::get('/dtr', [DailyTimeRecordController::class, 'index'])->name('dtr.index');
     Route::post('/dtr/clock-in', [DailyTimeRecordController::class, 'clockIn'])->name('dtr.clock-in');
     Route::post('/dtr/clock-out', [DailyTimeRecordController::class, 'clockOut'])->name('dtr.clock-out');
 });
+
+// Leave Management
+Route::middleware('auth:employee')->prefix('employee/leaves')->name('employee.leaves.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\LeaveController::class, 'dashboard'])->name('dashboard');
+    Route::get('/calendar', [App\Http\Controllers\LeaveController::class, 'calendar'])->name('calendar');
+    Route::get('/calendar/fetch', [App\Http\Controllers\LeaveController::class, 'calendarFetch'])->name('calendar.fetch');
+
+    Route::get('/', [App\Http\Controllers\LeaveController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\LeaveController::class, 'create'])->name('create');
+    Route::post('/preview', [App\Http\Controllers\LeaveController::class, 'preview'])->name('preview');
+    Route::post('/', [App\Http\Controllers\LeaveController::class, 'store'])->name('store');
+    Route::get('/{leave}', [App\Http\Controllers\LeaveController::class, 'show'])->name('show');
+    Route::get('/{leave}/edit', [App\Http\Controllers\LeaveController::class, 'edit'])->name('edit');
+    Route::put('/{leave}', [App\Http\Controllers\LeaveController::class, 'update'])->name('update');
+    Route::post('/{leave}/cancel', [App\Http\Controllers\LeaveController::class, 'cancel'])->name('cancel');
+    Route::get('/{leave}/download', [App\Http\Controllers\LeaveController::class, 'download'])->name('download');
+});
+
 
 Route::get('/test', function () {
     return view('calendar.test');
