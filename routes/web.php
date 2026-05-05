@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\LeaveManagementController;
+use App\Http\Controllers\Admin\LeaveTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Fw4aController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\Tech4edModuleController;
 use App\Http\Controllers\eGovOrientationController;
 use App\Http\Controllers\eGovAssistancesController;
 use App\Http\Controllers\DailyTimeRecordController;
+use App\Http\Controllers\Employee\LeaveController;
 
 // Public routes
 Route::get('/', function () {
@@ -164,6 +167,15 @@ Route::get('/employee/register', [AuthController::class, 'employeeRegister'])->n
 Route::post('/employee/register', [AuthController::class, 'emp_registerSave'])->name('employee.register.save');
 Route::get('/employee/logout', [AuthController::class, 'employeeLogout'])->middleware('auth:employee')->name('employee.logout');
 
+// Leave Management
+Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('leave-types', LeaveTypeController::class)->except(['show']);
+    Route::get('leave-management', [LeaveManagementController::class, 'index'])->name('leaves.index');
+    Route::get('leave-management/{leave}', [LeaveManagementController::class, 'show'])->name('leaves.show');
+    Route::post('leave-management/{leave}/action', [LeaveManagementController::class, 'action'])->name('leaves.action');
+    Route::get('leave-management/employee/{user}', [LeaveManagementController::class, 'employeeHistory'])->name('leaves.history');
+});
+
 //Middleware
 Route::middleware('auth:employee')->group(function () {
     Route::get('employee/dashboard', function () {
@@ -225,6 +237,19 @@ Route::middleware(['auth:employee'])->group(function () {
     Route::get('/dtr', [DailyTimeRecordController::class, 'index'])->name('dtr.index');
     Route::post('/dtr/clock-in', [DailyTimeRecordController::class, 'clockIn'])->name('dtr.clock-in');
     Route::post('/dtr/clock-out', [DailyTimeRecordController::class, 'clockOut'])->name('dtr.clock-out');
+});
+
+Route::middleware(['auth:employee'])->prefix('employee')->name('employee.')->group(function () {
+    Route::get('leaves', [LeaveController::class, 'index'])->name('leaves.index');
+    Route::get('leaves/create', [LeaveController::class, 'create'])->name('leaves.create');
+    Route::post('leaves', [LeaveController::class, 'store'])->name('leaves.store');
+    Route::get('leaves/{leave}', [LeaveController::class, 'show'])->name('leaves.show');
+    Route::get('leaves/{leave}/edit', [LeaveController::class, 'edit'])->name('leaves.edit');
+    Route::put('leaves/{leave}', [LeaveController::class, 'update'])->name('leaves.update');
+    Route::post('leaves/{leave}/cancel', [LeaveController::class, 'cancel'])->name('leaves.cancel');
+
+    Route::get('leave-dashboard', [LeaveController::class, 'dashboard'])->name('leaves.dashboard');
+    Route::get('leave-calendar', [LeaveController::class, 'calendar'])->name('leaves.calendar');
 });
 
 Route::get('/test', function () {

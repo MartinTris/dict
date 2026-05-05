@@ -99,7 +99,7 @@
 
   <!-- Nav Item - Leave Record -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+    <a class="nav-link custom-active" href="/profile">
       <i class="fas fa-fw fa-circle-user"></i>
       <span>Profile</span>
     </a>
@@ -143,7 +143,7 @@
 
   <!-- Nav Item - Leave Record -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index') }}">
+    <a class="nav-link custom-active" href="{{ route('employee.leaves.index') }}">
       <i class="fa-solid fa-chalkboard-user"></i>
       <span>Leaves</span>
     </a>

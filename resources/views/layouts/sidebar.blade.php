@@ -123,7 +123,7 @@
 
   <!-- Nav Item - Leave Management -->
   <li class="nav-item">
-  <a class="nav-link custom-active" href="{{ route('employees.index') }}">
+  <a class="nav-link custom-active" href="{{ route('admin.leaves.index') }}">
     <i class="fas fa-fw fa-clipboard-list"></i>
     <span>Leave Management</span>
   </a>
