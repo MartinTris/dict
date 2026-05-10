@@ -15,13 +15,13 @@ class LeaveController extends Controller
 {
     public function __construct(private LeaveService $service)
     {
-        $this->middleware('auth');
+        $this->middleware('auth:employee');
     }
 
     public function index(Request $request)
     {
         $query = Leave::with('leaveType')
-            ->forUser($request->user()->id);
+            ->forUser($request->user('employee')->id);
 
         if ($request->filled('status')) $query->where('status', $request->status);
         if ($request->filled('leave_type_id')) $query->where('leave_type_id', $request->leave_type_id);
@@ -56,7 +56,7 @@ class LeaveController extends Controller
         $days = $this->service->calculateDays($request->start_date, $request->end_date);
 
         $leave = Leave::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user('employee')->id,
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -126,7 +126,7 @@ class LeaveController extends Controller
     public function dashboard(Request $request)
     {
         $balances = LeaveBalance::with('leaveType')
-            ->where('user_id', $request->user()->id)->get();
+            ->where('user_id', $request->user('employee')->id)->get();
 
         return view('employee.leaves.dashboard', compact('balances'));
     }

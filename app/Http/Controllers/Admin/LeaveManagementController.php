@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ApproveRejectLeaveRequest;
 use App\Models\Leave;
 use App\Models\LeaveType;
-use App\Models\User;
+use App\Models\UserEmployee;
 use App\Services\LeaveService;
 use Illuminate\Http\Request;
 
@@ -36,7 +36,7 @@ class LeaveManagementController extends Controller
 
         $leaves = $query->latest()->paginate(15);
         $types = LeaveType::orderBy('name')->get();
-        $employees = User::orderBy('name')->get();
+        $employees = UserEmployee::orderBy('name')->get();
 
         return view('admin.leaves.index', compact('leaves','types','employees'));
     }
@@ -61,7 +61,7 @@ class LeaveManagementController extends Controller
         return back()->with('success', 'Leave rejected.');
     }
 
-    public function employeeHistory(User $user)
+    public function employeeHistory(UserEmployee $user)
     {
         $leaves = Leave::with('leaveType')->where('user_id', $user->id)->latest()->paginate(15);
         return view('admin.leaves.history', compact('user','leaves'));
