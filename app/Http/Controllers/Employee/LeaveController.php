@@ -10,6 +10,7 @@ use App\Models\LeaveType;
 use App\Models\LeaveBalance;
 use App\Services\LeaveService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LeaveController extends Controller
 {
@@ -27,7 +28,7 @@ class LeaveController extends Controller
         if ($request->filled('leave_type_id')) $query->where('leave_type_id', $request->leave_type_id);
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('reason', 'like', '%'.$request->search.'%');
+                $q->where('reason', 'like', '%' . $request->search . '%');
             });
         }
         if ($request->filled('from') && $request->filled('to')) {
@@ -42,7 +43,7 @@ class LeaveController extends Controller
         $leaves = $query->paginate(10);
         $types = LeaveType::orderBy('name')->get();
 
-        return view('employee.leaves.index', compact('leaves','types'));
+        return view('employee.leaves.index', compact('leaves', 'types'));
     }
 
     public function create()
@@ -55,8 +56,36 @@ class LeaveController extends Controller
     {
         $days = $this->service->calculateDays($request->start_date, $request->end_date);
 
+        if ($request->action === 'submit') {
+            try {
+                $this->service->validateOverlap(
+                    $request->user()->id,
+                    $request->start_date,
+                    $request->end_date
+                );
+            } catch (ValidationException $e) {
+                return back()
+                    ->withErrors($e->errors())
+                    ->withInput();
+            }
+
+            $leave = Leave::create([
+                'user_id' => $request->user()->id,
+                'leave_type_id' => $request->leave_type_id,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'number_of_days' => $days,
+                'reason' => $request->reason,
+                'status' => 'pending',
+                'submitted_at' => now(),
+            ]);
+
+            return redirect()->route('employee.leaves.index')->with('success', 'Leave submitted.');
+        }
+
+        // draft / preview path
         $leave = Leave::create([
-            'user_id' => $request->user('employee')->id,
+            'user_id' => $request->user()->id,
             'leave_type_id' => $request->leave_type_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -67,10 +96,6 @@ class LeaveController extends Controller
 
         if ($request->action === 'preview') {
             return view('employee.leaves.preview', compact('leave'));
-        }
-
-        if ($request->action === 'submit') {
-            $this->service->submit($leave);
         }
 
         return redirect()->route('employee.leaves.index')->with('success', 'Leave saved.');
@@ -86,7 +111,7 @@ class LeaveController extends Controller
     {
         $this->authorize('update', $leave);
         $types = LeaveType::orderBy('name')->get();
-        return view('employee.leaves.edit', compact('leave','types'));
+        return view('employee.leaves.edit', compact('leave', 'types'));
     }
 
     public function update(UpdateLeaveRequest $request, Leave $leave)

@@ -13,6 +13,15 @@
                 <span class="badge badge-pill badge-light">Employee Portal</span>
             </div>
             <div class="card-body">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <form method="POST" action="{{ route('employee.leaves.store') }}">
                     @csrf
 
@@ -20,7 +29,7 @@
                         <label class="font-weight-bold text-gray-700">Leave Type</label>
                         <select name="leave_type_id" class="form-control" required>
                             @foreach($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
                         </select>
                     </div>

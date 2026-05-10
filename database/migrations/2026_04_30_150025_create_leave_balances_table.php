@@ -7,18 +7,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('holidays', function (Blueprint $table) {
+        Schema::create('leave_balances', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->unique();
-            $table->string('name');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('leave_type_id')->constrained('leave_types')->cascadeOnDelete();
+            $table->unsignedInteger('allocated')->default(0);
+            $table->unsignedInteger('used')->default(0);
             $table->timestamps();
 
-            $table->index('date');
+            $table->unique(['user_id','leave_type_id']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('holidays');
+        Schema::dropIfExists('leave_balances');
     }
 };
