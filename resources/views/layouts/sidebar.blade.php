@@ -107,7 +107,7 @@
 
   <!-- Nav Item - Profile -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="/profile">
+    <a class="nav-link custom-active" href="{{ route('admin.profile.index') }}">
       <i class="fas fa-fw fa-user"></i>
       <span>Profile</span>
     </a>

@@ -99,7 +99,7 @@
 
   <!-- Nav Item - Leave Record -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="/profile">
+    <a class="nav-link custom-active" href="{{ route('employee.profile.index') }}">
       <i class="fas fa-fw fa-circle-user"></i>
       <span>Profile</span>
     </a>
@@ -108,20 +108,12 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Profile -->
-  <li class="nav-item">
-    <a class="nav-link custom-active" href="/profile">
-      <i class="fa-solid fa-bell"></i>
-      <span>Notifications</span>
-    </a>
-  </li>
-
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
   <!-- Nav Item - Attendance Record -->
   <li class="nav-item">
-    <a class="nav-link custom-active" href="{{ route('employees.index')}}">
+    <a class="nav-link custom-active" href="{{ route('employee.attendance.index')}}">
       <i class="fa-solid fa-clipboard-check"></i>
       <span>Attendance</span>
     </a>

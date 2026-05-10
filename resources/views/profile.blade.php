@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(auth('employee')->check() ? 'layouts.employee.app' : 'layouts.app')
 
 @section('title', 'Profile')
 
@@ -183,7 +183,7 @@
                             <i class="fas fa-user-circle me-2"></i> Profile Information
                         </h5>
 
-                        <form method="POST" action="{{ route('profile.update') }}">
+                        <form method="POST" action="{{ auth('employee')->check() ? route('employee.profile.update') : route('admin.profile.update') }}">
                             @csrf
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-3 mb-md-0">
@@ -218,7 +218,7 @@
                                     </h6>
                                     <p class="text-muted mb-0 small">Manage your password and account security settings</p>
                                 </div>
-                                <a href="{{ route('profile.change-password-form') }}" class="btn change-password-btn">
+                                <a href="{{ auth('employee')->check() ? route('employee.profile.change-password-form') : route('admin.profile.change-password-form') }}" class="btn change-password-btn">
                                     <i class="fas fa-lock me-2"></i> Change Password
                                 </a>
                             </div>
