@@ -27,6 +27,7 @@ use App\Http\Controllers\eGovAssistancesController;
 use App\Http\Controllers\DailyTimeRecordController;
 use App\Http\Controllers\Employee\LeaveController;
 use App\Http\Controllers\Employee\AttendanceController;
+use App\Http\Controllers\Employee\DashboardController;
 
 // Public routes
 Route::get('/', function () {
@@ -43,10 +44,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
-    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('/profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password-form');
+Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
@@ -183,11 +184,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 //Middleware
 Route::middleware('auth:employee')->group(function () {
-    Route::get('employee/dashboard', function () {
-        return view('employee.dashboard');
-    })->name('dashboard.employee');
+    Route::get('employee/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard.employee');
 
     Route::get('employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance.index');
+    Route::get('employee/hr-forms/download/{id}', [HRFormController::class, 'download'])
+        ->name('employee.hrforms.download');
 });
 
 //FW4A Routes
